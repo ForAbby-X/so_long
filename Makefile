@@ -10,7 +10,9 @@ SRC		= main.c \
 		  engine.c \
 		  event_1.c \
 		  event_2.c \
+		  color.c \
 		  drawing_1.c \
+		  drawing_2.c \
 		  sprite_1.c
 
 INC		= engine.h
@@ -24,10 +26,9 @@ CFLAGS	= -Wall -Wextra -Werror -g
 
 # mlx library
 MLX		= ./minilibx-linux/
-MLX_LNK	= -L $(MLX) -l mlx -lXext -lX11
-
-MLX_INC	= -I $(MLX)
 MLX_LIB	= $(addprefix $(MLX),mlx_Linux.a)
+MLX_INC	= -I $(MLX)
+MLX_LNK	= -L $(MLX) -l mlx -lXext -lX11
 
 # ft library
 FT		= ./libft/
@@ -35,13 +36,22 @@ FT_LIB	= $(addprefix $(FT),libft.a)
 FT_INC	= -I ./libft
 FT_LNK	= -L ./libft -l ft -l pthread
 
-all: obj $(FT_LIB) $(MLX_LIB) $(NAME)
+# vec library
+VEC		= ./libvec/
+VEC_LIB	= $(addprefix $(VEC),libvec.a)
+VEC_INC	= -I ./libvec
+VEC_LNK	= -L ./libvec -l vec
+
+all: obj $(VEC_LIB) $(FT_LIB) $(MLX_LIB) $(NAME)
 
 obj:
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(VEC_INC) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+
+$(VEC_LIB):
+	@make -C $(VEC)
 
 $(FT_LIB):
 	@make -C $(FT)
@@ -50,15 +60,17 @@ $(MLX_LIB):
 	@make -C $(MLX)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
+	@$(CC) $(OBJ) $(VEC_LNK) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJDIR)
+	make -C $(VEC) clean
 	make -C $(FT) clean
 	make -C $(MLX) clean
 
 fclean: clean
 	rm -rf $(NAME)
+	make -C $(VEC) fclean
 	make -C $(FT) fclean
 
 re: fclean all

@@ -7,9 +7,11 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <stdint.h>
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
 # include "../libft/libft.h"
+# include "../libvec/inc/vec2.h"
 
 typedef struct s_engine	t_engine;
 typedef union u_color	t_color;
@@ -24,10 +26,16 @@ int			ft_eng_play(t_engine *eng, t_data *data,
 				int (*on_repeat)(t_engine *a, t_data *data,float elapsed_time));
 
 /* ENGINE DRAWING */
-/* [1] DRAW */
-int	ft_draw(t_engine *eng, int x, int y, t_color color);
+/* [1] SHAPES */
+int	ft_draw(t_engine *eng, t_v2i pos, t_color color);
 int	ft_clear(t_engine *eng, t_color color);
-int	ft_circle(t_engine *eng, int x, int y, int r, t_color color);
+int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color);
+int	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color);
+
+/* [2] SPRITE */
+t_color	ft_get_color(t_sprite *spr, t_v2i pos);
+int		ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
+int		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
 
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */
@@ -39,12 +47,18 @@ int	ft_eng_moved_mouse(int x, int y, t_engine *eng);
 /* [2] CLOSING WINDOW*/
 int	ft_eng_close(t_engine *eng);
 
-/* SPRITE COLOR */
-t_color		ft_color(unsigned int d);
+/* COLOR */
+t_color		ft_color_d(uint32_t d);
+t_color		ft_color(uint8_t a, uint8_t r, uint8_t g, uint8_t b);
+t_color		ft_color_f(float a, float r, float g, float b);
+t_color		ft_color_inter(t_color col_a, t_color col_b, float n);
+uint8_t		ft_color_med(t_color col);
+
+/* SPRITE */
 t_sprite	*ft_sprite(size_t dx, size_t dy);
 t_sprite	*ft_sprite_p(t_engine *eng, char *path);
 int			ft_destroy_sprite(t_sprite *spr);
-int			ft_put_sprite(t_engine *eng, t_sprite *spr, int x, int y);
+t_sprite	*ft_cpy_sprite(t_sprite *spr);
 
 struct	s_engine
 {
@@ -66,19 +80,19 @@ struct	s_engine
 
 union	u_color
 {
-	unsigned int d;
+	uint32_t d;
 	struct
 	{
-		unsigned char a;
-		unsigned char r;
-		unsigned char g;
-		unsigned char b;
+		uint8_t a;
+		uint8_t r;
+		uint8_t g;
+		uint8_t b;
 	};
 };
 
 struct	s_sprite
 {
-	t_color	*data;
+	t_color	**data;
 	size_t	size_x;
 	size_t	size_y;
 };

@@ -29,7 +29,7 @@ int	ft_loop(t_engine *eng, t_data *data, float et)
 {
 	(void)et;
 
-	ft_clear(eng, ft_color(0xFF8F8F8F));
+	ft_clear(eng, ft_color_d(0xFF8F8F8F));
 	if (eng->mouse[1])
 	{
 		data->c_a.x = eng->mouse_x;
@@ -40,10 +40,10 @@ int	ft_loop(t_engine *eng, t_data *data, float et)
 		data->c_b.x = eng->mouse_x;
 		data->c_b.y = eng->mouse_y;
 	}
-	ft_put_sprite(eng, data->spr2, 0, 0);
-	ft_circle(eng, data->c_a.x, data->c_a.y, data->c_a.r, data->c_a.color);
-	ft_circle(eng, data->c_b.x, data->c_b.y, data->c_b.r, data->c_b.color);
-	ft_put_sprite(eng, data->spr, eng->mouse_x, eng->mouse_y);
+	ft_put_sprite(eng, data->spr2, ft_v2i(0, 0));
+	ft_circle(eng, ft_v2i(data->c_a.x, data->c_a.y), data->c_a.r, data->c_a.color);
+	ft_circle(eng, ft_v2i(data->c_b.x, data->c_b.y), data->c_b.r, data->c_b.color);
+	ft_put_sprite_s(eng, data->spr, ft_v2i(eng->mouse_x, eng->mouse_y), 3);
 	return (1);
 }
 
@@ -62,12 +62,12 @@ int	main(void)
 	t_engine	*eng;
 	t_data		data;
 
-	eng = ft_eng_create(800, 800, "SO GOLF !");
+	eng = ft_eng_create(400, 400, "SO GOLF !");
 	if (eng)
 	{
 		data = (t_data){
-			{80, 100, 30, ft_color(0xFF0000FF)},
-			{100, 40, 40, ft_color(0xFF00FFFF)},
+			{80, 100, 30, ft_color_d(0xFF0000FF)},
+			{100, 40, 40, ft_color_d(0xFF00FFFF)},
 			0, 0};
 		ft_start(eng, &data);
 		ft_eng_play(eng, &data, ft_loop);
