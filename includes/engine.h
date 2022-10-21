@@ -36,6 +36,8 @@ int	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color);
 t_color	ft_get_color(t_sprite *spr, t_v2i pos);
 int		ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
 int		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
+int		ft_put_sprite_r(t_engine *eng, t_sprite *spr,
+			t_v2i pos, t_v2i cen, float rot);
 
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */
@@ -55,10 +57,10 @@ t_color		ft_color_inter(t_color col_a, t_color col_b, float n);
 uint8_t		ft_color_med(t_color col);
 
 /* SPRITE */
-t_sprite	*ft_sprite(size_t dx, size_t dy);
+t_sprite	*ft_sprite(t_engine *eng, size_t dx, size_t dy);
 t_sprite	*ft_sprite_p(t_engine *eng, char *path);
-int			ft_destroy_sprite(t_sprite *spr);
-t_sprite	*ft_cpy_sprite(t_sprite *spr);
+int			ft_destroy_sprite(t_engine *eng, t_sprite *spr);
+t_sprite	*ft_cpy_sprite(t_engine *eng, t_sprite *spr);
 
 struct	s_engine
 {
@@ -92,9 +94,9 @@ union	u_color
 
 struct	s_sprite
 {
-	t_color	**data;
-	size_t	size_x;
-	size_t	size_y;
+	t_img	img;
+	t_color	*data;
+	t_v2i 	size;
 };
 
 #endif

@@ -6,8 +6,12 @@ int	ft_draw(t_engine *eng, t_v2i pos, t_color color)
 
 	if (color.a == 0 || pos.x < 0 || pos.y < 0 || (size_t)pos.x >= eng->win_x || (size_t)pos.y >= eng->win_y)
 		return (0);
-	index = pos.y * eng->img.size_line + pos.x * (eng->img.bpp >> 3);
-	((int *)eng->img.data)[index >> 2] = color.d;
+	index = pos.y * (eng->win_x * 4) + pos.x * 4;
+	eng->img.data[index + 0] = color.a;
+	eng->img.data[index + 1] = color.r;
+	eng->img.data[index + 2] = color.g;
+	eng->img.data[index + 3] = color.b;
+	
 	return (1);
 }
 
@@ -22,7 +26,7 @@ int	ft_clear(t_engine *eng, t_color color)
 		pos.x = 0;
 		while ((size_t)pos.x < eng->win_x)
 		{
-			index = pos.y * eng->img.size_line + pos.x * (eng->img.bpp >> 3);
+			index = pos.y * (eng->win_x * 4) + pos.x * 4;
 			((int *)eng->img.data)[index >> 2] = color.d;
 			pos.x++;
 		}

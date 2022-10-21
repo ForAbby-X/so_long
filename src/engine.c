@@ -36,7 +36,6 @@ t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title)
 	eng->win = mlx_new_window(eng->mlx, size_x, size_y, title);
 	if (eng->win == NULL)
 		return (free(eng->mlx), free(eng), NULL);
-	
 	eng->img.image = mlx_new_image(eng->mlx, size_x, size_y);
 	eng->img.data = mlx_get_data_addr(eng->img.image, &eng->img.bpp,
 			&eng->img.size_line, &eng->img.format);
