@@ -5,18 +5,15 @@ static int	ft_eng_loop(t_engine *eng)
 {
 	int		flag;
 	double	time_m;
-	static double sum = 0;
 
-	clock_gettime(CLOCK_MONOTONIC, &eng->time_s);
+	clock_gettime(CLOCK_MONOTONIC, &eng->time_s); 
 	time_m =
 	(double)(eng->time_s.tv_sec  - eng->time_e.tv_sec) +
-	(double)(eng->time_s.tv_nsec - eng->time_e.tv_nsec) * 1e-9;
-	sum += time_m;
-	printf("-SEC %f\n", sum);
-	//printf("-DEL %f\n", time_m);
-	flag = eng->on_repeat(eng, eng->data, time_m * 10);
+	((double)(eng->time_s.tv_nsec - eng->time_e.tv_nsec)) * 1e-9;
+	flag = eng->on_repeat(eng, eng->data, time_m);
 	mlx_put_image_to_window(eng->mlx, eng->win, eng->img.image, 0, 0);
-	clock_gettime(CLOCK_MONOTONIC, &eng->time_e);
+	eng->time_e = eng->time_s;
+	
 	if (flag == 0)
 		ft_eng_close(eng);
 	return (flag);

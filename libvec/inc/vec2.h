@@ -24,10 +24,14 @@ t_v2i	ft_v2idiv(t_v2i a, float n);
 
 // algorithm
 // FLOAT
+t_v2f	ft_v2fr(float r, float d);
 float	ft_v2fmag(t_v2f a);
 float	ft_v2fdot(t_v2f a, t_v2f b);
 float	ft_v2fcross(t_v2f a, t_v2f b);
 t_v2f	ft_v2fnorm(t_v2f a, float n);
+
+// INT
+t_v2i	ft_v2irot(t_v2i a, float r);
 
 struct s_v2f
 {

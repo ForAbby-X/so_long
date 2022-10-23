@@ -19,6 +19,7 @@ OBJ=obj
 SOURCE_NAME= vec2f_arit.c \
 			 vec2f_algo.c \
 			 vec2i_arit.c \
+			 vec2i_algo.c \
 
 ##########################################
 #    Don't touch anything below this     #

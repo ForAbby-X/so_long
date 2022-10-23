@@ -1,5 +1,10 @@
 #include "vec2.h"
 
+t_v2f	ft_v2fr(float r, float d)
+{
+	return (ft_v2f(cosf(r) * d, sinf(r) * d));
+}
+
 float	ft_v2fmag(t_v2f a)
 {
 	return (sqrtf(a.x * a.x + a.y * a.y));

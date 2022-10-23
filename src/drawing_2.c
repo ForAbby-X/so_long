@@ -85,8 +85,8 @@ int		ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 		dim.x = bord[0].x;
 		while (dim.x < bord[1].x)
 		{
-			read.x = cen.x + cosf(-rot) * dim.x + sinf(-rot) * dim.y;
-			read.y = cen.y - sinf(-rot) * dim.x + cosf(-rot) * dim.y;
+			read.x = cen.x + cosf(rot) * dim.x + sinf(rot) * dim.y;
+			read.y = cen.y - sinf(rot) * dim.x + cosf(rot) * dim.y;
 			ft_draw(eng, ft_v2iadd(pos, dim), ft_get_color(spr, read));
 			dim.x++;
 		}
