@@ -8,6 +8,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <stdint.h>
+# include <time.h>
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
 # include "../libft/libft.h"
@@ -23,7 +24,7 @@ typedef struct s_data	t_data;
 t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title);
 void		ft_eng_destroy(t_engine *eng);
 int			ft_eng_play(t_engine *eng, t_data *data,
-				int (*on_repeat)(t_engine *a, t_data *data,float elapsed_time));
+				int (*on_repeat)(t_engine *a, t_data *data, double elapsed_time));
 
 /* ENGINE DRAWING */
 /* [1] SHAPES */
@@ -62,21 +63,27 @@ t_sprite	*ft_sprite_p(t_engine *eng, char *path);
 int			ft_destroy_sprite(t_engine *eng, t_sprite *spr);
 t_sprite	*ft_cpy_sprite(t_engine *eng, t_sprite *spr);
 
+/* UTILS */
+int	ft_min(int a, int b);
+int	ft_max(int a, int b);
+
 struct	s_engine
 {
 	/* ENGINE */
-	void	*mlx;
-	void	*win;
-	size_t	win_x;
-	size_t	win_y;
-	t_img	img;
+	void			*mlx;
+	void			*win;
+	size_t			win_x;
+	size_t			win_y;
+	struct timespec	time_s;
+	struct timespec	time_e;
+	t_img			img;
 	/* KEYS AND MOUSE */
 	char	keys[MAX_KEYS + 1];
 	char	mouse[MAX_MOUSE + 1];
 	size_t	mouse_x;
 	size_t	mouse_y;
 	/* FUNCTIONAL */
-	int 	(*on_repeat)(t_engine *eng, t_data *data,float elapsed_time);
+	int 	(*on_repeat)(t_engine *eng, t_data *data, double elapsed_time);
 	t_data	*data;
 };
 

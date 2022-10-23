@@ -3,10 +3,20 @@
 /* NEED TO ADD ELAPSED TIME CALCULATION */
 static int	ft_eng_loop(t_engine *eng)
 {
-	int	flag;
+	int		flag;
+	double	time_m;
+	static double sum = 0;
 
-	flag = eng->on_repeat(eng, eng->data, 0.0f);
+	clock_gettime(CLOCK_MONOTONIC, &eng->time_s);
+	time_m =
+	(double)(eng->time_s.tv_sec  - eng->time_e.tv_sec) +
+	(double)(eng->time_s.tv_nsec - eng->time_e.tv_nsec) * 1e-9;
+	sum += time_m;
+	printf("-SEC %f\n", sum);
+	//printf("-DEL %f\n", time_m);
+	flag = eng->on_repeat(eng, eng->data, time_m * 10);
 	mlx_put_image_to_window(eng->mlx, eng->win, eng->img.image, 0, 0);
+	clock_gettime(CLOCK_MONOTONIC, &eng->time_e);
 	if (flag == 0)
 		ft_eng_close(eng);
 	return (flag);
@@ -59,12 +69,13 @@ void	ft_eng_destroy(t_engine *eng)
 }
 
 int	ft_eng_play(t_engine *eng, t_data *data,
-		int (*on_repeat)(t_engine *eng, t_data *data,float elapsed_time))
+		int (*on_repeat)(t_engine *eng, t_data *data, double elapsed_time))
 {
 	if (on_repeat)
 	{
 		eng->data = data;
 		eng->on_repeat = on_repeat;
+		clock_gettime(CLOCK_MONOTONIC, &eng->time_e);
 		mlx_loop(eng->mlx);
 	}
 	return (1);

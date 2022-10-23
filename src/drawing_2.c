@@ -48,17 +48,42 @@ int		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 	return (1);
 }
 
+static void	ft_get_border(t_sprite *spr,
+					t_v2i cen, float rot, t_v2i	out[2])
+{
+	t_v2i	cor[4];
+	int		n;
+	
+	cor[0] = ft_v2irot(ft_v2i(-cen.x,-cen.y), rot);
+	cor[1] = ft_v2irot(ft_v2i(-cen.x, spr->size.y - cen.y), rot);
+	cor[2] = ft_v2irot(ft_v2i(spr->size.x - cen.x, -cen.y), rot);
+	cor[3] = ft_v2irot(ft_v2isub(spr->size, cen), rot);
+	out[0] = cor[0];
+	out[1] = cor[0];
+	n = 1;
+	while (n < 4)
+	{
+		out[0].x = ft_min(out[0].x, cor[n].x);
+		out[0].y = ft_min(out[0].y, cor[n].y);
+		out[1].x = ft_max(out[1].x, cor[n].x);
+		out[1].y = ft_max(out[1].y, cor[n].y);
+		n++;
+	}
+}
+
 int		ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 			t_v2i pos, t_v2i cen, float rot)
 {
-	t_v2i dim;
-	t_v2i read;
-	
-	dim.y = -spr->size.y;
-	while (dim.y < spr->size.y * 2)
+	t_v2i	dim;
+	t_v2i	read;
+	t_v2i	bord[2];
+
+	ft_get_border(spr, cen, rot, bord);
+	dim.y = bord[0].y;
+	while (dim.y < bord[1].y)
 	{
-		dim.x = -spr->size.x;
-		while (dim.x < spr->size.x * 2)
+		dim.x = bord[0].x;
+		while (dim.x < bord[1].x)
 		{
 			read.x = cen.x + cosf(-rot) * dim.x + sinf(-rot) * dim.y;
 			read.y = cen.y - sinf(-rot) * dim.x + cosf(-rot) * dim.y;

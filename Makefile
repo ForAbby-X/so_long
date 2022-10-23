@@ -1,5 +1,11 @@
 NAME	= so_long.out
 
+# /!\ WARNING /!\
+# /!\ WARNING /!\
+# echo 'hpet' > /sys/devices/system/clocksource/clocksource0/current_clocksource
+# /!\ WARNING /!\
+# /!\ WARNING /!\
+
 # directories
 SRCDIR	= ./src
 INCDIR	= ./includes
@@ -13,7 +19,8 @@ SRC		= main.c \
 		  color.c \
 		  drawing_1.c \
 		  drawing_2.c \
-		  sprite_1.c
+		  sprite_1.c \
+		  utils.c
 
 INC		= engine.h
 
@@ -21,7 +28,7 @@ OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 # compiler
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror -lm -lrt -O0
 
 
 # mlx library
