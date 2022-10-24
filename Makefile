@@ -20,7 +20,8 @@ SRC		= main.c \
 		  drawing_1.c \
 		  drawing_2.c \
 		  sprite_1.c \
-		  utils.c
+		  utils.c \
+		  map_1.c
 
 INC		= engine.h
 
