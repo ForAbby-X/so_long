@@ -10,11 +10,14 @@ static void	ft_init_map2(t_map *map)
 		pos.x = 0;
 		while (pos.x < map->size.x)
 		{
-			map->data[pos.x + pos.y * map->size.x].wall = ft_get_map(map, ft_v2iadd(pos, ft_v2i(1, 0))) != 0;
-			map->data[pos.x + pos.y * map->size.x].wall |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(-1, 0))) != 0) << 1;
-			map->data[pos.x + pos.y * map->size.x].wall |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(0, 1))) != 0) << 2;
-			map->data[pos.x + pos.y * map->size.x].wall |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(0, -1))) != 0) << 3;
-			
+			if (ft_get_map(map, pos))
+			{
+				map->data[pos.x + pos.y * map->size.x]  = (ft_get_map(map, ft_v2iadd(pos, ft_v2i(01, 00))) != 0);
+				map->data[pos.x + pos.y * map->size.x] |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(-1, 00))) != 0) << 1;
+				map->data[pos.x + pos.y * map->size.x] |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(00, 01))) != 0) << 2;
+				map->data[pos.x + pos.y * map->size.x] |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(00, -1))) != 0) << 3;
+				map->data[pos.x + pos.y * map->size.x] += 1;
+			}
 			pos.x++;
 		}
 		pos.y++;
@@ -30,10 +33,10 @@ void	ft_init_map(t_engine *eng, t_map *map, t_v2i size)
 	i = 0;
 	while (i < size.x * size.y)
 	{
-			if ((rand() & 3) != 0)
-				map->data[i].wall = 1;
+			if ((rand() & 3	) == 0)
+				map->data[i] = 1;
 			else
-				map->data[i].wall = 0;
+				map->data[i] = 0;
 		i++;
 	}
 	ft_init_map2(map);
@@ -70,8 +73,8 @@ void	ft_put_map(t_engine *eng, t_map *map)
 		pos.x = 0;
 		while (pos.x < map->size.x)
 		{
-			ft_put_sprite(eng, map->walls[map->data
-				[pos.x + pos.y * map->size.x].wall], ft_v2imul(pos, 32));
+			if (ft_get_map(map, pos))
+				ft_put_sprite(eng, map->walls[ft_get_map(map, pos) - 1], ft_v2imul(pos, 32));
 			pos.x++;
 		}
 		pos.y++;
@@ -82,5 +85,5 @@ int	ft_get_map(t_map *map, t_v2i pos)
 {
 	if (pos.x < 0 || pos.y < 0 || pos.x >= map->size.x || pos.y >= map->size.y)
 		return (0);
-	return (map->data[pos.x + pos.y * map->size.x].wall);
+	return (map->data[pos.x + pos.y * map->size.x]);
 }

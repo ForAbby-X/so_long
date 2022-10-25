@@ -80,13 +80,13 @@ int		ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 
 	ft_get_border(spr, cen, rot, bord);
 	dim.y = bord[0].y;
-	while (dim.y < bord[1].y)
+	while (dim.y <= bord[1].y)
 	{
 		dim.x = bord[0].x;
-		while (dim.x < bord[1].x)
+		while (dim.x <= bord[1].x)
 		{
-			read.x = cen.x + cosf(rot) * dim.x + sinf(rot) * dim.y;
-			read.y = cen.y - sinf(rot) * dim.x + cosf(rot) * dim.y;
+			read.x = (float)cen.x - 0.5 + cosf(rot) * dim.x + sinf(rot) * dim.y;
+			read.y = (float)cen.y - 0.5 - sinf(rot) * dim.x + cosf(rot) * dim.y;
 			ft_draw(eng, ft_v2iadd(pos, dim), ft_get_color(spr, read));
 			dim.x++;
 		}

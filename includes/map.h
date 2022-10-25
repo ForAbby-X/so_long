@@ -13,7 +13,7 @@ int	ft_get_map(t_map *map, t_v2i pos);
 
 struct	s_map
 {
-	t_cell		*data;
+	int			*data;
 	t_v2i		size;
 	t_sprite	*walls[16];
 };
