@@ -5,23 +5,30 @@
 
 typedef struct s_map	t_map;
 typedef struct s_cell	t_cell;
+typedef struct s_camera	t_camera;
 
 void	ft_init_map(t_engine *eng, t_map *map, t_v2i size);
 void	ft_destroy_map(t_map *map);
-void	ft_put_map(t_engine *eng, t_map *map);
-int	ft_get_map(t_map *map, t_v2i pos);
+void	ft_put_map(t_engine *eng, t_camera cam, t_map *map);
+int		ft_get_map(t_map *map, t_v2i pos);
 
 struct	s_map
 {
 	int			*data;
 	t_v2i		size;
-	t_sprite	*walls[16];
+	t_sprite	*walls[17];
 };
 
 struct	s_cell
 {
 	int	wall;
 	int	ground;
+};
+
+struct	s_camera
+{
+	t_v2i	pos;
+	t_v2i	dim;
 };
 
 #endif
