@@ -1,27 +1,10 @@
 #include "map.h"
 
-static void	ft_init_map2(t_map *map)
+int	ft_get_map(t_map *map, t_v2i pos)
 {
-	t_v2i	pos;
-
-	pos.y = 0;
-	while (pos.y < map->size.y)
-	{
-		pos.x = 0;
-		while (pos.x < map->size.x)
-		{
-			if (ft_get_map(map, pos))
-			{
-				map->data[pos.x + pos.y * map->size.x]  = (ft_get_map(map, ft_v2iadd(pos, ft_v2i(01, 00))) != 0);
-				map->data[pos.x + pos.y * map->size.x] |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(-1, 00))) != 0) << 1;
-				map->data[pos.x + pos.y * map->size.x] |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(00, 01))) != 0) << 2;
-				map->data[pos.x + pos.y * map->size.x] |= (ft_get_map(map, ft_v2iadd(pos, ft_v2i(00, -1))) != 0) << 3;
-				map->data[pos.x + pos.y * map->size.x] += 1;
-			}
-			pos.x++;
-		}
-		pos.y++;
-	}
+	if (pos.x < 0 || pos.y < 0 || pos.x >= map->size.x || pos.y >= map->size.y)
+		return (0);
+	return (map->data[pos.x + pos.y * map->size.x]);
 }
 
 void	ft_init_map(t_engine *eng, t_map *map, t_v2i size)
@@ -39,7 +22,6 @@ void	ft_init_map(t_engine *eng, t_map *map, t_v2i size)
 				map->data[i] = 0;
 		i++;
 	}
-	ft_init_map2(map);
 	map->walls[0] = ft_sprite_p(eng, "assets/walls/wall_0.xpm");
 	map->walls[1] = ft_sprite_p(eng, "assets/walls/wall_1.xpm");
 	map->walls[2] = ft_sprite_p(eng, "assets/walls/wall_2.xpm");
@@ -67,7 +49,7 @@ void	ft_destroy_map(t_map *map)
 void	ft_put_map(t_engine *eng, t_camera cam, t_map *map)
 {
 	t_v2i	pos;
-	t_v2f	rpos;
+	t_v2i	rpos;
 
 	pos.y = -1;
 	while (pos.y <= cam.dim.y / 32 + 1)
@@ -75,21 +57,14 @@ void	ft_put_map(t_engine *eng, t_camera cam, t_map *map)
 		pos.x = -1;
 		while (pos.x <= cam.dim.x / 32 + 1)
 		{
-			rpos.x = cam.pos.x / 32.0 - cam.pos.x / 32;
-			rpos.y = cam.pos.y / 32.0 - cam.pos.y / 32;
+			rpos.x = (pos.x - (cam.pos.x / 32.0 - cam.pos.x / 32)) * 32;
+			rpos.y = (pos.y - (cam.pos.y / 32.0 - cam.pos.y / 32)) * 32;
 			
-			ft_put_sprite(eng, map->walls[16], ft_v2i((pos.x - rpos.x) * 32, (pos.y - rpos.y) * 32));
-			if (ft_get_map(map, ft_v2i(pos.x - cam.pos.x / 32, pos.y - cam.pos.y / 32)))
-				ft_put_sprite(eng, map->walls[ft_get_map(map, ft_v2i(pos.x - cam.pos.x / 32, pos.y - cam.pos.y / 32)) - 1], ft_v2i((pos.x) * 32, (pos.y) * 32));
+			ft_put_sprite(eng, map->walls[16], rpos);
+			if (ft_get_map(map, ft_v2iadd(pos, ft_v2iadd(pos, ft_crd_sw(cam.pos)))))
+				ft_put_sprite(eng, map->walls[ft_get_map(map, ft_v2iadd(pos, ft_crd_sw(cam.pos))) - 1], rpos);
 			pos.x++;
 		}
 		pos.y++;
 	}
-}
-
-int	ft_get_map(t_map *map, t_v2i pos)
-{
-	if (pos.x < 0 || pos.y < 0 || pos.x >= map->size.x || pos.y >= map->size.y)
-		return (0);
-	return (map->data[pos.x + pos.y * map->size.x]);
 }
