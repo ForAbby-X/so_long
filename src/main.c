@@ -21,7 +21,7 @@ int	ft_start(t_engine *eng, t_data *data)
 	data->spr[0] = ft_sprite_p(eng, "assets/background.xpm");
 	data->spr[1] = ft_sprite_p(eng, "assets/tank_base.xpm");
 	data->spr[2] = ft_sprite_p(eng, "assets/tank_top.xpm");
-	ft_init_map(eng, &data->map, ft_v2i(12, 12));
+	ft_init_map(eng, &data->map, ft_v2i(64, 64));
 	data->pos = ft_v2f(200, 200);
 	data->ine = ft_v2f(0, 0);
 	data->dir = ft_v2f(0, 0);
@@ -29,7 +29,7 @@ int	ft_start(t_engine *eng, t_data *data)
 	data->vel = 0.0f;
 	data->base_rot = 0.0f;
 	data->top_rot = 0.0f;
-	data->cam = (t_camera){{0, 0}, {800, 600}};
+	data->cam = (t_camera){{0, 0}, {eng->win_x, eng->win_y}};
 	return (1);
 }
 
@@ -61,10 +61,10 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 		data->vel = 100.0f;
 	data->pos = ft_v2fadd(data->pos, ft_v2fmul(data->ine, data->vel * dt));
 	
-	data->top_rot = -atan2(eng->mouse_x - data->pos.x, eng->mouse_y - data->pos.y) + M_PI_2;
 	/* display everything */
 	data->cam.pos = ft_v2i(data->pos.x - data->cam.dim.x / 2, data->pos.y - data->cam.dim.y / 2);
-	
+	data->top_rot = -atan2((data->cam.pos.x + (int)eng->mouse_x) - data->pos.x, (data->cam.pos.y + (int)eng->mouse_y) - data->pos.y) + M_PI_2;
+
 	ft_clear(eng, ft_color_d(0xFF8F8F8F));
 	ft_put_map(eng, data->cam, &data->map);
 	
@@ -72,8 +72,8 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 	ft_put_sprite_r(eng, data->spr[2], ft_v2i(data->pos.x - data->cam.pos.x, data->pos.y - data->cam.pos.y), ft_v2i(17, 15), data->top_rot);
 	
 	//ft_circle(eng, ft_v2i(data->pos.x, data->pos.y), 30, ft_color(255, 255, 0, 0));
-	//ft_circle(eng, ft_v2iadd(ft_v2i(data->pos.x, data->pos.y), ft_v2i(data->vel, 0)), 3, ft_color(255, 0, 255, 0));
-	//ft_circle(eng, ft_v2iadd(ft_v2i(data->pos.x, data->pos.y), ft_v2i(100, 0)), 3, ft_color(255, 0, 255, 0));
+	//ft_circle(eng, ft_v2iadd(ft_v2i(data->pos.x, data->pos.y), ft_v2i(data->vel, 0)), 3, ft_color_d(0xFFFF00FF));
+	ft_circle(eng, ft_v2i(data->cam.pos.x - data->pos.x, data->cam.pos.x - data->pos.y), 30, ft_color_d(0xFFFFFFFF));
 	
 	return (1);
 }
@@ -94,7 +94,7 @@ int	main(void)
 	t_engine	*eng;
 	t_data		data;
 
-	eng = ft_eng_create(800, 600, "SO GOLF !");
+	eng = ft_eng_create(600, 400, "SO GOLF ! (pose pas de questions pour le tank)");
 	if (eng)
 	{
 		ft_start(eng, &data);
