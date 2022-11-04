@@ -13,6 +13,7 @@ void	ft_init_map(t_engine *eng, t_map *map, t_v2i size)
 
 	map->data = malloc(size.x * size.y * sizeof(t_cell));
 	map->size = size;
+	map->entities = ft_vector_create();
 	i = 0;
 	while (i < size.x * size.y)
 	{
@@ -20,6 +21,15 @@ void	ft_init_map(t_engine *eng, t_map *map, t_v2i size)
 				map->data[i] = 1;
 			else
 				map->data[i] = 0;
+		i++;
+	}
+	i = 0;
+	while (i < 1000)
+	{
+		t_v2i	*o = malloc(sizeof(t_v2i));
+		o->x = rand() % eng->win_x * 10;
+		o->y = rand() % eng->win_y * 10;
+		ft_vector_add(map->entities, o);
 		i++;
 	}
 	map->walls[0] = ft_sprite_p(eng, "assets/walls/wall_0.xpm");
@@ -39,6 +49,7 @@ void	ft_init_map(t_engine *eng, t_map *map, t_v2i size)
 	map->walls[14] = ft_sprite_p(eng, "assets/walls/wall_14.xpm");
 	map->walls[15] = ft_sprite_p(eng, "assets/walls/wall_15.xpm");
 	map->walls[16] = ft_sprite_p(eng, "assets/dirt.xpm");
+	map->walls[17] = ft_sprite_p(eng, "assets/mob.xpm");
 }
 
 void	ft_destroy_map(t_map *map)
@@ -67,5 +78,14 @@ void	ft_put_map(t_engine *eng, t_camera cam, t_map *map)
 			pos.x++;
 		}
 		pos.y++;
+	}
+	int	i = 0;
+	while (i < 100)
+	{
+		t_v2i pos = (*(t_v2i *)ft_vector_get(map->entities, i));
+		pos = ft_v2isub(pos, cam.pos);
+		pos = ft_v2isub(pos, ft_v2i(16, 16));
+		ft_put_sprite(eng, map->walls[17], pos);
+		i++;
 	}
 }

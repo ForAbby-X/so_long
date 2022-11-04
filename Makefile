@@ -51,13 +51,22 @@ VEC_LIB	= $(addprefix $(VEC),libvec.a)
 VEC_INC	= -I ./libvec
 VEC_LNK	= -L ./libvec -l vec
 
-all: obj $(VEC_LIB) $(FT_LIB) $(MLX_LIB) $(NAME)
+# vectors library
+VECTOR		= ./libvector/
+VECTOR_LIB	= $(addprefix $(VECTOR),libvector.a)
+VECTOR_INC	= -I ./libvector
+VECTOR_LNK	= -L ./libvector -l vector
+
+all: obj $(VECTOR_LIB) $(VEC_LIB) $(FT_LIB) $(MLX_LIB) $(NAME)
 
 obj:
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) $(VEC_INC) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(VECTOR_INC) $(VEC_INC) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+
+$(VECTOR_LIB):
+	@make -C $(VECTOR)
 
 $(VEC_LIB):
 	@make -C $(VEC)
@@ -69,17 +78,20 @@ $(MLX_LIB):
 	@make -C $(MLX)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(VEC_LNK) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
+	@$(CC) $(OBJ) $(VECTOR_LNK) $(VEC_LNK) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
 
 clean:
 	rm -rf $(OBJDIR)
+	make -C $(VECTOR) clean
 	make -C $(VEC) clean
 	make -C $(FT) clean
 	make -C $(MLX) clean
 
 fclean: clean
 	rm -rf $(NAME)
+	make -C $(VECTOR) clean
 	make -C $(VEC) fclean
 	make -C $(FT) fclean
+	make -C $(MLX) clean
 
 re: fclean all
