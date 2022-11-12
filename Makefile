@@ -1,19 +1,12 @@
 NAME	= so_long.out
 
-# /!\ WARNING /!\
-# /!\ WARNING /!\
-# echo 'hpet' > /sys/devices/system/clocksource/clocksource0/current_clocksource
-# /!\ WARNING /!\
-# /!\ WARNING /!\
-
 # directories
-SRCDIR	= ./src
-INCDIR	= ./includes
-OBJDIR	= ./obj
+SRCDIR	=	./engine/src
+INCDIR	=	-I ./engine/includes
+OBJDIR	=	./engine/obj
 
 # src / includes / obj files
-SRC		= main.c \
-		  engine.c \
+SRC		=  engine.c \
 		  event_1.c \
 		  event_2.c \
 		  color.c \
@@ -21,41 +14,44 @@ SRC		= main.c \
 		  drawing_2.c \
 		  sprite_1.c \
 		  utils.c \
+		  \
+		  main.c \
 		  map_1.c \
-		  map_2.c
-
-INC		= engine.h
+		  map_2.c \
+		  init_game.c \
+		  game_render.c \
+		  ent_tank.c \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 # compiler
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -lm -lrt -O0
+CFLAGS	= -Wall -Wextra -Werror -lm -lrt -Ofast
 
 
 # mlx library
-MLX		= ./minilibx-linux/
+MLX		= ./engine/minilibx-linux/
 MLX_LIB	= $(addprefix $(MLX),mlx_Linux.a)
 MLX_INC	= -I $(MLX)
 MLX_LNK	= -L $(MLX) -l mlx -lXext -lX11
 
 # ft library
-FT		= ./libft/
+FT		= ./engine/libft/
 FT_LIB	= $(addprefix $(FT),libft.a)
-FT_INC	= -I ./libft
-FT_LNK	= -L ./libft -l ft -l pthread
+FT_INC	= -I ./engine/libft
+FT_LNK	= -L ./engine/libft -l ft -l pthread
 
 # vec library
-VEC		= ./libvec/
+VEC		= ./engine/libvec/
 VEC_LIB	= $(addprefix $(VEC),libvec.a)
-VEC_INC	= -I ./libvec
-VEC_LNK	= -L ./libvec -l vec
+VEC_INC	= -I ./engine/libvec/inc
+VEC_LNK	= -L ./engine/libvec -l vec
 
 # vectors library
-VECTOR		= ./libvector/
+VECTOR		= ./engine/libvector/
 VECTOR_LIB	= $(addprefix $(VECTOR),libvector.a)
-VECTOR_INC	= -I ./libvector
-VECTOR_LNK	= -L ./libvector -l vector
+VECTOR_INC	= -I ./engine/libvector/inc
+VECTOR_LNK	= -L ./engine/libvector -l vector
 
 all: obj $(VECTOR_LIB) $(VEC_LIB) $(FT_LIB) $(MLX_LIB) $(NAME)
 
@@ -63,7 +59,7 @@ obj:
 	@mkdir -p $(OBJDIR)
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) $(VECTOR_INC) $(VEC_INC) $(MLX_INC) $(FT_INC) -I $(INCDIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) $(VECTOR_INC) $(VEC_INC) $(MLX_INC) $(FT_INC) $(INCDIR) -o $@ -c $<
 
 $(VECTOR_LIB):
 	@make -C $(VECTOR)
@@ -78,7 +74,7 @@ $(MLX_LIB):
 	@make -C $(MLX)
 
 $(NAME): $(OBJ)
-	@$(CC) $(OBJ) $(VECTOR_LNK) $(VEC_LNK) $(MLX_LNK) $(FT_LNK) -lm -o $(NAME)
+	@$(CC) $(OBJ) $(VECTOR_LNK) $(VEC_LNK) $(MLX_LNK) $(FT_LNK) -lm -lrt -o $(NAME)
 
 clean:
 	rm -rf $(OBJDIR)

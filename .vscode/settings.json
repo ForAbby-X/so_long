@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+		"map.h": "c",
+		"game.h": "c",
+		"vector.h": "c"
+	}
+}
