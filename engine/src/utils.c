@@ -13,3 +13,12 @@ int	ft_max(int a, int b)
 		return (a);
 	return (b);
 }
+
+void	ft_swap(void **a, void **b)
+{
+	void	*c;
+
+	c = *a;
+	*a = *b;
+	*b = c;
+}

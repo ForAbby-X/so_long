@@ -1,6 +1,6 @@
 #include "game.h"
 
-int	_ft_tank_display(const t_entity *self, t_data *game)
+static int	_ft_tank_display(t_entity *self, t_data *game)
 {
 	t_length	i;
 	t_dat_tank	*dat;
@@ -25,7 +25,7 @@ int	_ft_tank_display(const t_entity *self, t_data *game)
 	return (1);
 }
 
-static void	_ft_tank_update2(const t_entity *self, t_data *game, float dt)
+static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 {
 	t_dat_tank	*dat;
 
@@ -42,9 +42,16 @@ static void	_ft_tank_update2(const t_entity *self, t_data *game, float dt)
 	dat->top_rot = -atan2((game->cam.pos.x + (int)game->eng->mouse_x) -
 		dat->pos.x, (game->cam.pos.y + (int)game->eng->mouse_y) - dat->pos.y)
 		+ M_PI_2;
+	if (game->eng->mouse[1] && dat->fire_cool >= 0.125f / 2)
+	{
+		ft_vector_add(game->map.entities,
+			ft_bullet_create(game, 0, ft_v2fadd(dat->pos,
+			ft_v2fr(dat->top_rot, 60)), dat->top_rot));
+		dat->fire_cool = 0.0f;
+	}
 }
 
-static int	_ft_tank_update(const t_entity *self, t_data *game, float dt)
+static int	_ft_tank_update(t_entity *self, t_data *game, float dt)
 {
 	t_dat_tank	*dat;
 
@@ -64,13 +71,12 @@ static int	_ft_tank_update(const t_entity *self, t_data *game, float dt)
 		dat->ine = ft_v2fmul(dat->dir, -1);
 		dat->vel += 3.0f;
 	}
-	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->dir, dt));
+	dat->fire_cool += dt;
 	_ft_tank_update2(self, game, dt);
-	
 	return (1);
 }
 
-static int	_ft_tank_destroy(const t_entity *self, t_data *game)
+static int	_ft_tank_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
@@ -93,9 +99,11 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	data->vel = 0.0f;
 	data->base_rot = 0.0f;
 	data->top_rot = 0.0f;
+	data->fire_cool = 0.0f;
 	ent->data = data;
 	ent->display = &_ft_tank_display;
 	ent->update = &_ft_tank_update;
 	ent->destroy = &_ft_tank_destroy;
+	ent->alive = 1;
     return (ent);
 }

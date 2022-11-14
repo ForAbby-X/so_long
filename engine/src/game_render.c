@@ -60,5 +60,18 @@ int		ft_game_upd_ent(t_data *data, float dt)
 		ent->update(ent, data, dt);
 		i++;
 	}
+	i = 0;
+	while (i < ft_vector_size(data->map.entities))
+	{
+		ent = (t_entity *)ft_vector_get(data->map.entities, i);
+		if (ent->alive == 0)
+		{
+			printf("REMOVED [%p]\n", ent);
+			ent->destroy(ent, data);
+			ft_vector_rem(data->map.entities, i);
+		}
+		else
+			i++;
+	}
 	return (1);
 }

@@ -66,6 +66,7 @@ t_sprite	*ft_cpy_sprite(t_engine *eng, t_sprite *spr);
 /* UTILS */
 int			ft_min(int a, int b);
 int			ft_max(int a, int b);
+void		ft_swap(void **a, void **b);
 
 struct	s_engine
 {

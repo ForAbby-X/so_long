@@ -16,11 +16,11 @@ SRC		=  engine.c \
 		  utils.c \
 		  \
 		  main.c \
-		  map_1.c \
-		  map_2.c \
 		  init_game.c \
 		  game_render.c \
 		  ent_tank.c \
+		  ent_bullet.c \
+		  ent_enn_base.c \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

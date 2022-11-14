@@ -15,7 +15,6 @@ struct	s_map
 	t_v2i		size;
 	t_sprite	*walls[19];
 	t_vector	*entities;
-	t_vector	*bullets;
 };
 
 struct	s_camera
@@ -25,10 +24,6 @@ struct	s_camera
 };
 
 int		ft_get_map(t_map *map, t_v2i pos);
-void	ft_init_map(t_engine *eng, t_map *map, t_v2i size);
-void	ft_destroy_map(t_map *map);
-void	ft_put_map(t_engine *eng, t_camera cam, t_map *map);
-
 int		ft_init_game(t_engine *eng, t_data *data);
 
 int		ft_game_render(t_data *data);
@@ -36,9 +31,10 @@ int		ft_game_rend_map(t_data *data);
 int		ft_game_rend_ent(t_data *data);
 int		ft_game_upd_ent(t_data *data, float dt);
 
-/* ENTITY */
-/* TANK */
+/* ENTITIES */
 t_entity	*ft_tank_create(t_data  *game, t_v2f pos);
+t_entity	*ft_bullet_create(t_data *game, int type, t_v2f pos, float rot);
+t_entity	*ft_ennemy_create(t_data *game, t_v2f pos, float rot);
 
 /* STRUCTURES */
 struct s_data
@@ -57,9 +53,9 @@ struct	s_cell
 
 struct	s_entity
 {
-	int		(*display)(const t_entity *self, t_data *game);
-	int		(*update)(const t_entity *self, t_data *game, float delta_time);
-	int		(*destroy)(const t_entity *self, t_data *game);
+	int		(*display)(t_entity *self, t_data *game);
+	int		(*update)(t_entity *self, t_data *game, float delta_time);
+	int		(*destroy)(t_entity *self, t_data *game);
 	void	*data;
 	int		alive;
 };
@@ -74,7 +70,27 @@ typedef struct  s_dat_tank
 	float		vel;
 	float		base_rot;
 	float		top_rot;
+	float		fire_cool;
 }   t_dat_tank;
+
+typedef struct  s_dat_bullet
+{
+	t_v2f	pos;
+	t_v2f	dir;
+	float	rot;
+	int		type;
+	float	time;
+}   t_dat_bullet;
+
+typedef struct  t_dat_enn_base
+{
+	t_v2f	pos;
+	t_v2f	dir;
+	float	rot;
+	float	time;
+	float	health;
+	float	max_health;
+}   t_dat_enn_base;
 
 #endif
 
