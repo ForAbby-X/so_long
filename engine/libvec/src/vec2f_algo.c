@@ -22,5 +22,10 @@ float	ft_v2fcross(t_v2f a, t_v2f b)
 
 t_v2f	ft_v2fnorm(t_v2f a, float n)
 {
-	return (ft_v2fmul(ft_v2fdiv(a, ft_v2fmag(a)), n));
+	float	mag;
+
+	mag = ft_v2fmag(a);
+	if (mag == 0.0f)
+		return (ft_v2f(0.0f, 0.0f));
+	return (ft_v2fmul(ft_v2fdiv(a, mag), n));
 }

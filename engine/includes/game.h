@@ -13,7 +13,6 @@ struct	s_map
 {
 	int			*data;
 	t_v2i		size;
-	t_sprite	*walls[19];
 	t_vector	*entities;
 };
 
@@ -90,6 +89,8 @@ typedef struct  t_dat_enn_base
 	float	time;
 	float	health;
 	float	max_health;
+	float	fire_cool;
+	int		state;
 }   t_dat_enn_base;
 
 #endif

@@ -22,6 +22,12 @@ static int	_ft_tank_display(t_entity *self, t_data *game)
 			ft_v2i(17, 15), dat->top_rot);
 		i++;
 	}
+	ft_circle(game->eng, ft_v2i(dat->pos.x -
+		game->cam.pos.x, dat->pos.y - game->cam.pos.y), 100, ft_color_d(0x0F0000));
+	ft_circle(game->eng, ft_v2i(dat->pos.x -
+		game->cam.pos.x, dat->pos.y - game->cam.pos.y), 175, ft_color_d(0x000F00));
+	ft_circle(game->eng, ft_v2i(dat->pos.x -
+		game->cam.pos.x, dat->pos.y - game->cam.pos.y), 300, ft_color_d(0x00000F));
 	return (1);
 }
 
@@ -45,8 +51,10 @@ static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 	if (game->eng->mouse[1] && dat->fire_cool >= 0.125f / 2)
 	{
 		ft_vector_add(game->map.entities,
-			ft_bullet_create(game, 0, ft_v2fadd(dat->pos,
-			ft_v2fr(dat->top_rot, 60)), dat->top_rot));
+			ft_bullet_create(game, 1, ft_v2fadd(dat->pos,
+			ft_v2fadd(ft_v2fr(dat->top_rot, 35),
+			ft_v2fr(dat->top_rot - M_PI_2, 10))),
+			dat->top_rot + ((float)rand() / RAND_MAX - 0.5f) * 0.40));
 		dat->fire_cool = 0.0f;
 	}
 }

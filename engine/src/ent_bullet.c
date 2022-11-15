@@ -5,7 +5,7 @@ static int	_ft_bullet_display(t_entity *self, t_data *game)
 	t_dat_bullet	*dat;
 
 	dat = self->data;
-	ft_put_sprite_r(game->eng, game->spr[5], ft_v2i(dat->pos.x -
+	ft_put_sprite_r(game->eng, game->spr[5 + dat->type], ft_v2i(dat->pos.x -
 		game->cam.pos.x, dat->pos.y - game->cam.pos.y - 11),
 		ft_v2i(28, 1), dat->rot);
 	return (1);

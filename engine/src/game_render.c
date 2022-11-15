@@ -24,7 +24,12 @@ int		ft_game_rend_map(t_data *data)
 			wpos = ft_v2iadd(pos, ft_v2idiv(data->cam.pos, 32));
 			ft_put_sprite(data->eng, data->spr[2], rpos);
 			if (ft_get_map(&data->map, wpos))
-				ft_put_sprite(data->eng, data->spr[3], rpos);
+			{
+				if (ft_get_map(&data->map, ft_v2i(wpos.x, wpos.y + 1)))
+					ft_put_sprite(data->eng, data->spr[4], rpos);
+				else
+					ft_put_sprite(data->eng, data->spr[3], rpos);
+			}
 			pos.x++;
 		}
 		pos.y++;
