@@ -48,12 +48,12 @@ int		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 }
 
 static void	ft_get_border(t_sprite *spr,
-					t_v2i cen, float rot, t_v2i	out[2])
+	t_v2i cen, float rot, t_v2i	out[2])
 {
 	t_v2i	cor[4];
 	int		n;
-	
-	cor[0] = ft_v2irot(ft_v2i(-cen.x,-cen.y), rot);
+
+	cor[0] = ft_v2irot(ft_v2i(-cen.x, -cen.y), rot);
 	cor[1] = ft_v2irot(ft_v2i(-cen.x, spr->size.y - cen.y), rot);
 	cor[2] = ft_v2irot(ft_v2i(spr->size.x - cen.x, -cen.y), rot);
 	cor[3] = ft_v2irot(ft_v2isub(spr->size, cen), rot);
@@ -84,8 +84,8 @@ int		ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 		dim.x = bord[0].x;
 		while (dim.x <= bord[1].x)
 		{
-			read.x = (float)cen.x - 0.5 + cosf(rot) * dim.x + sinf(rot) * dim.y;
-			read.y = (float)cen.y - 0.5 - sinf(rot) * dim.x + cosf(rot) * dim.y;
+			read.x = floor(cen.x + cosf(rot) * dim.x + sinf(rot) * dim.y);
+			read.y = floor(cen.y - sinf(rot) * dim.x + cosf(rot) * dim.y);
 			ft_draw(eng, ft_v2iadd(pos, dim), ft_get_color(spr, read));
 			dim.x++;
 		}

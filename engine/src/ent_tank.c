@@ -28,6 +28,8 @@ static int	_ft_tank_display(t_entity *self, t_data *game)
 		game->cam.pos.x, dat->pos.y - game->cam.pos.y), 175, ft_color_d(0x000F00));
 	ft_circle(game->eng, ft_v2i(dat->pos.x -
 		game->cam.pos.x, dat->pos.y - game->cam.pos.y), 300, ft_color_d(0x00000F));
+	ft_put_sprite_r(game->eng, game->spr[15], ft_v2i(game->eng->mouse_x, game->eng->mouse_y),
+		ft_v2i(28, 1), dat->top_rot);
 	return (1);
 }
 
@@ -38,23 +40,28 @@ static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	dat->acc = sinf(fabsf(ft_v2fdot(dat->dir, dat->ine)) * M_PI_2);
 	dat->vel = dat->vel * 0.96f * (dat->acc * dat->acc);
-	if (dat->vel < -70.0f)
-		dat->vel = -70.0f;
-	if (dat->vel > 100.0f)
-		dat->vel = 100.0f;
+	dat->vel = ft_min(100, ft_max(-70, dat->vel));
 	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->ine, dat->vel * dt));
 	game->cam.pos = ft_v2i(dat->pos.x - game->cam.dim.x / 2,
 		dat->pos.y - game->cam.dim.y / 2);
 	dat->top_rot = -atan2((game->cam.pos.x + (int)game->eng->mouse_x) -
-		dat->pos.x, (game->cam.pos.y + (int)game->eng->mouse_y) - dat->pos.y)
+		dat->pos.x, (game->cam.pos.y + (int)game->eng->mouse_y) - dat->pos.y + 12)
 		+ M_PI_2;
 	if (game->eng->mouse[1] && dat->fire_cool >= 0.125f / 2)
 	{
 		ft_vector_add(game->map.entities,
-			ft_bullet_create(game, 1, ft_v2fadd(dat->pos,
+			ft_bullet_create(game, 1, ft_v2fadd(dat->pos, 
 			ft_v2fadd(ft_v2fr(dat->top_rot, 35),
 			ft_v2fr(dat->top_rot - M_PI_2, 10))),
-			dat->top_rot + ((float)rand() / RAND_MAX - 0.5f) * 0.40));
+			dat->top_rot + ((float)rand() / RAND_MAX - 0.5f) * 0.30));
+		dat->fire_cool = 0.0f;
+	}
+	if (game->eng->mouse[3] && dat->fire_cool >= 4.0f)
+	{
+		ft_vector_add(game->map.entities,
+			ft_shell_create(game, ft_v2fadd(dat->pos,
+			ft_v2fr(dat->top_rot, 50)),
+			dat->top_rot));
 		dat->fire_cool = 0.0f;
 	}
 }

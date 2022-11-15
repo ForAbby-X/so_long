@@ -14,8 +14,8 @@ static int	ft_init_textures(t_engine *eng, t_data	*data)
     data->spr[2] = ft_sprite_p(eng, "assets/dirt.xpm");
 	data->spr[3] = ft_sprite_p(eng, "assets/walls/wall_0.xpm");
 	data->spr[4] = ft_sprite_p(eng, "assets/walls/wall_1.xpm");
-    data->spr[5] = ft_sprite_p(eng, "assets/bullets_small.xpm");
-	data->spr[6] = ft_sprite_p(eng, "assets/bullets_big.xpm");
+    data->spr[5] = ft_sprite_p(eng, "assets/bullets/bullets_small.xpm");
+	data->spr[6] = ft_sprite_p(eng, "assets/bullets/bullets_big.xpm");
     data->spr[7] = ft_sprite_p(eng, "assets/ennemies/ennemy_walk_0.xpm");
 	data->spr[8] = ft_sprite_p(eng, "assets/ennemies/ennemy_walk_1.xpm");
 	data->spr[9] = ft_sprite_p(eng, "assets/ennemies/ennemy_shoot_0.xpm");
@@ -24,6 +24,10 @@ static int	ft_init_textures(t_engine *eng, t_data	*data)
 	data->spr[12] = ft_sprite_p(eng, "assets/ennemies/ennemy_run_1.xpm");
 	data->spr[13] = ft_sprite_p(eng, "assets/ennemies/ennemy_wait_0.xpm");
 	data->spr[14] = ft_sprite_p(eng, "assets/ennemies/ennemy_wait_1.xpm");
+	data->spr[15] = ft_sprite_p(eng, "assets/bullets/shell_0.xpm");
+	data->spr[16] = ft_sprite_p(eng, "assets/bullets/shell_1.xpm");
+	data->spr[17] = ft_sprite_p(eng, "assets/bullets/shell_2.xpm");
+	data->spr[18] = ft_sprite_p(eng, "assets/ui/weapon.xpm");
 	return (1);
 }
 

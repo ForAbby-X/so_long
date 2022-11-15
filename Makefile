@@ -21,6 +21,7 @@ SRC		=  engine.c \
 		  ent_tank.c \
 		  ent_bullet.c \
 		  ent_enn_base.c \
+		  ent_shell.c \
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 

@@ -1,10 +1,35 @@
 #include "game.h"
 
-int		ft_game_render(t_data *data)
+int		ft_game_render(t_data *game)
 {
-	ft_game_rend_map(data);
-	ft_game_rend_ent(data);
+	ft_game_rend_map(game);
+	ft_game_rend_ent(game);
+	ft_ui_render(game);
 	return (1);
+}
+
+void	ft_ui_render(t_data *game)
+{
+	t_dat_tank	*dat;
+	float		s;
+	float		c;
+
+	dat = ((t_entity *)ft_vector_get(game->map.entities, 0))->data;
+	if (dat->fire_cool < 4.0f)
+	{
+		ft_rect(game->eng, ft_v2i(34, 4), ft_v2i(204, 24), ft_color_d(0xE0E0E0));
+		ft_rect(game->eng, ft_v2i(36, 6), ft_v2i(ft_min(dat->fire_cool / 4.0f * 200, 200), 20),
+			ft_color_d(0xE0AF00));
+	}
+	else
+	{
+		s = sinf(dat->fire_cool * 80) * 2;
+		c = cosf(dat->fire_cool * 60.6) * 2;
+		ft_rect(game->eng, ft_v2i(34 + s, 4 + c), ft_v2i(204, 24), ft_color_d(0x850606));
+		ft_rect(game->eng, ft_v2i(36 + s, 6 + c), ft_v2i(ft_min(dat->fire_cool / 4.0f * 200, 200), 20),
+			ft_color_d(0xE0AF00));
+	}
+	ft_put_sprite(game->eng, game->spr[18], ft_v2i(4, 4));
 }
 
 int		ft_game_rend_map(t_data *data)
@@ -52,7 +77,6 @@ int		ft_game_rend_ent(t_data *data)
 	return (1);
 }
 
-
 int		ft_game_upd_ent(t_data *data, float dt)
 {
 	t_entity	*ent;
@@ -71,7 +95,6 @@ int		ft_game_upd_ent(t_data *data, float dt)
 		ent = (t_entity *)ft_vector_get(data->map.entities, i);
 		if (ent->alive == 0)
 		{
-			printf("REMOVED [%p]\n", ent);
 			ent->destroy(ent, data);
 			ft_vector_rem(data->map.entities, i);
 		}

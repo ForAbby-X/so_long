@@ -26,6 +26,7 @@ int		ft_get_map(t_map *map, t_v2i pos);
 int		ft_init_game(t_engine *eng, t_data *data);
 
 int		ft_game_render(t_data *data);
+void	ft_ui_render(t_data *game);
 int		ft_game_rend_map(t_data *data);
 int		ft_game_rend_ent(t_data *data);
 int		ft_game_upd_ent(t_data *data, float dt);
@@ -34,12 +35,13 @@ int		ft_game_upd_ent(t_data *data, float dt);
 t_entity	*ft_tank_create(t_data  *game, t_v2f pos);
 t_entity	*ft_bullet_create(t_data *game, int type, t_v2f pos, float rot);
 t_entity	*ft_ennemy_create(t_data *game, t_v2f pos, float rot);
+t_entity	*ft_shell_create(t_data *game, t_v2f pos, float rot);
 
 /* STRUCTURES */
 struct s_data
 {
 	t_engine	*eng;
-	t_sprite	*spr[16];
+	t_sprite	*spr[32];
 	t_map		map;
 	t_camera	cam;
 };
@@ -92,6 +94,14 @@ typedef struct  t_dat_enn_base
 	float	fire_cool;
 	int		state;
 }   t_dat_enn_base;
+
+typedef struct  s_dat_shell
+{
+	t_v2f	pos;
+	t_v2f	dir;
+	float	rot;
+	float	time;
+}   t_dat_shell;
 
 #endif
 
