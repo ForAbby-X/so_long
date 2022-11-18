@@ -9,11 +9,16 @@ static int	_ft_ennemy_display(t_entity *self, t_data *game)
 	dat = self->data;
 	pos = ft_v2i(dat->pos.x - game->cam.pos.x, dat->pos.y - game->cam.pos.y);
 	anim = ((int)(dat->fire_cool * 3) & 1);
-	ft_put_sprite_r(game->eng, game->spr[7 + dat->state * 2 + anim],
-		pos, ft_v2i(16, 16), dat->rot);
+	if (dat->state != 4)
+		ft_put_sprite_r(game->eng, game->spr[7 + dat->state * 2 + anim],
+			pos, ft_v2i(16, 16), dat->rot);
+	else
+		ft_put_sprite_r(game->eng, game->spr[15],
+			pos, ft_v2i(16, 16), dat->rot);
 	ft_rect(game->eng, ft_v2iadd(pos, ft_v2i(-16, 18)),
 		ft_v2i((float)dat->health / dat->max_health * 32, 3),
-		ft_color_d(0x008F00));
+		ft_color_inter(ft_color_d(0x008F00), ft_color_d(0x8F0000),
+		dat->health / dat->max_health));
 	return (1);
 }
 
@@ -37,7 +42,10 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 		dat->state = 0;
 	else
 		dat->state = 3;
-	dat->rot = -atan2(-ft_v2fsub(dat_tank->pos, dat->pos).y,
+	if (dat->health <= 0.0f)
+		dat->state = 4;
+	else
+		dat->rot = -atan2(-ft_v2fsub(dat_tank->pos, dat->pos).y,
 			ft_v2fsub(dat_tank->pos, dat->pos).x);
 	if (dat->state == 2)
 		dat->rot = dat->rot + M_PI;
@@ -59,6 +67,8 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	else
 		dat->dir = ft_v2f(0, 0);
 	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->dir, dt));
+	if (ft_v2fmag(ft_v2fsub(game->player->pos, dat->pos)) < 55)
+		dat->health -= 400.0f * dt;
 	return (1);
 }
 
@@ -90,6 +100,7 @@ t_entity	*ft_ennemy_create(t_data *game, t_v2f pos, float rot)
 	ent->display = &_ft_ennemy_display;
 	ent->update = &_ft_ennemy_update;
 	ent->destroy = &_ft_ennemy_destroy;
+	ent->type = 2;
 	ent->alive = 1;
     return (ent);
 }

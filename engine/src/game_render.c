@@ -2,37 +2,36 @@
 
 int		ft_game_render(t_data *game)
 {
-	ft_game_rend_map(game);
-	ft_game_rend_ent(game);
-	ft_ui_render(game);
+	t_v2i	mouse;
+
+	ft_game_render_map(game);
+	ft_game_render_ent(game);
+	ft_game_render_ui(game);
+	mouse = ft_v2iadd(ft_v2i(game->player->pos.x, game->player->pos.y),
+	ft_v2idiv(ft_v2isub(ft_v2i(game->eng->mouse_x, game->eng->mouse_y),
+		ft_v2i(game->eng->win_x / 2, game->eng->win_y / 2)), 6));
+	game->cam.pos = ft_v2isub(mouse,ft_v2idiv(game->cam.dim, 2));
 	return (1);
 }
 
-void	ft_ui_render(t_data *game)
+void	ft_game_render_ui(t_data *game)
 {
-	t_dat_tank	*dat;
 	float		s;
 	float		c;
+	float		ratio;
 
-	dat = ((t_entity *)ft_vector_get(game->map.entities, 0))->data;
-	if (dat->fire_cool < 4.0f)
-	{
-		ft_rect(game->eng, ft_v2i(34, 4), ft_v2i(204, 24), ft_color_d(0xE0E0E0));
-		ft_rect(game->eng, ft_v2i(36, 6), ft_v2i(ft_min(dat->fire_cool / 4.0f * 200, 200), 20),
-			ft_color_d(0xE0AF00));
-	}
-	else
-	{
-		s = sinf(dat->fire_cool * 80) * 2;
-		c = cosf(dat->fire_cool * 60.6) * 2;
-		ft_rect(game->eng, ft_v2i(34 + s, 4 + c), ft_v2i(204, 24), ft_color_d(0x850606));
-		ft_rect(game->eng, ft_v2i(36 + s, 6 + c), ft_v2i(ft_min(dat->fire_cool / 4.0f * 200, 200), 20),
-			ft_color_d(0xE0AF00));
-	}
-	ft_put_sprite(game->eng, game->spr[18], ft_v2i(4, 4));
+	ratio = ft_min((game->player->fire_cool / 4.0f) * (game->player->fire_cool / 4.0f) *
+		(game->player->fire_cool / 4.0f), 1.0f);
+	s = sinf(game->player->fire_cool * 80) * 2 * ratio;
+	c = cosf(game->player->fire_cool * 60.6) * 2 * ratio;
+	ft_rect(game->eng, ft_v2i(36 + s, 6 + c), ft_v2i(ft_min(
+		game->player->fire_cool / 4.0f * 200, 200), 20),
+		ft_color_inter(ft_color_d(0x900A00), ft_color_d(0x65A165),
+		game->player->fire_cool / 4.0f));
+	ft_put_sprite_s(game->eng, game->spr[19], ft_v2i(0, 0), 2);
 }
 
-int		ft_game_rend_map(t_data *data)
+int		ft_game_render_map(t_data *data)
 {
 	t_v2i	pos;
 	t_v2i	rpos;
@@ -49,12 +48,7 @@ int		ft_game_rend_map(t_data *data)
 			wpos = ft_v2iadd(pos, ft_v2idiv(data->cam.pos, 32));
 			ft_put_sprite(data->eng, data->spr[2], rpos);
 			if (ft_get_map(&data->map, wpos))
-			{
-				if (ft_get_map(&data->map, ft_v2i(wpos.x, wpos.y + 1)))
-					ft_put_sprite(data->eng, data->spr[4], rpos);
-				else
-					ft_put_sprite(data->eng, data->spr[3], rpos);
-			}
+				ft_put_sprite(data->eng, data->spr[3], rpos);
 			pos.x++;
 		}
 		pos.y++;
@@ -62,7 +56,7 @@ int		ft_game_rend_map(t_data *data)
 	return (1);
 }
 
-int		ft_game_rend_ent(t_data *data)
+int		ft_game_render_ent(t_data *data)
 {
 	t_entity	*ent;
 	t_length	i;

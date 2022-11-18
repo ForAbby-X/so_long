@@ -24,10 +24,11 @@ static int	ft_init_textures(t_engine *eng, t_data	*data)
 	data->spr[12] = ft_sprite_p(eng, "assets/ennemies/ennemy_run_1.xpm");
 	data->spr[13] = ft_sprite_p(eng, "assets/ennemies/ennemy_wait_0.xpm");
 	data->spr[14] = ft_sprite_p(eng, "assets/ennemies/ennemy_wait_1.xpm");
-	data->spr[15] = ft_sprite_p(eng, "assets/bullets/shell_0.xpm");
-	data->spr[16] = ft_sprite_p(eng, "assets/bullets/shell_1.xpm");
-	data->spr[17] = ft_sprite_p(eng, "assets/bullets/shell_2.xpm");
-	data->spr[18] = ft_sprite_p(eng, "assets/ui/weapon.xpm");
+	data->spr[15] = ft_sprite_p(eng, "assets/ennemies/ennemy_dead.xpm");
+	data->spr[16] = ft_sprite_p(eng, "assets/bullets/shell_0.xpm");
+	data->spr[17] = ft_sprite_p(eng, "assets/bullets/shell_1.xpm");
+	data->spr[18] = ft_sprite_p(eng, "assets/bullets/shell_2.xpm");
+	data->spr[19] = ft_sprite_p(eng, "assets/ui/weapon.xpm");
 	return (1);
 }
 
@@ -39,6 +40,7 @@ static void	ft_init_map(t_data *data, t_v2i size)
 	data->map.size = size;
 	data->map.entities = ft_vector_create(1024);
 	ft_vector_add(data->map.entities, ft_tank_create(data, ft_v2f(0, 0)));
+	data->player = ((t_entity *)ft_vector_get(data->map.entities, 0))->data;
 	i = 0;
 	while (i < size.x * size.y)
 	{
@@ -48,9 +50,11 @@ static void	ft_init_map(t_data *data, t_v2i size)
 			{
 				data->map.data[i] = 0;
 				if ((rand() & 31) == 0)
+				{
 					ft_vector_add(data->map.entities,
 						ft_ennemy_create(data, 
 						ft_v2fr((i % size.x) * 32, (i / size.x) * 32), 0.0f));
+				}
 			}
 		i++;
 	}
@@ -60,7 +64,7 @@ int	ft_init_game(t_engine *eng, t_data	*data)
 {
 	data->eng = eng;
 	ft_init_textures(eng, data);
-    ft_init_map(data, ft_v2i(64, 64));
+    ft_init_map(data, ft_v2i(128, 128));
 	data->cam = (t_camera){{0, 0}, {eng->win_x, eng->win_y}};
 	return (1);
 }

@@ -35,9 +35,9 @@ t_color		ft_color_inter(t_color col_a, t_color col_b, float n)
 	t_color	col;
 
 	if (n < 0.0f)
-		return (col_a);
-	if (n > 1.0f)
 		return (col_b);
+	if (n > 1.0f)
+		return (col_a);
 	col.a = col_a.a * n + col_b.a * (1.0f - n);
 	col.r = col_a.r * n + col_b.r * (1.0f - n);
 	col.g = col_a.g * n + col_b.g * (1.0f - n);

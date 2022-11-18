@@ -7,7 +7,7 @@ static int	_ft_shell_display(t_entity *self, t_data *game)
 
 	dat = self->data;
 	anim = ((int)(dat->time * 10)) % 3;
-	ft_put_sprite_r(game->eng, game->spr[15 + anim], ft_v2i(dat->pos.x -
+	ft_put_sprite_r(game->eng, game->spr[16 + anim], ft_v2i(dat->pos.x -
 		game->cam.pos.x, dat->pos.y - game->cam.pos.y - 11),
 		ft_v2i(4, 4), dat->rot);
 	return (1);
@@ -17,11 +17,25 @@ static int	_ft_shell_update(t_entity *self, t_data *game, float dt)
 {
 	(void)game;
 	t_dat_shell	*dat;
+	t_entity	*ent;
+	t_length	i;
 
 	dat = self->data;
 	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->dir, dt));
 	dat->time += dt;
 	self->alive = !(dat->time >= 2.0f);
+	i = 0;
+	while (i < ft_vector_size(game->map.entities))
+	{
+		ent = ft_vector_get(game->map.entities, i);
+		if (ent != self && ent->type == 2)
+			if (ft_v2fmag(ft_v2fsub(((t_dat_enn_base *)ent->data)->pos, dat->pos)) < 15)
+			{
+				ent->alive = 0;
+				break ;
+			}
+		i++;
+	}
 	return (1);
 }
 
@@ -49,6 +63,7 @@ t_entity	*ft_shell_create(t_data *game, t_v2f pos, float rot)
 	ent->display = &_ft_shell_display;
 	ent->update = &_ft_shell_update;
 	ent->destroy = &_ft_shell_destroy;
+	ent->type = 3;
 	ent->alive = 1;
     return (ent);
 }

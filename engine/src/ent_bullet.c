@@ -14,12 +14,30 @@ static int	_ft_bullet_display(t_entity *self, t_data *game)
 static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 {
 	(void)game;
-	t_dat_bullet	*dat;	
+	t_entity		*ent;
+	t_length		i;
+	t_dat_bullet	*dat;
 
 	dat = self->data;
 	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->dir, dt));
 	dat->time += dt;
 	self->alive = !(dat->time >= 2.0f);
+	i = 0;
+	while (i < ft_vector_size(game->map.entities))
+	{
+		ent = ft_vector_get(game->map.entities, i);
+		if (ent != self && ent->type == 2 && ((t_dat_enn_base *)ent->data)->state != 4)
+			if (ft_v2fmag(ft_v2fsub(((t_dat_enn_base *)ent->data)->pos, dat->pos)) < 11)
+			{
+				((t_dat_enn_base *)ent->data)->health -= 15.0f +
+					((float)rand() / RAND_MAX * 10.0f);
+				self->alive = 0;
+				break ;
+			}
+		i++;
+	}
+	if (ft_v2fmag(ft_v2fsub(game->player->pos, dat->pos)) < 25)
+		self->alive = 0;
 	return (1);
 }
 
@@ -48,6 +66,7 @@ t_entity	*ft_bullet_create(t_data *game, int type, t_v2f pos, float rot)
 	ent->display = &_ft_bullet_display;
 	ent->update = &_ft_bullet_update;
 	ent->destroy = &_ft_bullet_destroy;
+	ent->type = 1;
 	ent->alive = 1;
     return (ent);
 }

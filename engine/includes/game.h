@@ -9,6 +9,11 @@ typedef struct s_cell	t_cell;
 typedef struct s_camera	t_camera;
 typedef struct s_entity	t_entity;
 
+typedef struct s_dat_tank	t_dat_tank;
+typedef struct s_dat_bullet	t_dat_bullet;
+typedef struct s_dat_enn_base	t_dat_enn_base;
+typedef struct s_dat_shell	t_dat_shell;
+
 struct	s_map
 {
 	int			*data;
@@ -26,9 +31,9 @@ int		ft_get_map(t_map *map, t_v2i pos);
 int		ft_init_game(t_engine *eng, t_data *data);
 
 int		ft_game_render(t_data *data);
-void	ft_ui_render(t_data *game);
-int		ft_game_rend_map(t_data *data);
-int		ft_game_rend_ent(t_data *data);
+void	ft_game_render_ui(t_data *game);
+int		ft_game_render_map(t_data *data);
+int		ft_game_render_ent(t_data *data);
 int		ft_game_upd_ent(t_data *data, float dt);
 
 /* ENTITIES */
@@ -44,6 +49,7 @@ struct s_data
 	t_sprite	*spr[32];
 	t_map		map;
 	t_camera	cam;
+	t_dat_tank	*player;
 };
 
 struct	s_cell
@@ -58,11 +64,12 @@ struct	s_entity
 	int		(*update)(t_entity *self, t_data *game, float delta_time);
 	int		(*destroy)(t_entity *self, t_data *game);
 	void	*data;
+	int		type;
 	int		alive;
 };
 
 /* ENTITIES */
-typedef struct  s_dat_tank
+struct  s_dat_tank
 {
     t_v2f		ine;
 	t_v2f		pos;
@@ -72,18 +79,18 @@ typedef struct  s_dat_tank
 	float		base_rot;
 	float		top_rot;
 	float		fire_cool;
-}   t_dat_tank;
+};
 
-typedef struct  s_dat_bullet
+struct  s_dat_bullet
 {
 	t_v2f	pos;
 	t_v2f	dir;
 	float	rot;
 	int		type;
 	float	time;
-}   t_dat_bullet;
+};
 
-typedef struct  t_dat_enn_base
+struct  s_dat_enn_base
 {
 	t_v2f	pos;
 	t_v2f	dir;
@@ -93,15 +100,15 @@ typedef struct  t_dat_enn_base
 	float	max_health;
 	float	fire_cool;
 	int		state;
-}   t_dat_enn_base;
+};
 
-typedef struct  s_dat_shell
+struct  s_dat_shell
 {
 	t_v2f	pos;
 	t_v2f	dir;
 	float	rot;
 	float	time;
-}   t_dat_shell;
+};
 
 #endif
 
