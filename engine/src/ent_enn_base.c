@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:19:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/23 22:36:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	}
 	if (dat->health <= 0.0f)
 	{
+		ft_emmit_pool_blood(game, 20, dat->pos);
 		ft_eng_sel_spr(game->eng, game->map.background);
 		ft_put_sprite_r(game->eng, game->spr[24],
 			ft_v2i(dat->pos.x, dat->pos.y),

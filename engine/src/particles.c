@@ -46,7 +46,7 @@ void	ft_emmit_pool_blood(t_data *game, t_length nb, t_v2f pos)
 	{
 		par = malloc(sizeof(t_particle));
 		par->pos = pos;
-		par->dir = ft_v2fr(ft_rand(-M_PI, M_PI), ft_rand(20, 90));
+		par->dir = ft_v2fr(ft_rand(-M_PI, M_PI), ft_rand(20, 40));
 		par->accel = 0;
 		par->time = 0;
 		par->life_time = ft_rand(0.35f, 0.45f);
