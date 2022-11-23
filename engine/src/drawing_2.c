@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   drawing_2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 10:15:25 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/23 14:45:22 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "engine.h"
 
 t_color	ft_get_color(t_sprite *spr, t_v2i pos)
@@ -12,7 +24,7 @@ t_color	ft_get_color(t_sprite *spr, t_v2i pos)
 
 int	ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos)
 {
-	t_v2i dim;
+	t_v2i	dim;
 
 	dim.y = 0;
 	while (dim.y < spr->size.y)
@@ -28,9 +40,9 @@ int	ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos)
 	return (1);
 }
 
-int		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
+int	ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 {
-	t_v2i dim;
+	t_v2i	dim;
 
 	dim.y = 0;
 	while (dim.y < spr->size.y)
@@ -70,7 +82,7 @@ static void	ft_get_border(t_sprite *spr,
 	}
 }
 
-int		ft_put_sprite_r(t_engine *eng, t_sprite *spr,
+int	ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 			t_v2i pos, t_v2i cen, float rot)
 {
 	t_v2i	dim;

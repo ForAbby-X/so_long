@@ -31,7 +31,7 @@ static int	_ft_shell_update(t_entity *self, t_data *game, float dt)
 		if (ent != self && ent->type == 2)
 			if (ft_v2fmag(ft_v2fsub(((t_dat_enn_base *)ent->data)->pos, dat->pos)) < 15)
 			{
-				ent->alive = 0;
+				((t_dat_enn_base *)ent->data)->health = 0;
 				break ;
 			}
 		i++;

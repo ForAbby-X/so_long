@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ent_bullet.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/23 16:50:25 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "game.h"
 
 static int	_ft_bullet_display(t_entity *self, t_data *game)
@@ -31,13 +43,23 @@ static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 			{
 				((t_dat_enn_base *)ent->data)->health -= 15.0f +
 					((float)rand() / RAND_MAX * 10.0f);
+				ft_emmit_blood(game, 10, dat->pos, dat->rot);
+				ft_eng_sel_spr(game->eng, game->map.background);
+				ft_put_sprite_r(game->eng, game->spr[23],
+					ft_v2i(dat->pos.x, dat->pos.y),
+					ft_v2i(11, 13), dat->rot + ft_rand(-0.2f, 0.2f));
+				ft_eng_sel_spr(game->eng, 0);
 				self->alive = 0;
 				break ;
 			}
 		i++;
 	}
-	if (ft_v2fmag(ft_v2fsub(game->player->pos, dat->pos)) < 25)
-		self->alive = 0;
+	if (ft_v2fmag(ft_v2fsub(game->player->pos, dat->pos)) < 25 || ft_get_map(
+		&game->map, ft_v2i(floor(dat->pos.x / 32), floor(dat->pos.y / 32))) == 1)
+		{
+			ft_emmit_sparks(game, 6, dat->pos, dat->rot + M_PI);
+			self->alive = 0;
+		}
 	return (1);
 }
 
@@ -66,7 +88,7 @@ t_entity	*ft_bullet_create(t_data *game, int type, t_v2f pos, float rot)
 	ent->display = &_ft_bullet_display;
 	ent->update = &_ft_bullet_update;
 	ent->destroy = &_ft_bullet_destroy;
-	ent->type = 1;
+	ent->type = -1;
 	ent->alive = 1;
     return (ent);
 }

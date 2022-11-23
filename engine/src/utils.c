@@ -22,3 +22,9 @@ void	ft_swap(void **a, void **b)
 	*a = *b;
 	*b = c;
 }
+
+
+float	ft_rand(float min, float max)
+{
+	return ((max - min) * ((float)rand() / RAND_MAX) + min);
+}

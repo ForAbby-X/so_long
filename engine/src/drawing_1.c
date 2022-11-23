@@ -1,47 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   drawing_1.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 10:15:32 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/23 15:10:38 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "engine.h"
 
 int	ft_draw(t_engine *eng, t_v2i pos, t_color color)
 {
 	size_t	index;
 
-	if ((color.d >> 24) == 255 || pos.x < 0 || pos.y < 0 ||
-		(size_t)pos.x >= eng->win_x || (size_t)pos.y >= eng->win_y)
+	if ((color.d >> 24) == 255 || pos.x < 0 || pos.y < 0
+		|| (size_t)pos.x >= ft_eng_size_x(eng)
+		|| (size_t)pos.y >= ft_eng_size_y(eng))
 		return (0);
-	index = pos.y * (eng->win_x * 4) + pos.x * 4;
-	((int *)eng->img.data)[index >> 2] = color.d;
+	index = pos.x + pos.y * ft_eng_size_x(eng);
+	eng->sel_spr->data[index] = color;
 	return (1);
 }
 
 int	ft_clear(t_engine *eng, t_color color)
 {
-	t_v2i	pos;
 	size_t	index;
 
-	pos.y = 0;
-	while ((size_t)pos.y < eng->win_y)
+	index = 0;
+	while (index < ft_eng_size_x(eng) * ft_eng_size_y(eng))
 	{
-		pos.x = 0;
-		while ((size_t)pos.x < eng->win_x)
-		{
-			index = pos.y * (eng->win_x * 4) + pos.x * 4;
-			((int *)eng->img.data)[index >> 2] = color.d;
-			pos.x++;
-		}
-		pos.y++;
+		eng->sel_spr->data[index] = color;
+		index++;
 	}
 	return (1);
 }
 
-static void	ft_pt_circle(t_engine *eng, int x, int y, int dx, int dy, t_color color)
+static void	ft_pt_circle(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 {
-	ft_draw(eng, ft_v2i(x+dx, y+dy), color);
-	ft_draw(eng, ft_v2i(x-dx, y+dy), color);
-	ft_draw(eng, ft_v2i(x+dx, y-dy), color);
-	ft_draw(eng, ft_v2i(x-dx, y-dy), color);
-	ft_draw(eng, ft_v2i(x+dy, y+dx), color);
-	ft_draw(eng, ft_v2i(x-dy, y+dx), color);
-	ft_draw(eng, ft_v2i(x+dy, y-dx), color);
-	ft_draw(eng, ft_v2i(x-dy, y-dx), color);
+	ft_draw(eng, ft_v2i(pos.x + dim.x, pos.y + dim.y), color);
+	ft_draw(eng, ft_v2i(pos.x - dim.x, pos.y + dim.y), color);
+	ft_draw(eng, ft_v2i(pos.x + dim.x, pos.y - dim.y), color);
+	ft_draw(eng, ft_v2i(pos.x - dim.x, pos.y - dim.y), color);
+	ft_draw(eng, ft_v2i(pos.x + dim.y, pos.y + dim.x), color);
+	ft_draw(eng, ft_v2i(pos.x - dim.y, pos.y + dim.x), color);
+	ft_draw(eng, ft_v2i(pos.x + dim.y, pos.y - dim.x), color);
+	ft_draw(eng, ft_v2i(pos.x - dim.y, pos.y - dim.x), color);
 }
 
 int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
@@ -52,7 +58,7 @@ int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
 	dim.x = 0;
 	dim.y = r;
 	d = 3 - 2 * r;
-	ft_pt_circle(eng, pos.x, pos.y, dim.x, dim.y, color);
+	ft_pt_circle(eng, pos, dim, color);
 	while (dim.y >= dim.x)
 	{
 		dim.x++;
@@ -63,7 +69,7 @@ int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
 		}
 		else
 			d = d + 4 * dim.x + 6;
-		ft_pt_circle(eng, pos.x, pos.y, dim.x, dim.y, color);
+		ft_pt_circle(eng, pos, dim, color);
 	}
 	return (1);
 }
@@ -85,4 +91,3 @@ int	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 	}
 	return (1);
 }
-

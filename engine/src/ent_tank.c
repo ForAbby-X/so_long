@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ent_tank.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/23 15:29:30 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "game.h"
 
 static int	_ft_tank_display(t_entity *self, t_data *game)
@@ -10,7 +22,7 @@ static int	_ft_tank_display(t_entity *self, t_data *game)
 	while (i < 10)
 	{
 		ft_put_sprite_r(game->eng, game->spr[0], ft_v2i(dat->pos.x -
-			game->cam.pos.x, dat->pos.y - game->cam.pos.y - i),
+				game->cam.pos.x, dat->pos.y - game->cam.pos.y - i),
 			ft_v2i(33, 27), dat->base_rot);
 		i++;
 	}
@@ -18,9 +30,16 @@ static int	_ft_tank_display(t_entity *self, t_data *game)
 	while (i < 3)
 	{
 		ft_put_sprite_r(game->eng, game->spr[1], ft_v2i(dat->pos.x -
-			game->cam.pos.x, dat->pos.y - game->cam.pos.y - 10 - i),
+				game->cam.pos.x, dat->pos.y - game->cam.pos.y - 10 - i),
 			ft_v2i(17, 15), dat->top_rot);
 		i++;
+	}
+	if (dat->timer >= 0.0625f)
+	{
+		ft_emmit_smoke_pipe(game, 2, ft_v2fadd(
+				ft_v2f(dat->pos.x, dat->pos.y - 10),
+				ft_v2fr(dat->base_rot, -25)));
+		dat->timer -= 0.0625f;
 	}
 	ft_circle(game->eng, ft_v2i(dat->pos.x -
 		game->cam.pos.x, dat->pos.y - game->cam.pos.y), 100, ft_color_d(0x0F0000));
@@ -42,25 +61,28 @@ static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 	dat->vel = dat->vel * 0.96f * (dat->acc * dat->acc);
 	dat->vel = ft_min(120, ft_max(-100, dat->vel));
 	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->ine, dat->vel * dt));
-	dat->top_rot = -atan2((game->cam.pos.x + (int)game->eng->mouse_x) -
-		dat->pos.x, (game->cam.pos.y + (int)game->eng->mouse_y) - dat->pos.y + 12)
+	dat->top_rot = -atan2((game->cam.pos.x + (int)game->eng->mouse_x)
+			- dat->pos.x,
+			(game->cam.pos.y + (int)game->eng->mouse_y) - dat->pos.y + 12)
 		+ M_PI_2;
 	if (game->eng->mouse[1] && dat->fire_cool >= 0.125f / 2)
 	{
 		ft_vector_add(game->map.entities,
-			ft_bullet_create(game, 1, ft_v2fadd(dat->pos, 
-			ft_v2fadd(ft_v2fr(dat->top_rot, 35),
-			ft_v2fr(dat->top_rot - M_PI_2, 10))),
-			dat->top_rot + ((float)rand() / RAND_MAX - 0.5f) * 0.20));
+			ft_bullet_create(game, 1,
+				ft_v2fadd(dat->pos, ft_v2fadd(ft_v2fr(dat->top_rot, 35),
+						ft_v2fr(dat->top_rot - M_PI_2, 10))),
+				dat->top_rot + ft_rand(-0.5f, 0.5f) * 0.20));
 		dat->fire_cool = 0.0f;
+		game->shake = 1.0f;
 	}
 	if (game->eng->mouse[3] && dat->fire_cool >= 4.0f)
 	{
 		ft_vector_add(game->map.entities,
 			ft_shell_create(game, ft_v2fadd(dat->pos,
-			ft_v2fr(dat->top_rot, 50)),
-			dat->top_rot));
+					ft_v2fr(dat->top_rot, 50)),
+				dat->top_rot));
 		dat->fire_cool = 0.0f;
+		game->shake = 2.0f;
 	}
 }
 
@@ -85,6 +107,7 @@ static int	_ft_tank_update(t_entity *self, t_data *game, float dt)
 		dat->vel += 3.0f;
 	}
 	dat->fire_cool += dt;
+	dat->timer += dt;
 	_ft_tank_update2(self, game, dt);
 	return (1);
 }
@@ -99,10 +122,10 @@ static int	_ft_tank_destroy(t_entity *self, t_data *game)
 
 t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 {
-	(void)game;
 	t_entity	*ent;
 	t_dat_tank	*data;
 
+	(void)game;
 	ent = malloc(sizeof(t_entity));
 	data = malloc(sizeof(t_dat_tank));
 	data->pos = pos;
@@ -113,11 +136,12 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	data->base_rot = 0.0f;
 	data->top_rot = 0.0f;
 	data->fire_cool = 0.0f;
+	data->timer = 0.0f;
 	ent->data = data;
 	ent->display = &_ft_tank_display;
 	ent->update = &_ft_tank_update;
 	ent->destroy = &_ft_tank_destroy;
 	ent->type = 0;
 	ent->alive = 1;
-    return (ent);
+	return (ent);
 }

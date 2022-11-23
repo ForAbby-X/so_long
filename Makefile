@@ -6,18 +6,23 @@ INCDIR	=	-I ./engine/includes
 OBJDIR	=	./engine/obj
 
 # src / includes / obj files
-SRC		=  engine.c \
+SRC		= engine.c \
+		  engine_config.c \
 		  event_1.c \
 		  event_2.c \
 		  color.c \
 		  drawing_1.c \
 		  drawing_2.c \
+		  drawing_3.c \
 		  sprite_1.c \
 		  utils.c \
 		  \
 		  main.c \
 		  init_game.c \
 		  game_render.c \
+		  game_render_2.c \
+		  game_drawing.c \
+		  particles.c \
 		  ent_tank.c \
 		  ent_bullet.c \
 		  ent_enn_base.c \
@@ -27,8 +32,7 @@ OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 # compiler
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -lm -lrt -Ofast
-
+CFLAGS	= -MMD -Wall -Wextra -Werror -lm -lrt -Ofast
 
 # mlx library
 MLX		= ./engine/minilibx-linux/

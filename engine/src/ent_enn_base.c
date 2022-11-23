@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ent_enn_base.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/23 17:19:51 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "game.h"
 
 static int	_ft_ennemy_display(t_entity *self, t_data *game)
@@ -9,12 +21,8 @@ static int	_ft_ennemy_display(t_entity *self, t_data *game)
 	dat = self->data;
 	pos = ft_v2i(dat->pos.x - game->cam.pos.x, dat->pos.y - game->cam.pos.y);
 	anim = ((int)(dat->fire_cool * 3) & 1);
-	if (dat->state != 4)
-		ft_put_sprite_r(game->eng, game->spr[7 + dat->state * 2 + anim],
-			pos, ft_v2i(16, 16), dat->rot);
-	else
-		ft_put_sprite_r(game->eng, game->spr[15],
-			pos, ft_v2i(16, 16), dat->rot);
+	ft_put_sprite_r(game->eng, game->spr[7 + dat->state * 2 + anim],
+		pos, ft_v2i(16, 16), dat->rot);
 	ft_rect(game->eng, ft_v2iadd(pos, ft_v2i(-16, 18)),
 		ft_v2i((float)dat->health / dat->max_health * 32, 3),
 		ft_color_inter(ft_color_d(0x008F00), ft_color_d(0x8F0000),
@@ -29,7 +37,7 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	float			dist;
 
 	dat = self->data;
-	dat_tank = ((t_entity *)ft_vector_get(game->map.entities, 0))->data;
+	dat_tank = game->player;
 	dist = ft_v2fmag(ft_v2fsub(dat_tank->pos, dat->pos));
 	dat->fire_cool += dt;
 	if (dat->state == 2 && dist < 230)
@@ -42,13 +50,8 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 		dat->state = 0;
 	else
 		dat->state = 3;
-	if (dat->health <= 0.0f)
-		dat->state = 4;
-	else
-		dat->rot = -atan2(-ft_v2fsub(dat_tank->pos, dat->pos).y,
-			ft_v2fsub(dat_tank->pos, dat->pos).x);
-	if (dat->state == 2)
-		dat->rot = dat->rot + M_PI;
+	dat->rot = -atan2(-ft_v2fsub(dat_tank->pos, dat->pos).y,
+		ft_v2fsub(dat_tank->pos, dat->pos).x);
 	if (dat->state == 0)
 		dat->dir = ft_v2fnorm(ft_v2fsub(dat_tank->pos, dat->pos), 40.0f);
 	else if (dat->state == 1)
@@ -68,7 +71,22 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 		dat->dir = ft_v2f(0, 0);
 	dat->pos = ft_v2fadd(dat->pos, ft_v2fmul(dat->dir, dt));
 	if (ft_v2fmag(ft_v2fsub(game->player->pos, dat->pos)) < 55)
-		dat->health -= 400.0f * dt;
+	{
+		dat->health = 0.0f;
+		ft_emmit_blood(game, 60, dat->pos, dat->rot + M_PI);
+	}
+	if (dat->health <= 0.0f)
+	{
+		ft_eng_sel_spr(game->eng, game->map.background);
+		ft_put_sprite_r(game->eng, game->spr[24],
+			ft_v2i(dat->pos.x, dat->pos.y),
+			ft_v2i(16, 14), dat->rot + M_PI);
+		ft_put_sprite_r(game->eng, game->spr[15],
+			ft_v2i(dat->pos.x, dat->pos.y),
+			ft_v2i(16, 16), dat->rot + M_PI);
+		ft_eng_sel_spr(game->eng, 0);
+		self->alive = 0;
+	}
 	return (1);
 }
 

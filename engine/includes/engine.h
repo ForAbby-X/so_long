@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   engine.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/23 17:14:29 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ENGINE_H
 # define ENGINE_H
 
@@ -9,14 +21,15 @@
 # include <string.h>
 # include <stdint.h>
 # include <time.h>
-# include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
-# include "../libft/libft.h"
-# include "../libvec/inc/vec2.h"
+# include "mlx.h"
+# include "mlx_int.h"
+# include "libft.h"
+# include "vec2.h"
 
 typedef struct s_engine	t_engine;
 typedef union u_color	t_color;
 typedef struct s_sprite	t_sprite;
+typedef struct s_rect	t_rect;
 /* USER ASSIGNED STRUCT */
 typedef struct s_data	t_data;
 
@@ -24,7 +37,11 @@ typedef struct s_data	t_data;
 t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title);
 void		ft_eng_destroy(t_engine *eng);
 int			ft_eng_play(t_engine *eng, t_data *data,
-				int (*on_repeat)(t_engine *a, t_data *data, double elapsed_time));
+				int (*on_repeat)(t_engine *, t_data *, double));
+
+size_t		ft_eng_size_x(t_engine *eng);
+size_t		ft_eng_size_y(t_engine *eng);
+void		ft_eng_sel_spr(t_engine *eng, t_sprite	*spr);
 
 /* ENGINE DRAWING */
 /* [1] SHAPES */
@@ -39,6 +56,12 @@ int			ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
 int			ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
 int			ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_v2i cen, float rot);
+
+/* [3] SPRITE */
+int			ft_draw_solid(t_engine *eng, t_v2i pos, t_color color);
+int			ft_put_sprite_part(t_engine *eng, t_sprite *spr,
+				t_v2i pos, t_rect rect);
+int			ft_put_sprite_solid(t_engine *eng, t_sprite *spr, t_v2i pos);
 
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */
@@ -67,36 +90,35 @@ t_sprite	*ft_cpy_sprite(t_engine *eng, t_sprite *spr);
 int			ft_min(int a, int b);
 int			ft_max(int a, int b);
 void		ft_swap(void **a, void **b);
+float		ft_rand(float min, float max);
 
 struct	s_engine
 {
-	/* ENGINE */
 	void			*mlx;
 	void			*win;
 	size_t			win_x;
 	size_t			win_y;
 	struct timespec	time_s;
 	struct timespec	time_e;
-	t_img			img;
-	/* KEYS AND MOUSE */
-	char	keys[MAX_KEYS + 1];
-	char	mouse[MAX_MOUSE + 1];
-	size_t	mouse_x;
-	size_t	mouse_y;
-	/* FUNCTIONAL */
-	int 	(*on_repeat)(t_engine *eng, t_data *data, double elapsed_time);
-	t_data	*data;
+	t_sprite		*screen;
+	t_sprite		*sel_spr;
+	char			keys[MAX_KEYS + 1];
+	char			mouse[MAX_MOUSE + 1];
+	size_t			mouse_x;
+	size_t			mouse_y;
+	int				(*on_repeat)(t_engine *, t_data *, double);
+	t_data			*data;
 };
 
 union	u_color
 {
-	uint32_t d;
+	uint32_t	d;
 	struct
 	{
-		uint8_t a;
-		uint8_t r;
-		uint8_t g;
-		uint8_t b;
+		uint8_t	r;
+		uint8_t	g;
+		uint8_t	b;
+		uint8_t	a;
 	};
 };
 
@@ -104,7 +126,13 @@ struct	s_sprite
 {
 	t_img	img;
 	t_color	*data;
-	t_v2i 	size;
+	t_v2i	size;
+};
+
+struct s_rect
+{
+	t_v2i	pos;
+	t_v2i	dim;
 };
 
 #endif
