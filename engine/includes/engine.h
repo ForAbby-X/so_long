@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:14:29 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:55:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ int			ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color);
 t_color		ft_get_color(t_sprite *spr, t_v2i pos);
 int			ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
 int			ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
+void		_ft_get_border(t_sprite *spr,
+				t_v2i cen, float rot, t_v2i	out[2]);
 int			ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_v2i cen, float rot);
 
@@ -104,8 +106,8 @@ struct	s_engine
 	t_sprite		*sel_spr;
 	char			keys[MAX_KEYS + 1];
 	char			mouse[MAX_MOUSE + 1];
-	size_t			mouse_x;
-	size_t			mouse_y;
+	int				mouse_x;
+	int				mouse_y;
 	int				(*on_repeat)(t_engine *, t_data *, double);
 	t_data			*data;
 };

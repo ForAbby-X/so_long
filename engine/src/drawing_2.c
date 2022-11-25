@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 14:45:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 08:18:15 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 	return (1);
 }
 
-static void	ft_get_border(t_sprite *spr,
+void	_ft_get_border(t_sprite *spr,
 	t_v2i cen, float rot, t_v2i	out[2])
 {
 	t_v2i	cor[4];
@@ -89,7 +89,7 @@ int	ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 	t_v2i	read;
 	t_v2i	bord[2];
 
-	ft_get_border(spr, cen, rot, bord);
+	_ft_get_border(spr, cen, rot, bord);
 	dim.y = bord[0].y;
 	while (dim.y <= bord[1].y)
 	{

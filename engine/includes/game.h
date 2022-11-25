@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:40:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:59:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ typedef struct s_cell			t_cell;
 typedef struct s_camera			t_camera;
 typedef struct s_entity			t_entity;
 typedef struct s_particle		t_particle;
+
+typedef long long				t_uuid;
 
 typedef struct s_dat_tank		t_dat_tank;
 typedef struct s_dat_bullet		t_dat_bullet;
@@ -66,11 +68,24 @@ void		ft_emmit_blood(t_data *game, t_length nb, t_v2f pos, float rot);
 void		ft_emmit_pool_blood(t_data *game, t_length nb, t_v2f pos);
 void		ft_emmit_smoke_pipe(t_data *game, t_length nb, t_v2f pos);
 
+/* RAYCASTING */
+int			ft_cast_ray(t_data *game, t_v2f start, t_v2f end);
+
+/* COLLISIONS */
+void		ft_entity_collisions(t_data *game);
+
+/* UUID */
+long long	ft_get_uuid(void);
+
 /* ENTITIES */
+t_entity	*ft_ent_add(t_data *game, t_entity *ent);
+
+void		ft_paint_tank(t_data *game, t_entity *tank, t_entity *enn_pos);
+
 t_entity	*ft_tank_create(t_data *game, t_v2f pos);
-t_entity	*ft_bullet_create(t_data *game, int type, t_v2f pos, float rot);
-t_entity	*ft_ennemy_create(t_data *game, t_v2f pos, float rot);
-t_entity	*ft_shell_create(t_data *game, t_v2f pos, float rot);
+t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid);
+t_entity	*ft_ennemy_create(t_v2f pos, float rot);
+t_entity	*ft_shell_create(t_v2f pos, float rot);
 
 /* STRUCTURES */
 struct s_data
@@ -79,7 +94,8 @@ struct s_data
 	t_sprite	*spr[32];
 	t_map		map;
 	t_camera	cam;
-	t_dat_tank	*player;
+	t_dat_tank	*dplay;
+	t_entity	*eplay;
 	float		shake;
 };
 
@@ -105,39 +121,47 @@ struct	s_entity
 	int		(*display)(t_entity *self, t_data *game);
 	int		(*update)(t_entity *self, t_data *game, float delta_time);
 	int		(*destroy)(t_entity *self, t_data *game);
+	t_v2f	pos;
+	t_v2f	dir;
+	float	rot;
+	float	radius;
 	void	*data;
+	t_uuid	uuid;
 	int		type;
 	int		alive;
 };
+
+/* RAYCAST */
+typedef struct s_ray
+{
+	t_v2f	dir;
+	t_v2i	pos;
+	t_v2f	side_dist;
+	t_v2f	delta_dist;
+	t_v2i	step;
+}	t_ray;
 
 /* ENTITIES */
 struct s_dat_tank
 {
 	t_v2f		ine;
-	t_v2f		pos;
-	t_v2f		dir;
 	float		acc;
 	float		vel;
-	float		base_rot;
 	float		top_rot;
 	float		fire_cool;
 	float		timer;
+	t_sprite	*spr;
 };
 
 struct s_dat_bullet
 {
-	t_v2f	pos;
-	t_v2f	dir;
-	float	rot;
+	t_uuid	shooter_id;
 	int		type;
 	float	time;
 };
 
 struct s_dat_enn_base
 {
-	t_v2f	pos;
-	t_v2f	dir;
-	float	rot;
 	float	time;
 	float	health;
 	float	max_health;
@@ -147,9 +171,6 @@ struct s_dat_enn_base
 
 struct s_dat_shell
 {
-	t_v2f	pos;
-	t_v2f	dir;
-	float	rot;
 	float	time;
 };
 

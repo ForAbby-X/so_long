@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:45:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:59:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_get_map(t_map *map, t_v2i pos)
 {
+	printf("[%d:%d]\n", pos.x, pos.y);
 	if (pos.x < 0 || pos.x >= map->size.x || pos.y < 0 || pos.y >= map->size.y)
 		return (0);
 	return (map->data[pos.x + pos.y * map->size.x]);
@@ -21,72 +22,78 @@ int	ft_get_map(t_map *map, t_v2i pos)
 
 static int	ft_init_textures(t_engine *eng, t_data	*data)
 {
-	data->spr[0] = ft_sprite_p(eng, "assets/tank/tank_base.xpm");
-	data->spr[1] = ft_sprite_p(eng, "assets/tank/tank_top.xpm");
-	data->spr[2] = ft_sprite_p(eng, "assets/ground/dirt.xpm");
-	data->spr[3] = ft_sprite_p(eng, "assets/walls/wall_0.xpm");
-	data->spr[4] = ft_sprite_p(eng, "assets/walls/h_wall_0.xpm");
-	data->spr[5] = ft_sprite_p(eng, "assets/bullets/bullets_small.xpm");
-	data->spr[6] = ft_sprite_p(eng, "assets/bullets/bullets_big.xpm");
-	data->spr[7] = ft_sprite_p(eng, "assets/ennemies/ennemy_walk_0.xpm");
-	data->spr[8] = ft_sprite_p(eng, "assets/ennemies/ennemy_walk_1.xpm");
-	data->spr[9] = ft_sprite_p(eng, "assets/ennemies/ennemy_shoot_0.xpm");
-	data->spr[10] = ft_sprite_p(eng, "assets/ennemies/ennemy_shoot_1.xpm");
-	data->spr[11] = ft_sprite_p(eng, "assets/ennemies/ennemy_run_0.xpm");
-	data->spr[12] = ft_sprite_p(eng, "assets/ennemies/ennemy_run_1.xpm");
-	data->spr[13] = ft_sprite_p(eng, "assets/ennemies/ennemy_wait_0.xpm");
-	data->spr[14] = ft_sprite_p(eng, "assets/ennemies/ennemy_wait_1.xpm");
-	data->spr[15] = ft_sprite_p(eng, "assets/stain/ennemy_dead.xpm");
-	data->spr[16] = ft_sprite_p(eng, "assets/bullets/shell_0.xpm");
-	data->spr[17] = ft_sprite_p(eng, "assets/bullets/shell_1.xpm");
-	data->spr[18] = ft_sprite_p(eng, "assets/bullets/shell_2.xpm");
-	data->spr[19] = ft_sprite_p(eng, "assets/ui/weapon.xpm");
-	data->spr[20] = ft_sprite_p(eng, "assets/particles/spark.xpm");
-	data->spr[21] = ft_sprite_p(eng, "assets/particles/blood.xpm");
-	data->spr[22] = ft_sprite_p(eng, "assets/particles/smoke_small.xpm");
-	data->spr[23] = ft_sprite_p(eng, "assets/stain/blood_splash_small.xpm");
-	data->spr[24] = ft_sprite_p(eng, "assets/stain/blood_splash_big.xpm");
+	int		i;
+	int		fd;
+	char	*str;
+
+	fd = open("assets/textures_list.lst", O_RDONLY);
+	if (fd < 0)
+		return (0);
+	i = 0;
+	while (i < 26)
+	{
+		str = get_next_line(fd);
+		if (str == NULL)
+			return (get_next_line(-1), 0);
+		str[ft_strlen(str) - 1] = '\0';
+		data->spr[i] = ft_sprite_p(eng, str);
+		free(str);
+		if (data->spr[i] == NULL)
+			return (get_next_line(-1), 0);
+		i++;
+	}
+	get_next_line(-1);
+	close(fd);
 	return (1);
 }
 
-static void	ft_init_map(t_data *data, t_v2i size)
+static int	ft_init_map(t_data *data, t_v2i size)
 {
 	int		i;
 
-	data->map.data = malloc(size.x * size.y * sizeof(t_cell));
+	data->map.data = malloc(size.x * size.y * sizeof(int));
+	if (data->map.data == NULL)
+		return (0);
 	data->map.size = size;
 	data->map.entities = ft_vector_create(1024);
 	data->map.particles = ft_vector_create(1024);
-	ft_vector_add(data->map.entities, ft_tank_create(data, ft_v2f(200, 200)));
-	data->player = ((t_entity *)ft_vector_get(data->map.entities, 0))->data;
-	i = 0;
-	while (i < size.x * size.y)
+	if (data->map.entities == NULL || data->map.particles == NULL)
+		return (0);
+	ft_ent_add(data, ft_tank_create(data, ft_v2f(200, 200)));
+	data->eplay = ft_vector_get(data->map.entities, 0);
+	data->dplay = data->eplay->data;
+	i = -1;
+	while (++i < size.x * size.y)
 	{
 		if ((rand() & 7) == 0)
 			data->map.data[i] = 1;
 		else
 		{
 			data->map.data[i] = 0;
-			if ((rand() & 31) == 0)
+			if ((rand() & 15) == 0)
 			{
-				ft_vector_add(data->map.entities,
-					ft_ennemy_create(data,
+				ft_ent_add(data, ft_ennemy_create(
 						ft_v2f((i % size.x) * 32, (i / size.x) * 32), 0.0f));
 			}
 		}
-		i++;
 	}
+	return (1);
 }
 
 int	ft_init_game(t_engine *eng, t_data	*data)
 {
+	ft_memset(data, 0, sizeof(t_data));
 	data->eng = eng;
-	ft_init_textures(eng, data);
-	ft_init_map(data, ft_v2i(128, 128));
+	if (!ft_init_textures(eng, data))
+		return (0);
+	if (!ft_init_map(data, ft_v2i(128, 128)))
+		return (0);
 	data->map.background = ft_sprite(eng, data->map.size.x * 32,
 			data->map.size.y * 32);
+	if (data->map.background == NULL)
+		return (0);
 	ft_eng_sel_spr(eng, data->map.background);
-	ft_clear(eng, ft_color_d(0xFF000000));
+	ft_clear(eng, (t_color){0xFF000000});
 	ft_eng_sel_spr(eng, 0);
 	data->shake = 0;
 	data->cam = (t_camera){{0, 0}, {eng->win_x, eng->win_y}};
@@ -96,22 +103,26 @@ int	ft_init_game(t_engine *eng, t_data	*data)
 void	ft_destroy_game(t_data *game)
 {
 	t_length	i;
+	t_entity	*ent;
 
 	i = 0;
-	while (i < 25)
+	while (game->spr[i] && i < 26)
 		ft_destroy_sprite(game->eng, game->spr[i++]);
-	free(game->map.data);
+	if (game->map.data)
+		free(game->map.data);
 	i = 0;
-	while (i < ft_vector_size(game->map.entities))
+	while (game->map.entities && i < ft_vector_size(game->map.entities))
 	{
-		free(((t_entity *)ft_vector_get(game->map.entities, i))->data);
-		free(((t_entity *)ft_vector_get(game->map.entities, i)));
-		i++;
+		ent = (t_entity *)ft_vector_get(game->map.entities, i++);
+		ent->destroy(ent, game);
 	}
 	i = 0;
-	while (i < ft_vector_size(game->map.particles))
+	while (game->map.particles && i < ft_vector_size(game->map.particles))
 		free(((t_particle *)ft_vector_get(game->map.particles, i++)));
-	ft_vector_destroy(game->map.entities);
-	ft_vector_destroy(game->map.particles);
-	ft_destroy_sprite(game->eng, game->map.background);
+	if (game->map.entities)
+		ft_vector_destroy(game->map.entities);
+	if (game->map.particles)
+		ft_vector_destroy(game->map.particles);
+	if (game->map.background)
+		ft_destroy_sprite(game->eng, game->map.background);
 }

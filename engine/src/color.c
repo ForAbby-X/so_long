@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/25 09:10:59 by alde-fre          #+#    #+#             */
+/*   Updated: 2022/11/25 09:10:59 by alde-fre         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "engine.h"
 
-t_color		ft_color_d(uint32_t d)
+t_color	ft_color_d(uint32_t d)
 {
 	t_color	col;
 
@@ -8,7 +20,7 @@ t_color		ft_color_d(uint32_t d)
 	return (col);
 }
 
-t_color		ft_color(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
+t_color	ft_color(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
 {
 	t_color	col;
 
@@ -19,7 +31,7 @@ t_color		ft_color(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
 	return (col);
 }
 
-t_color		ft_color_f(float a, float r, float g, float b)
+t_color	ft_color_f(float a, float r, float g, float b)
 {
 	t_color	col;
 
@@ -30,7 +42,7 @@ t_color		ft_color_f(float a, float r, float g, float b)
 	return (col);
 }
 
-t_color		ft_color_inter(t_color col_a, t_color col_b, float n)
+t_color	ft_color_inter(t_color col_a, t_color col_b, float n)
 {
 	t_color	col;
 
@@ -45,7 +57,7 @@ t_color		ft_color_inter(t_color col_a, t_color col_b, float n)
 	return (col);
 }
 
-uint8_t		ft_color_med(t_color col)
+uint8_t	ft_color_med(t_color col)
 {
 	uint8_t	med;
 

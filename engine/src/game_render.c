@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:08:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 02:05:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	ft_game_render(t_data *game)
 	ft_game_render_map(game);
 	ft_game_render_ent(game);
 	ft_game_render_ui(game);
-	mouse = ft_v2iadd(ft_v2i(game->player->pos.x, game->player->pos.y),
+	mouse = ft_v2iadd(ft_v2i(game->eplay->pos.x, game->eplay->pos.y),
 			ft_v2idiv(ft_v2isub(ft_v2i(game->eng->mouse_x, game->eng->mouse_y),
 					ft_v2i(game->eng->win_x / 2, game->eng->win_y / 2)), 6));
 	game->cam.pos = ft_v2isub(mouse, ft_v2idiv(game->cam.dim, 2));
 	game->cam.pos = ft_v2iadd(game->cam.pos, ft_v2irot(
-				ft_v2i(-game->shake * 20, 0), game->player->top_rot));
+				ft_v2i(-game->shake * 20, 0), game->dplay->top_rot));
 	return (1);
 }
 
@@ -34,15 +34,15 @@ void	ft_game_render_ui(t_data *game)
 	float		c;
 	float		ratio;
 
-	ratio = ft_min((game->player->fire_cool / 4.0f)
-			* (game->player->fire_cool / 4.0f)
-			* (game->player->fire_cool / 4.0f), 1.0f);
-	s = sinf(game->player->fire_cool * 80) * 2 * ratio;
-	c = cosf(game->player->fire_cool * 60.6) * 2 * ratio;
+	ratio = ft_min((game->dplay->fire_cool / 4.0f)
+			* (game->dplay->fire_cool / 4.0f)
+			* (game->dplay->fire_cool / 4.0f), 1.0f);
+	s = sinf(game->dplay->fire_cool * 80) * 2 * ratio;
+	c = cosf(game->dplay->fire_cool * 60.6) * 2 * ratio;
 	ft_rect(game->eng, ft_v2i(36 + s, 6 + c), ft_v2i(ft_min(
-				game->player->fire_cool / 4.0f * 200, 200), 20),
+				game->dplay->fire_cool / 4.0f * 200, 200), 20),
 		ft_color_inter(ft_color_d(0x900A00), ft_color_d(0x65A165),
-			game->player->fire_cool / 4.0f));
+			game->dplay->fire_cool / 4.0f));
 	ft_put_sprite_s(game->eng, game->spr[19], ft_v2i(0, 0), 2);
 }
 
@@ -83,8 +83,8 @@ int	ft_game_render_ent(t_data *data)
 	i = 0;
 	while (i < ft_vector_size(data->map.entities) - 1)
 	{
-		ent[0] = (t_entity *)ft_vector_get(data->map.entities, i);
-		ent[1] = (t_entity *)ft_vector_get(data->map.entities, i + 1);
+		ent[0] = ft_vector_get(data->map.entities, i);
+		ent[1] = ft_vector_get(data->map.entities, i + 1);
 		if (ent[0]->type < ent[1]->type)
 		{
 			ent[2] = data->map.entities->data[i];

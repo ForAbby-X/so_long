@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:48:37 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:47:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 07:17:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ t_sprite	*ft_sprite(t_engine *eng, size_t dx, size_t dy)
 	spr->data = (t_color *)(uint32_t *)spr->img.data;
 	spr->size.x = dx;
 	spr->size.y = dy;
-	printf("Created sprite [%d:%d]\n", spr->size.x, spr->size.y);
+	ft_putstr_fd("Created sprite [", 1);
+	ft_putnbr_fd(spr->size.x, 1);
+	ft_putstr_fd(":", 1);
+	ft_putnbr_fd(spr->size.y, 1);
+	ft_putstr_fd("]\n", 1);
 	return (spr);
 }
 /* PANOU */
@@ -50,13 +54,24 @@ t_sprite	*ft_sprite_p(t_engine *eng, char *path)
 	spr->img.data
 		= mlx_get_data_addr(spr->img.image, &tab[0], &tab[1], &tab[2]);
 	spr->data = (t_color *)(uint32_t *)spr->img.data;
-	printf("Created sprite [%d:%d]-%s\n", spr->size.x, spr->size.y, path);
+	ft_putstr_fd("Created sprite [", 1);
+	ft_putnbr_fd(spr->size.x, 1);
+	ft_putstr_fd(":", 1);
+	ft_putnbr_fd(spr->size.y, 1);
+	ft_putstr_fd("] - ", 1);
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\n", 1);
 	return (spr);
 }
 
 int	ft_destroy_sprite(t_engine *eng, t_sprite *spr)
 {
 	mlx_destroy_image(eng->mlx, spr->img.image);
+	ft_putstr_fd("Destroyed sprite [", 1);
+	ft_putnbr_fd(spr->size.x, 1);
+	ft_putstr_fd(":", 1);
+	ft_putnbr_fd(spr->size.y, 1);
+	ft_putstr_fd("]\n", 1);
 	free(spr);
 	return (1);
 }

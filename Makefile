@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/11/25 09:39:09 by alde-fre          #+#    #+#              #
+#    Updated: 2022/11/25 09:39:09 by alde-fre         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	= so_long.out
 
 # directories
@@ -23,7 +35,12 @@ SRC		= engine.c \
 		  game_render_2.c \
 		  game_drawing.c \
 		  particles.c \
+		  raycast.c \
+		  collisions.c \
+		  uuid.c \
+		  entities.c \
 		  ent_tank.c \
+		  ent_tank_drawing.c \
 		  ent_bullet.c \
 		  ent_enn_base.c \
 		  ent_shell.c \
@@ -31,8 +48,8 @@ SRC		= engine.c \
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 # compiler
-CC		= gcc
-CFLAGS	= -MMD -Wall -Wextra -Werror -lm -lrt -Ofast
+CC		= clang
+CFLAGS	= -MMD -Wall -Wextra -Werror -Ofast
 
 # mlx library
 MLX		= ./engine/minilibx-linux/

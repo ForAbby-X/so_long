@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 10:55:22 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/23 17:55:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:39:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title)
 {
 	t_engine	*eng;
 
+	ft_putstr_fd("Creating engine...\n", 1);
 	eng = malloc(sizeof(t_engine));
 	if (eng == NULL)
 		return (NULL);
+	ft_memset(eng, 0, sizeof(t_engine));
 	eng->mlx = mlx_init();
 	if (eng->mlx == NULL)
 		return (free(eng), NULL);
@@ -54,30 +56,32 @@ t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title)
 	if (eng->win == NULL)
 		return (free(eng->mlx), free(eng), NULL);
 	eng->screen = ft_sprite(eng, size_x, size_y);
+	if (eng->screen == NULL)
+		return (mlx_destroy_window(eng->mlx, eng->win),
+			free(eng->mlx), free(eng), NULL);
 	ft_setup_hooks(eng);
-	ft_memset(eng->keys, 0, MAX_KEYS + 1);
-	ft_memset(eng->mouse, 0, MAX_MOUSE + 1);
 	eng->sel_spr = eng->screen;
 	eng->win_x = size_x;
 	eng->win_y = size_y;
-	eng->mouse_x = 0;
-	eng->mouse_y = 0;
 	eng->on_repeat = NULL;
 	return (eng);
 }
 
 void	ft_eng_destroy(t_engine *eng)
 {
+	mlx_loop_end(eng->mlx);
 	ft_destroy_sprite(eng, eng->screen);
 	mlx_destroy_window(eng->mlx, eng->win);
 	mlx_destroy_display(eng->mlx);
 	free(eng->mlx);
 	free(eng);
+	ft_putstr_fd("Destroying engine...\n", 1);
 }
 
 int	ft_eng_play(t_engine *eng, t_data *data,
 		int (*on_repeat)(t_engine *eng, t_data *data, double elapsed_time))
 {
+	ft_putstr_fd("Starting engine...\n", 1);
 	if (on_repeat)
 	{
 		eng->data = data;
