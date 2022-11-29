@@ -63,11 +63,3 @@ char	*ft_itoa(int n)
 	ft_balek25(str, i, count);
 	return (str);
 }
-/*
-#include <stdio.h>
-int main()
-{
-	char *str = ft_itoa(-30);
-	printf("%s", str);
-}
-*/

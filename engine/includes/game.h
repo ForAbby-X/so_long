@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 11:59:12 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:46:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ struct	s_map
 	int			*data;
 	t_v2i		size;
 	t_vector	*entities;
+	t_length	active_nbr;
 	t_vector	*particles;
 	t_sprite	*background;
 };
@@ -47,6 +48,8 @@ struct	s_camera
 int			ft_get_map(t_map *map, t_v2i pos);
 int			ft_init_game(t_engine *eng, t_data *data);
 void		ft_destroy_game(t_data *game);
+
+void		ft_ent_check_activ(t_data *game);
 
 int			ft_game_render(t_data *data);
 void		ft_game_render_ui(t_data *game);

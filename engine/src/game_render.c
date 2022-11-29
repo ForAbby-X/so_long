@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 02:05:36 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:50:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,33 @@ void	ft_game_render_ui(t_data *game)
 	ft_put_sprite_s(game->eng, game->spr[19], ft_v2i(0, 0), 2);
 }
 
+/*
+int	temp_ft_game_render_map(t_data *data)
+{
+	t_v2i	ppos;
+	t_v2i	wpos;
+	t_v2f	fpos;
+
+	ppos.y = data->cam.pos.y;
+	wpos.y = data->cam.pos.y / 32;
+	while (pos.y < data->cam.dim.y)
+	{
+		ppos.x = data->cam.pos.x;
+		wpos.x = data->cam.pos.x / 32;
+		while (pos.x < data->cam.dim.x)
+		{
+			ft_put_sprite_solid(data->eng, data->spr[2], ppos);
+			if (ft_get_map(&data->map, wpos))
+				ft_put_sprite_solid(data->eng, data->spr[3], ppos);
+			wpos.x++;
+			ppos.x += 32;
+		}
+		wpos.y++;
+		ppos.y += 32;
+	}
+	return (1);
+}*/
+
 int	ft_game_render_map(t_data *data)
 {
 	t_v2i	pos;
@@ -81,7 +108,7 @@ int	ft_game_render_ent(t_data *data)
 	t_length	i;
 
 	i = 0;
-	while (i < ft_vector_size(data->map.entities) - 1)
+	while (i < data->map.active_nbr - 1)
 	{
 		ent[0] = ft_vector_get(data->map.entities, i);
 		ent[1] = ft_vector_get(data->map.entities, i + 1);
@@ -96,7 +123,7 @@ int	ft_game_render_ent(t_data *data)
 			i++;
 	}
 	i = 0;
-	while (i < ft_vector_size(data->map.entities))
+	while (i < data->map.active_nbr)
 	{
 		ent[0] = (t_entity *)ft_vector_get(data->map.entities, i++);
 		ent[0]->display(ent[0], data);
@@ -111,7 +138,7 @@ int	ft_game_upd_ent(t_data *data, float dt)
 
 	data->shake = fmax(0, data->shake - dt * 2);
 	i = 0;
-	while (i < ft_vector_size(data->map.entities))
+	while (i < data->map.active_nbr)
 	{
 		ent = (t_entity *)ft_vector_get(data->map.entities, i);
 		ent->update(ent, data, dt);

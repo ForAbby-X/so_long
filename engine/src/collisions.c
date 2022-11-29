@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 07:01:05 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:46:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ void	ft_entity_collisions(t_data *game)
 	t_entity	*ent_2;
 
 	i = 0;
-	while (i < ft_vector_size(game->map.entities))
+	while (i < game->map.active_nbr)
 	{
 		j = 0;
-		while (j < ft_vector_size(game->map.entities))
+		while (j < game->map.active_nbr)
 		{
 			if (i != j)
 			{
 				ent_1 = ft_vector_get(game->map.entities, i);
 				ent_2 = ft_vector_get(game->map.entities, j);
-				if (ent_1->type > 0 && ent_2->type > 0 
+				if (ent_1->type > 0 && ent_2->type > 0
 					&& ft_is_overlap(ent_1, ent_2))
 					ft_resolve_collision(ent_1, ent_2);
 			}

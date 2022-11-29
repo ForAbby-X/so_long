@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 11:59:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 19:02:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_get_map(t_map *map, t_v2i pos)
 {
-	printf("[%d:%d]\n", pos.x, pos.y);
 	if (pos.x < 0 || pos.x >= map->size.x || pos.y < 0 || pos.y >= map->size.y)
 		return (0);
 	return (map->data[pos.x + pos.y * map->size.x]);
@@ -54,12 +53,14 @@ static int	ft_init_map(t_data *data, t_v2i size)
 	data->map.data = malloc(size.x * size.y * sizeof(int));
 	if (data->map.data == NULL)
 		return (0);
+	data->map.active_nbr = 0;
 	data->map.size = size;
 	data->map.entities = ft_vector_create(1024);
 	data->map.particles = ft_vector_create(1024);
 	if (data->map.entities == NULL || data->map.particles == NULL)
 		return (0);
-	ft_ent_add(data, ft_tank_create(data, ft_v2f(200, 200)));
+	if (!ft_ent_add(data, ft_tank_create(data, (t_v2f){200, 200})))
+		return (0);
 	data->eplay = ft_vector_get(data->map.entities, 0);
 	data->dplay = data->eplay->data;
 	i = -1;
@@ -70,7 +71,7 @@ static int	ft_init_map(t_data *data, t_v2i size)
 		else
 		{
 			data->map.data[i] = 0;
-			if ((rand() & 15) == 0)
+			if ((1 & 31) == 0)
 			{
 				ft_ent_add(data, ft_ennemy_create(
 						ft_v2f((i % size.x) * 32, (i / size.x) * 32), 0.0f));

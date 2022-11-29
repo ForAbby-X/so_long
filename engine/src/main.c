@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 11:42:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:45:19 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_start(t_engine *eng, t_data *data)
 {
-	printf("start!\n");
+	ft_putstr_fd("start!\n", 1);
 	return (ft_init_game(eng, data));
 }
 
@@ -23,13 +23,14 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 {	
 	(void)eng;
 	(void)dt;
+	ft_ent_check_activ(data);
 	ft_game_upd_ent(data, dt);
 	ft_game_render(data);
 	ft_game_all_par(data, dt);
 	ft_entity_collisions(data);
-	ft_circle(eng, (t_v2i){eng->mouse_x, eng->mouse_y}, 10, (t_color){0xFF8000});
 	ft_cast_ray(data, data->eplay->pos,
-		(t_v2f){data->cam.pos.x + eng->mouse_x, data->cam.pos.y + eng->mouse_y});
+		(t_v2f){data->cam.pos.x + eng->mouse_x,
+		data->cam.pos.y + eng->mouse_y});
 	return (1);
 }
 

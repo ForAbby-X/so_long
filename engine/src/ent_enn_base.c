@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 12:12:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:54:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 		self->dir = (t_v2f){0.0f, 0.0f};
 		if (dat->fire_cool >= 0.4f)
 		{
-			ft_ent_add(game, ft_bullet_create(0, self->pos, self->rot
-					+ ft_rand(-0.25f, 0.25f), self->uuid));
+			//ft_ent_add(game, ft_bullet_create(0, self->pos, self->rot
+			//		+ ft_rand(-0.25f, 0.25f), self->uuid));
 			dat->fire_cool = 0;
 		}
 	}

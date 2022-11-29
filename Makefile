@@ -39,6 +39,7 @@ SRC		= engine.c \
 		  collisions.c \
 		  uuid.c \
 		  entities.c \
+		  entities_utils.c \
 		  ent_tank.c \
 		  ent_tank_drawing.c \
 		  ent_bullet.c \
@@ -49,7 +50,7 @@ OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 # compiler
 CC		= clang
-CFLAGS	= -MMD -Wall -Wextra -Werror -Ofast
+CFLAGS	= -MMD -Wall -Wextra -Werror -g3
 
 # mlx library
 MLX		= ./engine/minilibx-linux/

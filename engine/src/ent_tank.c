@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 09:33:36 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:40:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,15 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	data = malloc(sizeof(t_dat_tank));
 	if (data == NULL)
 		return (free(ent), NULL);
+	data->spr = ft_cpy_sprite(game->eng, game->spr[0]);
+	if (data->spr == NULL)
+		return (free(data), free(ent), NULL);
 	data->ine = (t_v2f){0, 0};
 	data->acc = 0.0f;
 	data->vel = 0.0f;
 	data->top_rot = 0.0f;
 	data->fire_cool = 0.0f;
 	data->timer = 0.0f;
-	data->spr = ft_cpy_sprite(game->eng, game->spr[0]);
 	ent->data = data;
 	ent->display = &_ft_tank_display;
 	ent->update = &_ft_tank_update;

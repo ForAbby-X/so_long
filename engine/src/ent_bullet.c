@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/11/25 02:16:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:53:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 	dat->time += dt;
 	self->alive = !(dat->time >= 2.0f);
 	i = 0;
-	while (i < ft_vector_size(game->map.entities))
+	while (i < game->map.active_nbr - 1)
 	{
 		ent = ft_vector_get(game->map.entities, i);
 		if (ent != self && ent->type > 0 && ent->uuid != dat->shooter_id)
@@ -56,10 +56,10 @@ static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 	if (ft_v2fmag(ft_v2fsub(game->eplay->pos, self->pos)) < 25 || ft_get_map(
 			&game->map, ft_v2i(floor(self->pos.x / 32),
 				floor(self->pos.y / 32))) == 1)
-		{
-			ft_emmit_sparks(game, 6, self->pos, self->rot + M_PI);
-			self->alive = 0;
-		}
+	{
+		ft_emmit_sparks(game, 6, self->pos, self->rot + M_PI);
+		self->alive = 0;
+	}
 	return (1);
 }
 
