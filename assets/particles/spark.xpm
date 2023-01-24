@@ -1,0 +1,8 @@
+/* XPM */
+static char * spark_xpm[] = {
+"3 3 2 1",
+" 	c None",
+".	c #FFE600",
+"   ",
+" . ",
+"   "};

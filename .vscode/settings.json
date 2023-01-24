@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+		"map.h": "c",
+		"game.h": "c",
+		"vector.h": "c",
+		"cmath": "c",
+		"engine.h": "c",
+		"math.h": "c"
+	}
+}

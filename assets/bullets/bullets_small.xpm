@@ -1,0 +1,13 @@
+/* XPM */
+static char * bullets_small_xpm[] = {
+"32 3 7 1",
+" 	c None",
+".	c #ECBA31",
+"+	c #ECAE31",
+"@	c #EC9231",
+"#	c #EC6A31",
+"$	c #EC4B31",
+"%	c #EC5031",
+"                                ",
+"                         .+@#$%%",
+"                                "};

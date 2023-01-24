@@ -1,0 +1,28 @@
+static	void	_ft_unzip_ascii(t_color *address)
+{
+	uint32_t			u[3];
+	static char const	tab[]
+		= "gF^cagfooooolMaST40ASooooS68HQ02;P0LmcXQR607>Li`<oW_mo_oknO_gikooooo"
+		"ogoooook^ome[0cMkf[OooljKWENocWKggmg>LicW_LkOW?8icW>O]cW>MkKmeo_konoOk"
+		"ooNoooooomooooomkgoO`;j_mnagoon\\GkcG_jigok1]b7>Nikg^gi[e6LicWkLieJmgO"
+		"OooR6<8PP4N6_:68H9P5cW>L3Nmfgn\\MgoOX0O1oJ]mb08MaQomomjX0G^25h=n6mbW1L"
+		"6>g>M_Nmkgooo>Lieg>ghKe>LiaWgLieGM__ZMo1Zj_gk7Noo^KNoMljk_Og\\6mXLikW_"
+		"HkOV_Lace>m]cUEgOOMoon3W^1N3]nJmCW1Pn=g>M^6mkgoojQHgnmZg_og^gMgO>^kfmm"
+		"oOkg>Likg>ficg>Lm[_KMDS]_gkOooLicWglkKW?Lico?mIeEEmONmogn^nBofoogo_l@0"
+		"Sd<KaSnooog5`HQ0n;PAL1cX_Th>hkLkH<oWl7h1S25h^15dG>Roc`iQ^[XPk^o`oo";
+
+	u[0] = 0;
+	while (u[0] < 549)
+	{
+		u[1] = (tab[u[0] + 0] - '0') << 18 | (tab[u[0] + 1] - '0') << 12
+			| (tab[u[0] + 2] - '0') << 6 | (tab[u[0] + 3] - '0');
+		u[2] = -1;
+		while (++u[2] < 24)
+		{
+			address[u[0] * 6 + u[2]] = ft_color(0, 255, 255, 255);
+			if (u[1] & (1 << (23 - u[2])))
+				address[u[0] * 6 + u[2]] = ft_color(255, 0, 0, 0);
+		}
+		u[0] += 4;
+	}
+}
