@@ -6,13 +6,13 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 16:05:36 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:31:16 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static int	_ft_ennemy_display(t_entity *self, t_data *game)
+static void	_ft_ennemy_display(t_entity *self, t_data *game)
 {
 	t_dat_enn_base	*dat;
 	t_v2i			pos;
@@ -28,10 +28,9 @@ static int	_ft_ennemy_display(t_entity *self, t_data *game)
 		ft_v2i((float)dat->health / dat->max_health * 32, 3),
 		ft_color_inter(ft_color_d(0x008F00), ft_color_d(0x8F0000),
 			dat->health / dat->max_health));
-	return (1);
 }
 
-static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
+static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 {
 	t_dat_enn_base	*dat;
 	float			dist;
@@ -84,15 +83,13 @@ static int	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 		ft_eng_sel_spr(game->eng, 0);
 		self->alive = 0;
 	}
-	return (1);
 }
 
-static int	_ft_ennemy_destroy(t_entity *self, t_data *game)
+static void	_ft_ennemy_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
 	free((t_entity *)self);
-	return (1);
 }
 
 t_entity	*ft_ennemy_create(t_v2f pos, float rot)
@@ -106,7 +103,7 @@ t_entity	*ft_ennemy_create(t_v2f pos, float rot)
 	data = malloc(sizeof(t_dat_enn_base));
 	if (data == NULL)
 		return (free(ent), NULL);
-	data->time = 0.0f;
+	data->time = ft_rand(0.0f, 4.0f);
 	data->health = 100.0f;
 	data->max_health = 100.0f;
 	data->fire_cool = 0.0f;

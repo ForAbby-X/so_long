@@ -6,13 +6,13 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/23 17:36:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:15:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static int	_ft_coin_display(t_entity *self, t_data *game)
+static void	_ft_coin_display(t_entity *self, t_data *game)
 {
 	t_dat_coin	*data;
 
@@ -23,10 +23,9 @@ static int	_ft_coin_display(t_entity *self, t_data *game)
 	ft_put_sprite(game->eng, game->spr[32], (t_v2i){self->pos[0] - 6 \
 		- game->cam.pos[0], self->pos[1] - (26 + sinf(data->time * 4) * 8) \
 		- game->cam.pos[1]});
-	return (1);
 }
 
-static int	_ft_coin_update(t_entity *self, t_data *game, float dt)
+static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 {
 	t_dat_coin	*data;
 
@@ -41,17 +40,16 @@ static int	_ft_coin_update(t_entity *self, t_data *game, float dt)
 			(t_v2i){self->pos[0], self->pos[1]},
 			(t_v2i){16, 16}, self->rot);
 		ft_eng_sel_spr(game->eng, NULL);
+		ft_emmit_wood(game, self->pos);
 		self->alive = 0;
 	}
-	return (1);
 }
 
-static int	_ft_coin_destroy(t_entity *self, t_data *game)
+static void	_ft_coin_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
 	free((t_entity *)self);
-	return (1);
 }
 
 t_entity	*ft_coin_create(t_v2f pos)

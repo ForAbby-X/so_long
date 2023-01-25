@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 16:07:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:18:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_game_render(t_data *game)
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
 					- (t_v2i){game->eng->win_x / 2, game->eng->win_y / 2})
 				/ 6));
-	game->cam.pos = mouse - ft_v2idiv(game->cam.dim, 2);
+	game->cam.pos = mouse - game->cam.dim / 2;
 	game->cam.pos += ft_v2irot((t_v2i){-game->shake * 20, 0},
 			game->dplay->top_rot);
 	return (1);

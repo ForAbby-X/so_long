@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 17:41:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:47:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,4 @@ void	ft_map_unload(t_data *game)
 	game->eplay = NULL;
 	game->dplay = NULL;
 	game->map = NULL;
-	game->state = 3;
-	game->state_time = 0.0f;
 }

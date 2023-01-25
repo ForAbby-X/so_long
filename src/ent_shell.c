@@ -6,56 +6,53 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/08 12:02:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:21:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static int	_ft_shell_display(t_entity *self, t_data *game)
+static void	_ft_shell_display(t_entity *self, t_data *game)
 {
 	t_dat_shell	*dat;
 	int			anim;
 
 	dat = self->data;
 	anim = ((int)(dat->time * 10)) % 3;
-	ft_put_sprite_r(game->eng, game->spr[16 + anim], ft_v2i(self->pos[0]
-			- game->cam.pos[0], self->pos[1] - game->cam.pos[1]),
-		ft_v2i(4, 4), self->rot);
-	return (1);
+	ft_put_sprite_r(game->eng, game->spr[16 + anim], (t_v2i){self->pos[0]
+		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]},
+		(t_v2i){4, 4}, self->rot);
 }
 
-static int	_ft_shell_update(t_entity *self, t_data *game, float dt)
+static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 {
 	t_dat_shell	*dat;
 	t_entity	*ent;
 	t_length	i;
 
 	dat = self->data;
-	self->pos = self->pos + self->dir * dt;
 	dat->time += dt;
-	self->alive = !(dat->time >= 2.0f);
 	i = 0;
 	while (i < ft_vector_size(game->map->entities))
 	{
 		ent = ft_vector_get(game->map->entities, i);
-		if (ent != self && ent->type == 2)
-			if (ft_v2fmag(ent->pos - self->pos) < 15)
-			{
-				((t_dat_enn_base *)ent->data)->health = 0;
-				break ;
-			}
+		if (ent != self && ent->type == 2
+			&& ft_v2fmag(ent->pos - self->pos) < 15)
+		{
+			((t_dat_enn_base *)ent->data)->health = 0;
+			break ;
+		}
 		i++;
 	}
-	return (1);
+	self->pos += self->dir * dt;
+	self->alive = !(dat->time >= 2.0f);
 }
 
-static int	_ft_shell_destroy(t_entity *self, t_data *game)
+static void	_ft_shell_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
 	free((t_entity *)self);
-	return (1);
 }
 
 t_entity	*ft_shell_create(t_v2f pos, float rot)

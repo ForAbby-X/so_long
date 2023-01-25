@@ -6,35 +6,32 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/22 17:36:07 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:35:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static int	_ft_bullet_display(t_entity *self, t_data *game)
+static void	_ft_bullet_display(t_entity *self, t_data *game)
 {
 	t_dat_bullet	*dat;
 
 	dat = self->data;
-	ft_put_sprite_r(game->eng, game->spr[5 + dat->type], ft_v2i(self->pos[0]
-			- game->cam.pos[0], self->pos[1] - game->cam.pos[1]),
-		ft_v2i(28, 1), self->rot);
-	return (1);
+	ft_put_sprite_r(game->eng, game->spr[5 + dat->type], (t_v2i){self->pos[0]
+		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]},
+		(t_v2i){28, 1}, self->rot);
 }
 
-static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
+static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 {
 	t_entity		*ent;
 	t_length		i;
 	t_dat_bullet	*dat;
 
 	dat = self->data;
-	self->pos = self->pos + self->dir * dt;
-	dat->time += dt;
 	self->alive = !(dat->time >= 2.0f);
-	i = 0;
-	while (i < game->map->active_nbr - 1)
+	i = -1;
+	while (++i < game->map->active_nbr - 1)
 	{
 		ent = ft_vector_get(game->map->entities, i);
 		if (ent->uuid != dat->shooter_id && ent->type > 0 && ent->type != 3
@@ -50,7 +47,6 @@ static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 			self->alive = 0;
 			break ;
 		}
-		i++;
 	}
 	if (ft_v2fmag(game->eplay->pos - self->pos) < 25 || ft_get_map(
 			game->map, (t_v2i){floor(self->pos[0] / 32),
@@ -59,15 +55,15 @@ static int	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 		ft_emmit_sparks(game, 6, self->pos, self->rot + M_PI);
 		self->alive = 0;
 	}
-	return (1);
+	dat->time += dt;
+	self->pos = self->pos + self->dir * dt;
 }
 
-static int	_ft_bullet_destroy(t_entity *self, t_data *game)
+static void	_ft_bullet_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
 	free((t_entity *)self);
-	return (1);
 }
 
 t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid)

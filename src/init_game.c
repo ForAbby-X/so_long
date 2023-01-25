@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 16:10:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 17:41:21 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,25 @@ static int	ft_init_textures(t_engine *eng, t_data	*data)
 
 static int	ft_init_map(t_data *game)
 {
+	size_t	i;
+	t_map	*map[3];
+
 	game->maps = ft_pars_folder(game);
 	if (game->maps == NULL)
 		return (ft_putstr_fd("Error: Failed to allocate maps space.", 2), 0);
+	i = 0;
+	while (i < ft_vector_size(game->maps) - 1)
+	{
+		map[0] = ft_vector_get(game->maps, i);
+		map[1] = ft_vector_get(game->maps, i + 1);
+		if (ft_strncmp(map[0]->name, map[1]->name, 999) > 0)
+		{
+			ft_vector_swap(game->maps, i, i + 1);
+			i = 0;
+		}
+		else
+			i++;
+	}
 	return (1);
 }
 

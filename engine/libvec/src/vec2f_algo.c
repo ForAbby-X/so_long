@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 07:59:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 18:46:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:52:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_v2f	ft_v2fr(float r, float d)
 {
-	return (ft_v2f(cosf(r) * d, sinf(r) * d));
+	return ((t_v2f){cosf(r) * d, sinf(r) * d});
 }
 
 float	ft_v2fmag(t_v2f a)
@@ -38,6 +38,6 @@ t_v2f	ft_v2fnorm(t_v2f a, float n)
 
 	mag = ft_v2fmag(a);
 	if (mag == 0.0f)
-		return (ft_v2f(0.0f, 0.0f));
-	return (ft_v2fmul(ft_v2fdiv(a, mag), n));
+		return ((t_v2f){0.0f, 0.0f});
+	return (a / mag * n);
 }

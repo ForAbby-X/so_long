@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 17:59:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:49:48 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 37
+# define SPRITES_NBR 38
 
 # include "engine.h"
 # include "vector.h"
@@ -58,6 +58,7 @@ struct	s_camera
 /* MENU */
 void		ft_menu(t_data *game, t_vector	*maps);
 void		ft_entry(t_data *game);
+void		ft_exit(t_data *game, int crates, float meter);
 void		ft_death(t_data *game);
 
 char		ft_get_map(t_map *map, t_v2i pos);
@@ -159,9 +160,9 @@ struct	s_particle
 
 struct	s_entity
 {
-	int		(*display)(t_entity *self, t_data *game);
-	int		(*update)(t_entity *self, t_data *game, float delta_time);
-	int		(*destroy)(t_entity *self, t_data *game);
+	void	(*display)(t_entity *self, t_data *game);
+	void	(*update)(t_entity *self, t_data *game, float delta_time);
+	void	(*destroy)(t_entity *self, t_data *game);
 	t_v2f	pos;
 	t_v2f	dir;
 	float	rot;
@@ -185,9 +186,10 @@ typedef struct s_ray
 /* ENTITIES */
 struct s_dat_tank
 {
-	t_v2f		ine;
-	float		acc;
-	float		vel;
+	t_v2f		acc;
+	t_v2f		vel;
+	t_v2f		trac;
+	t_v2f		drag;
 	float		top_rot;
 	float		fire_cool;
 	float		timer;

@@ -6,25 +6,30 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 18:20:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 18:50:08 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static	void	ft_game(t_engine *eng, t_data *data, double dt)
+static	void	ft_game(t_engine *eng, t_data *game, double dt)
 {
-	ft_ent_check_activ(data);
-	ft_entity_collisions(data, dt);
-	ft_game_update_ent(data, dt);
-	ft_game_render(data);
-	ft_game_all_par(data, dt);
+	ft_ent_check_activ(game);
+	ft_entity_collisions(game, dt);
+	ft_game_update_ent(game, dt);
+	ft_game_render(game);
+	ft_game_all_par(game, dt);
 	ft_put_text(eng, (t_v2i){0, 0}, "la barre de surchauffe sera la", 3);
 	ft_put_text(eng, (t_v2i){0, 7 * 3}, "et la barre de vie ici...", 3);
 	ft_put_text(eng, (t_v2i){0, 7 * 2 * 3}, "la je ne sais pas quoi", 3);
 	ft_put_text(eng, (t_v2i){3, 597 - 9 * 2}, "[R] Menu Principal", 2);
-	if (eng->keys[XK_r] || data->state == 0)
-		ft_map_unload(data);
+	if (eng->keys[XK_r])
+	{
+		game->state = 4;
+		game->state_time = 0.0f;
+	}
+	if (game->state != 2)
+		ft_map_unload(game);
 }
 
 int	ft_loop(t_engine *eng, t_data *data, double dt)
@@ -46,6 +51,8 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 			data->state_time = 0.0f;
 		}
 	}
+	else if (data->state == 4)
+		ft_exit(data, 0, 0);
 	ft_put_text(data->eng, (t_v2i){800 - 14 * 14 - 2, 597 - 9 * 2},
 		"intra:alde-fre", 2);
 	return (1);

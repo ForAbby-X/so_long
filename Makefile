@@ -19,7 +19,8 @@ OBJDIR	=	./obj
 
 # src / includes / obj files
 SRC		= main.c \
-		  menu.c \
+		  menu_1.c \
+		  menu_2.c \
 		  map.c \
 		  parsing_1.c \
 		  parsing_2.c \

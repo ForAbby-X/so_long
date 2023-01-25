@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/23 16:38:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/25 13:46:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static void	ft_resolve_collision_circle(t_entity *ent_1, t_entity *ent_2)
 	float	mass;
 
 	diff = ent_2->pos - ent_1->pos;
-	max = ent_1->radius + ent_2->radius;
+	max = ent_1->radius * ent_1->radius + ent_2->radius * ent_2->radius;
 	dist = ft_v2fmag(diff);
-	dir = ft_v2fnorm(diff, (max - dist));
-	mass = ent_1->radius / max;
+	dir = ft_v2fnorm(diff, (ent_1->radius + ent_2->radius - dist));
+	mass = ent_1->radius * ent_1->radius / max;
 	ent_1->pos = ent_1->pos - dir * (1.0f - mass);
 	ent_2->pos = ent_2->pos + dir * mass;
 }
