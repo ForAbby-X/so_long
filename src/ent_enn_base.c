@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 18:31:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:40:15 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	_ft_ennemy_display(t_entity *self, t_data *game)
 	anim = ((int)(dat->fire_cool * 3) & 1);
 	ft_put_sprite_r(game->eng, game->spr[7 + dat->state * 2 + anim],
 		pos, ft_v2i(16, 16), self->rot);
-	ft_rect(game->eng, ft_v2iadd(pos, ft_v2i(-16, 18)),
-		ft_v2i((float)dat->health / dat->max_health * 32, 3),
-		ft_color_inter(ft_color_d(0x008F00), ft_color_d(0x8F0000),
-			dat->health / dat->max_health));
+	// ft_rect(game->eng, ft_v2iadd(pos, ft_v2i(-16, 18)),
+	// 	ft_v2i((float)dat->health / dat->max_health * 32, 3),
+	// 	ft_color_inter(ft_color_d(0x008F00), ft_color_d(0x8F0000),
+	// 		dat->health / dat->max_health));
 }
 
 static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)

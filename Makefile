@@ -19,6 +19,7 @@ OBJDIR	=	./obj
 
 # src / includes / obj files
 SRC		= main.c \
+		  utils.c \
 		  menu_1.c \
 		  menu_2.c \
 		  map.c \

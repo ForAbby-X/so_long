@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:48:37 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 18:46:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/27 17:03:04 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_sprite	*ft_sprite_p(t_engine *eng, char *path)
 	spr = malloc(sizeof(t_sprite));
 	if (spr == NULL)
 		return (NULL);
-	spr->img.image
-		= mlx_xpm_file_to_image(eng->mlx, path, &(spr->size[0]), &(spr->size[1]));
+	spr->img.image = mlx_xpm_file_to_image(eng->mlx, path,
+			&(spr->size[0]), &(spr->size[1]));
 	if (spr->img.image == NULL)
 		return (free(spr), NULL);
 	spr->img.data

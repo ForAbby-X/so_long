@@ -1,11 +1,11 @@
 /* XPM */
-static char * tank_trail_xpm[] = {
+static char * tank_trail_bloody_xpm[] = {
 "10 14 5 1",
 " 	c None",
-".	c #2E2E2E",
-"+	c #5D5D5D",
-"@	c #3B3B3B",
-"#	c #555555",
+".	c #43191C",
+"+	c #8F2E2B",
+"@	c #532325",
+"#	c #793331",
 "          ",
 "   . + +  ",
 " . @   . #",

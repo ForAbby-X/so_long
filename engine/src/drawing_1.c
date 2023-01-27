@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 18:46:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/27 13:55:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	ft_clear(t_engine *eng, t_color color)
 
 static void	ft_pt_circle(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 {
-	ft_draw(eng, ft_v2i(pos[0] + dim[0], pos[1] + dim[1]), color);
-	ft_draw(eng, ft_v2i(pos[0] - dim[0], pos[1] + dim[1]), color);
-	ft_draw(eng, ft_v2i(pos[0] + dim[0], pos[1] - dim[1]), color);
-	ft_draw(eng, ft_v2i(pos[0] - dim[0], pos[1] - dim[1]), color);
-	ft_draw(eng, ft_v2i(pos[0] + dim[1], pos[1] + dim[0]), color);
-	ft_draw(eng, ft_v2i(pos[0] - dim[1], pos[1] + dim[0]), color);
-	ft_draw(eng, ft_v2i(pos[0] + dim[1], pos[1] - dim[0]), color);
-	ft_draw(eng, ft_v2i(pos[0] - dim[1], pos[1] - dim[0]), color);
+	ft_draw(eng, (t_v2i){pos[0] + dim[0], pos[1] + dim[1]}, color);
+	ft_draw(eng, (t_v2i){pos[0] - dim[0], pos[1] + dim[1]}, color);
+	ft_draw(eng, (t_v2i){pos[0] + dim[0], pos[1] - dim[1]}, color);
+	ft_draw(eng, (t_v2i){pos[0] - dim[0], pos[1] - dim[1]}, color);
+	ft_draw(eng, (t_v2i){pos[0] + dim[1], pos[1] + dim[0]}, color);
+	ft_draw(eng, (t_v2i){pos[0] - dim[1], pos[1] + dim[0]}, color);
+	ft_draw(eng, (t_v2i){pos[0] + dim[1], pos[1] - dim[0]}, color);
+	ft_draw(eng, (t_v2i){pos[0] - dim[1], pos[1] - dim[0]}, color);
 }
 
 int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
@@ -84,7 +84,7 @@ int	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 		p[0] = 0;
 		while (p[0] < dim[0])
 		{
-			ft_draw(eng, ft_v2iadd(pos, p), color);
+			ft_draw(eng, pos + p, color);
 			p[0]++;
 		}
 		p[1]++;

@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 18:49:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:59:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 38
+# define SPRITES_NBR 39
 
 # include "engine.h"
 # include "vector.h"
@@ -54,6 +54,10 @@ struct	s_camera
 	t_v2i	pos;
 	t_v2i	dim;
 };
+
+/* UTILS */
+int			ft_check_col(t_color a, t_color b, int diff);
+int			ft_check_col_zone(t_sprite *spr, t_v2i pos, t_color b, int diff);
 
 /* MENU */
 void		ft_menu(t_data *game, t_vector	*maps);
@@ -190,6 +194,7 @@ struct s_dat_tank
 	t_v2f		vel;
 	t_v2f		trac;
 	t_v2f		drag;
+	t_v2f		bloody;
 	float		top_rot;
 	float		fire_cool;
 	float		timer;

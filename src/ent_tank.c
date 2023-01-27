@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 17:07:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/27 16:58:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ static void	_ft_tank_display(t_entity *self, t_data *game)
 		ft_emmit_smoke_pipe(game, 2, ft_v2f(self->pos[0], self->pos[1])
 			+ ft_v2fr(self->rot, -25));
 		ft_eng_sel_spr(game->eng, game->map->background);
-		ft_put_sprite_r(game->eng, game->spr[37],
-			(t_v2i){self->pos[0], self->pos[1]}, (t_v2i){5, 26}, self->rot);
+		ft_put_sprite_r(game->eng, game->spr[37 + (dat->bloody[0] > 0.0f)],
+			(t_v2i){self->pos[0], self->pos[1]} - ft_v2irot((t_v2i){0, 20},
+				self->rot), (t_v2i){5, 7}, self->rot);
+		ft_put_sprite_r(game->eng, game->spr[37 + (dat->bloody[1] > 0.0f)],
+			(t_v2i){self->pos[0], self->pos[1]} + ft_v2irot((t_v2i){0, 20},
+				self->rot), (t_v2i){5, 7}, self->rot);
 		ft_eng_sel_spr(game->eng, NULL);
 		dat->timer -= 0.0625f;
 	}
@@ -40,9 +44,16 @@ static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 	t_dat_tank	*dat;
 
 	dat = self->data;
-	(void)dt;
-	// self->dir = dat->ine * dat->vel; //* fabsf(ft_v2fdot(self->dir, pointing));
-	// self->pos = self->pos + self->dir * dt;
+	dat->bloody[0] = fmaxf(dat->bloody[0] - dt, 0.0f);
+	dat->bloody[1] = fmaxf(dat->bloody[1] - dt, 0.0f);
+	if (ft_check_col_zone(game->map->background, (t_v2i){self->pos[0],
+			self->pos[1]} - ft_v2irot((t_v2i){0, 20}, self->rot),
+			(t_color){0x64000C}, 5))
+		dat->bloody[0] = 2.0f;
+	if (ft_check_col_zone(game->map->background, (t_v2i){self->pos[0],
+			self->pos[1]} + ft_v2irot((t_v2i){0, 20}, self->rot),
+			(t_color){0x64000C}, 5))
+		dat->bloody[1] = 2.0f;
 	dat->top_rot = -atan2((game->cam.pos[0] + (int)game->eng->mouse_x)
 			- self->pos[0], (game->cam.pos[1] + (int)game->eng->mouse_y)
 			- self->pos[1]) + M_PI_2;
@@ -117,6 +128,7 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	data->vel = (t_v2f){0, 0};
 	data->trac = (t_v2f){0, 0};
 	data->drag = (t_v2f){0, 0};
+	data->bloody = (t_v2i){0, 0};
 	data->top_rot = 0.0f;
 	data->fire_cool = 0.0f;
 	data->timer = 0.0f;
