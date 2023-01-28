@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 17:21:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/28 18:52:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 
 	dat = self->data;
 	dat->time += dt;
+	self->alive = !(dat->time >= 2.0f);
 	i = 0;
 	while (i < ft_vector_size(game->map->entities))
 	{
@@ -40,12 +41,16 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 			&& ft_v2fmag(ent->pos - self->pos) < 15)
 		{
 			((t_dat_enn_base *)ent->data)->health = 0;
-			break ;
+			ft_emmit_explosion(game, self->pos, 20);
+			ft_eng_sel_spr(game->eng, game->map->background);
+			ft_put_sprite_r(game->eng, game->spr[40], (t_v2i){self->pos[0],
+				self->pos[1]}, (t_v2i){64, 64}, ft_rand(-M_PI, M_PI));
+			ft_eng_sel_spr(game->eng, NULL);
+			self->alive = 0;
 		}
 		i++;
 	}
 	self->pos += self->dir * dt;
-	self->alive = !(dat->time >= 2.0f);
 }
 
 static void	_ft_shell_destroy(t_entity *self, t_data *game)

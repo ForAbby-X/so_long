@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/27 16:59:07 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/28 18:48:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 39
+# define SPRITES_NBR 41
 
 # include "engine.h"
 # include "vector.h"
@@ -106,6 +106,8 @@ void		ft_emmit_blood(t_data *game, t_length nb, t_v2f pos, float rot);
 void		ft_emmit_pool_blood(t_data *game, t_length nb, t_v2f pos);
 void		ft_emmit_smoke_pipe(t_data *game, t_length nb, t_v2f pos);
 void		ft_emmit_wood(t_data *game, t_v2f pos);
+
+void		ft_emmit_explosion(t_data *game, t_v2f pos, float force);
 
 /* RAYCASTING */
 int			ft_cast_ray(t_data *game, t_v2f start, t_v2f end);
