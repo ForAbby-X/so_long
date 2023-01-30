@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 17:15:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:18:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static void	_ft_coin_display(t_entity *self, t_data *game)
 	t_dat_coin	*data;
 
 	data = self->data;
-	ft_put_sprite_r(game->eng, game->spr[31], (t_v2i){self->pos[0] \
-		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]}, \
-		(t_v2i){16, 16}, self->rot);
-	ft_put_sprite(game->eng, game->spr[32], (t_v2i){self->pos[0] - 6 \
-		- game->cam.pos[0], self->pos[1] - (26 + sinf(data->time * 4) * 8) \
+	ft_put_sprite_r(game->eng, game->spr[31], (t_rect){{self->pos[0]
+		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]},
+		(t_v2i){16, 16}}, self->rot);
+	ft_put_sprite(game->eng, game->spr[32], (t_v2i){self->pos[0] - 6
+		- game->cam.pos[0], self->pos[1] - (26 + sinf(data->time * 4) * 8)
 		- game->cam.pos[1]});
 }
 
@@ -29,16 +29,13 @@ static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 {
 	t_dat_coin	*data;
 
-	(void)self;
-	(void)game;
 	data = self->data;
 	data->time += dt;
-	if (ft_v2fmag(game->eplay->pos - self->pos) < 35.0f)
+	if (ft_v2fmag(game->eplay->pos - self->pos) < 31 + 12)
 	{
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_put_sprite_r(game->eng, game->spr[36],
-			(t_v2i){self->pos[0], self->pos[1]},
-			(t_v2i){16, 16}, self->rot);
+			(t_rect){{self->pos[0], self->pos[1]}, {16, 16}}, self->rot);
 		ft_eng_sel_spr(game->eng, NULL);
 		ft_emmit_wood(game, self->pos);
 		self->alive = 0;
@@ -70,10 +67,10 @@ t_entity	*ft_coin_create(t_v2f pos)
 	ent->destroy = &_ft_coin_destroy;
 	ent->pos = pos;
 	ent->dir = (t_v2f){0, 0};
-	ent->rot = ft_rand(0, M_PI_2);
+	ent->rot = ft_rand(-M_PI, M_PI);
 	ent->radius = 10;
 	ent->uuid = ft_get_uuid();
-	ent->type = 3;
+	ent->type = 20;
 	ent->alive = 1;
 	return (ent);
 }

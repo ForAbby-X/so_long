@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 18:47:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:12:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,26 @@ void	ft_map_load(t_data *game, t_map *map)
 	while (++i < map->size[0] * map->size[1])
 	{
 		cell = ft_get_map(map, (t_v2i){i % map->size[0], i / map->size[0]});
-		if (cell == '0' && (rand() & 15) == 0)
-			ft_ent_add(game, ft_ennemy_create(
-					ft_v2f((i % map->size[0]) * 32 + 16,
-						(i / map->size[0]) * 32 + 16), 0.0f));
+		if (cell == '0')
+		{
+			if ((rand() & 15) == 0)
+			{
+				ft_ent_add(game, ft_ennemy_create(
+						(t_v2f){(i % map->size[0]) * 32 + 16,
+						(i / map->size[0]) * 32 + 16}, 0.0f));
+			}
+			else if ((rand() % 25) <= ft_get_obj_prob(map,
+					(t_v2i){i % map->size[0], i / map->size[0]}) / 1.3)
+			{
+				ft_ent_add(game, ft_object_create(rand() & 3,
+						(t_v2f){(i % map->size[0]) * 32 + 16,
+						(i / map->size[0]) * 32 + 16}));
+			}
+		}
 		if (cell == 'P')
 			game->eplay = ft_ent_add(game, ft_tank_create(game,
-						ft_v2f((i % map->size[0]) * 32 + 16,
-							(i / map->size[0]) * 32 + 16)));
+						(t_v2f){(i % map->size[0]) * 32 + 16,
+						(i / map->size[0]) * 32 + 16}));
 		if (cell == 'C')
 			ft_ent_add(game, ft_coin_create((t_v2f){(i % map->size[0]) * 32
 					+ 16, (i / map->size[0]) * 32 + 16}));
@@ -46,6 +58,7 @@ void	ft_map_load(t_data *game, t_map *map)
 	game->dplay = game->eplay->data;
 	game->state = 1;
 	game->state_time = 0.0f;
+	game->map->score = 0.0f;
 }
 
 void	ft_map_unload(t_data *game)

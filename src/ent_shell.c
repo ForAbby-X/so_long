@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/28 18:52:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:14:15 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	_ft_shell_display(t_entity *self, t_data *game)
 
 	dat = self->data;
 	anim = ((int)(dat->time * 10)) % 3;
-	ft_put_sprite_r(game->eng, game->spr[16 + anim], (t_v2i){self->pos[0]
-		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]},
-		(t_v2i){4, 4}, self->rot);
+	ft_put_sprite_r(game->eng, game->spr[16 + anim], (t_rect){{self->pos[0]
+		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]}, {4, 4}},
+		self->rot);
 }
 
 static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
@@ -43,8 +43,8 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 			((t_dat_enn_base *)ent->data)->health = 0;
 			ft_emmit_explosion(game, self->pos, 20);
 			ft_eng_sel_spr(game->eng, game->map->background);
-			ft_put_sprite_r(game->eng, game->spr[40], (t_v2i){self->pos[0],
-				self->pos[1]}, (t_v2i){64, 64}, ft_rand(-M_PI, M_PI));
+			ft_put_sprite_r(game->eng, game->spr[40], (t_rect){{self->pos[0],
+				self->pos[1]}, {64, 64}}, ft_rand(-M_PI, M_PI));
 			ft_eng_sel_spr(game->eng, NULL);
 			self->alive = 0;
 		}
@@ -79,7 +79,7 @@ t_entity	*ft_shell_create(t_v2f pos, float rot)
 	ent->pos = pos;
 	ent->dir = ft_v2fr(rot, 400);
 	ent->rot = rot;
-	ent->radius = 4;
+	ent->radius = 0.0f;
 	ent->uuid = ft_get_uuid();
 	ent->type = -2;
 	ent->alive = 1;

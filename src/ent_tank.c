@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/28 18:38:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:06:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@ static void	_ft_tank_display(t_entity *self, t_data *game)
 	t_dat_tank	*dat;
 
 	dat = self->data;
-	ft_put_sprite_r(game->eng, dat->spr, (t_v2i){self->pos[0]
+	ft_put_sprite_r(game->eng, dat->spr, (t_rect){{self->pos[0]
 		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]},
-		(t_v2i){33, 27}, self->rot);
-	ft_put_sprite_r(game->eng, game->spr[1], (t_v2i){self->pos[0]
+	{33, 27}}, self->rot);
+	ft_put_sprite_r(game->eng, game->spr[1], (t_rect){{self->pos[0]
 		- game->cam.pos[0], self->pos[1] - game->cam.pos[1]},
-		(t_v2i){17, 15}, dat->top_rot);
+	{17, 15}}, dat->top_rot);
 	if (dat->timer >= 0.0625f)
 	{
 		ft_emmit_smoke_pipe(game, 2, ft_v2f(self->pos[0], self->pos[1])
 			+ ft_v2fr(self->rot, -25));
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_put_sprite_r(game->eng, game->spr[37 + (dat->bloody[0] > 0.0f)],
-			(t_v2i){self->pos[0], self->pos[1]} - ft_v2irot((t_v2i){0, 20},
-				self->rot), (t_v2i){5, 7}, self->rot);
+			(t_rect){(t_v2i){self->pos[0], self->pos[1]}
+			- ft_v2irot((t_v2i){0, 20}, self->rot), {5, 7}}, self->rot);
 		ft_put_sprite_r(game->eng, game->spr[37 + (dat->bloody[1] > 0.0f)],
-			(t_v2i){self->pos[0], self->pos[1]} + ft_v2irot((t_v2i){0, 20},
-				self->rot), (t_v2i){5, 7}, self->rot);
+			(t_rect){(t_v2i){self->pos[0], self->pos[1]}
+			+ ft_v2irot((t_v2i){0, 20}, self->rot), {5, 7}}, self->rot);
 		ft_eng_sel_spr(game->eng, NULL);
 		dat->timer -= 0.0625f;
 	}
@@ -100,6 +100,7 @@ static void	_ft_tank_update(t_entity *self, t_data *game, float dt)
 	dat->acc = (dat->trac + dat->drag + rolling + coef) / 4.0f;
 	dat->vel += dat->acc * dt;
 	self->pos += dat->vel * 32.0f * dt;
+	game->map->score += ft_v2fmag(dat->vel) * 32.0f * dt;
 	_ft_tank_update2(self, game, dt);
 }
 
@@ -138,10 +139,15 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	ent->destroy = &_ft_tank_destroy;
 	ent->pos = pos;
 	ent->dir = (t_v2f){0, 0};
-	ent->rot = M_PI_4;
+	ent->rot = ft_rand(-M_PI, M_PI);
 	ent->radius = 31.0f;
 	ent->uuid = ft_get_uuid();
 	ent->type = 0;
 	ent->alive = 1;
+	ft_eng_sel_spr(game->eng, game->map->background);
+	ft_put_sprite_r(game->eng, game->spr[41],
+		(t_rect){{pos[0], pos[1]}, {84, 96}}, ent->rot);
+	ft_eng_sel_spr(game->eng, NULL);
+
 	return (ent);
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:11:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/28 18:36:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:18:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 static int	_ft_display_menu(t_data *game, t_map *map, int i)
 {
+	ft_rect(game->eng, (t_v2i){33, 50 + 180 + i * 12 * 3}, (t_v2i){7 * 3
+		* ft_strlen(map->name), 9 * 3}, ft_color_d(0x191970));
 	if (game->eng->mouse_x >= 33 && game->eng->mouse_x < 33 + 21
 		* (int)ft_strlen(map->name) && game->eng->mouse_y >= 50 + 180 + i * 12
 		* 3 && game->eng->mouse_y < 257 + i * 12 * 3)
 	{
-		ft_rect(game->eng, (t_v2i){33, 50 + 180 + i * 12 * 3}, (t_v2i){7 * 3
-			* ft_strlen(map->name), 9 * 3}, ft_color_d(0x3f1d00));
 		ft_rect(game->eng, (t_v2i){30, 50 + 177 + i * 12 * 3}, (t_v2i){7 * 3
-			* ft_strlen(map->name), 9 * 3}, ft_color_d(0x623c22));
+			* ft_strlen(map->name), 9 * 3}, ft_color_d(0x6495ED));
 		ft_put_text(game->eng, (t_v2i){30, 227 + i * 12 * 3}, map->name, 3);
 		return (1);
 	}
-	ft_rect(game->eng, (t_v2i){33, 50 + 180 + i * 12 * 3}, (t_v2i){7 * 3
-		* ft_strlen(map->name), 9 * 3}, ft_color_d(0x532f16));
 	ft_put_text(game->eng, (t_v2i){33, 50 + 180 + i * 12 * 3}, map->name, 3);
 	return (0);
 }
@@ -69,7 +67,7 @@ void	ft_menu(t_data *game, t_vector	*maps)
 	ft_put_sprite_s(game->eng, game->spr[29 + ((int)(game->time * 4) & 1)],
 		(t_v2i){ft_eng_size_x(game->eng) * 0.55,
 		ft_eng_size_y(game->eng) * 0.55}, 6);
-	ft_put_sprite(game->eng, game->spr[27], (t_v2i){9, 6});
+	ft_put_sprite(game->eng, game->spr[27], (t_v2i){29, 36});
 	ft_put_text(game->eng, (t_v2i){30, 180}, "Choisis une carte:", 4);
 	i = -1;
 	sel = -1;

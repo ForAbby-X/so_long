@@ -42,7 +42,8 @@ SRC		= main.c \
 		  ent_enn_base.c \
 		  ent_shell.c \
 		  ent_coin.c \
-		  ent_exit.c
+		  ent_exit.c \
+		  ent_objects.c
 
 INC		= game.h
 

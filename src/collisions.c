@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 13:46:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:51:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ static void	ft_resolve_collision_circle(t_entity *ent_1, t_entity *ent_2)
 	mass = ent_1->radius * ent_1->radius / max;
 	ent_1->pos = ent_1->pos - dir * (1.0f - mass);
 	ent_2->pos = ent_2->pos + dir * mass;
+	ent_1->pressure += ft_v2fmag(dir * (1.0f - mass));
+	ent_2->pressure += ft_v2fmag(dir * mass);
 }
 
 static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float dt)
@@ -63,7 +65,10 @@ static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float dt)
 				if (isnan(over))
 					over = 0;
 				if (over > 0)
+				{
 					ent->pos = ent->pos - ft_v2fnorm(c[2], over * 32);
+					ent->pressure += ft_v2fmag(ft_v2fnorm(c[2], over * 32));
+				}
 			}
 		}
 	}
@@ -86,14 +91,13 @@ void	ft_entity_collisions(t_data *game, float dt)
 			if (i != j && ent_1->type > 0 && ent_1->radius > 0.0f)
 			{
 				ent_2 = ft_vector_get(game->map->entities, j);
-				if (ent_2->type > 0 && ent_2->radius > 0.0f)
+				if (ent_2->radius > 0.0f)
 					if (ft_is_overlap_circle(ent_1, ent_2))
 						ft_resolve_collision_circle(ent_1, ent_2);
 			}
 			j++;
 		}
-		if (ent_1->type >= 0)
-			ft_resolve_collision_square(game, ent_1, dt);
+		ft_resolve_collision_square(game, ent_1, dt);
 		i++;
 	}
 }

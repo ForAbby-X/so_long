@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 14:18:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:02:44 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	ft_game_render_ui(t_data *game)
 			game->dplay->fire_cool / 4.0f * 200, 200), 20},
 		ft_color_inter(ft_color_d(0x900A00), ft_color_d(0x65A165),
 			game->dplay->fire_cool / 4.0f));
-	ft_put_sprite_s(game->eng, game->spr[19], ft_v2i(0, 0), 2);
+	ft_put_sprite_s(game->eng, game->spr[19], (t_v2i){0, 0}, 2);
+	ft_put_nbr(game->eng, (t_v2i){10, 40}, game->map->score / 32, 2);
 }
 
 int	ft_game_render_map(t_data *data)
@@ -65,11 +66,11 @@ int	ft_game_render_map(t_data *data)
 					- (data->cam.pos[1] / 32. - data->cam.pos[1] / 32)) * 32;
 			wpos = pos + data->cam.pos / 32;
 			if (ft_get_map(data->map, wpos) == 'E')
-				ft_put_sprite_solid(data->eng, data->spr[33], rpos);
+				ft_put_sprite(data->eng, data->spr[33], rpos);
 			else
-				ft_put_sprite_solid(data->eng, data->spr[2], rpos);
+				ft_put_sprite(data->eng, data->spr[2], rpos);
 			if (ft_get_map(data->map, wpos) == '1')
-				ft_put_sprite_solid(data->eng, data->spr[3], rpos);
+				ft_put_sprite(data->eng, data->spr[3], rpos);
 			else
 				ft_put_sprite_part(data->eng, data->map->background, rpos,
 					(t_rect){wpos * 32, (t_v2i){32, 32}});
@@ -103,6 +104,9 @@ int	ft_game_render_ent(t_data *data)
 	{
 		ent[0] = (t_entity *)ft_vector_get(data->map->entities, i++);
 		ent[0]->display(ent[0], data);
+		// ft_put_nbr(data->eng, (t_v2i){ent[0]->pos[0] - data->cam.pos[0],
+		// 	ent[0]->pos[1] - data->cam.pos[1]}, ent[0]->pressure * 1000, 2);
+		ent[0]->pressure = 0.0f;
 	}
 	return (1);
 }

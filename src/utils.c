@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:43:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/27 16:59:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 13:19:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,25 @@ int	ft_check_col_zone(t_sprite *spr, t_v2i pos, t_color b, int diff)
 		xy[1]++;
 	}
 	return (0);
+}
+
+int	ft_get_obj_prob(t_map *map, t_v2i pos)
+{
+	int		count;
+	t_v2i	xy;
+
+	count = 0;
+	xy[1] = pos[1] - 2;
+	while (xy[1] < pos[1] + 2)
+	{
+		xy[0] = pos[0] - 2;
+		while (xy[0] < pos[0] + 2)
+		{
+			if (ft_get_map(map, xy) == '1')
+				count++;
+			xy[0]++;
+		}
+		xy[1]++;
+	}
+	return (count);
 }

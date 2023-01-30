@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/28 18:48:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 14:49:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 41
+# define SPRITES_NBR 50
 
 # include "engine.h"
 # include "vector.h"
@@ -37,6 +37,7 @@ typedef struct s_dat_enn_base	t_dat_enn_base;
 typedef struct s_dat_shell		t_dat_shell;
 typedef struct s_dat_coin		t_dat_coin;
 typedef struct s_dat_exit		t_dat_exit;
+typedef struct s_dat_object		t_dat_object;
 
 struct	s_map
 {
@@ -47,6 +48,7 @@ struct	s_map
 	t_vector	*particles;
 	t_sprite	*background;
 	char		*name;
+	float		score;
 };
 
 struct	s_camera
@@ -58,6 +60,7 @@ struct	s_camera
 /* UTILS */
 int			ft_check_col(t_color a, t_color b, int diff);
 int			ft_check_col_zone(t_sprite *spr, t_v2i pos, t_color b, int diff);
+int			ft_get_obj_prob(t_map *map, t_v2i pos);
 
 /* MENU */
 void		ft_menu(t_data *game, t_vector	*maps);
@@ -130,6 +133,7 @@ t_entity	*ft_ennemy_create(t_v2f pos, float rot);
 t_entity	*ft_shell_create(t_v2f pos, float rot);
 t_entity	*ft_coin_create(t_v2f pos);
 t_entity	*ft_exit_create(t_v2f pos);
+t_entity	*ft_object_create(int type, t_v2f pos);
 
 /* STRUCTURES */
 struct s_data
@@ -173,6 +177,7 @@ struct	s_entity
 	t_v2f	dir;
 	float	rot;
 	float	radius;
+	float	pressure;
 	void	*data;
 	t_uuid	uuid;
 	int		type;
@@ -233,6 +238,12 @@ struct s_dat_exit
 {
 	int		is_open;
 	float	time;
+};
+
+struct s_dat_object
+{
+	int		type;
+	float	health;
 };
 
 #endif

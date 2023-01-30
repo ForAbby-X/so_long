@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 15:57:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/29 12:59:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	ft_get_border(t_sprite *spr,
 	t_v2i	cor[4];
 	int		n;
 
-	cor[0] = ft_v2irot(ft_v2i(-cen[0], -cen[1]), rot);
-	cor[1] = ft_v2irot(ft_v2i(-cen[0], spr->size[1] - cen[1]), rot);
-	cor[2] = ft_v2irot(ft_v2i(spr->size[0] - cen[0], -cen[1]), rot);
-	cor[3] = ft_v2irot(ft_v2isub(spr->size, cen), rot);
+	cor[0] = ft_v2irot((t_v2i){-cen[0], -cen[1]}, rot);
+	cor[1] = ft_v2irot((t_v2i){-cen[0], spr->size[1] - cen[1]}, rot);
+	cor[2] = ft_v2irot((t_v2i){spr->size[0] - cen[0], -cen[1]}, rot);
+	cor[3] = ft_v2irot(spr->size - cen, rot);
 	out[0] = cor[0];
 	out[1] = cor[0];
 	n = 1;
@@ -84,22 +84,22 @@ void	ft_get_border(t_sprite *spr,
 }
 
 int	ft_put_sprite_r(t_engine *eng, t_sprite *spr,
-			t_v2i pos, t_v2i cen, float rot)
+			t_rect i, float rot)
 {
 	t_v2i	dim;
 	t_v2i	read;
 	t_v2i	bord[2];
 
-	ft_get_border(spr, cen, rot, bord);
+	ft_get_border(spr, i.dim, rot, bord);
 	dim[1] = bord[0][1];
 	while (dim[1] <= bord[1][1])
 	{
 		dim[0] = bord[0][0];
 		while (dim[0] <= bord[1][0])
 		{
-			read[0] = floor(cen[0] + cosf(rot) * dim[0] + sinf(rot) * dim[1]);
-			read[1] = floor(cen[1] - sinf(rot) * dim[0] + cosf(rot) * dim[1]);
-			ft_draw(eng, ft_v2iadd(pos, dim), ft_get_color(spr, read));
+			read[0] = floor(i.dim[0] + cosf(rot) * dim[0] + sinf(rot) * dim[1]);
+			read[1] = floor(i.dim[1] - sinf(rot) * dim[0] + cosf(rot) * dim[1]);
+			ft_draw(eng, i.pos + dim, ft_get_color(spr, read));
 			dim[0]++;
 		}
 		dim[1]++;

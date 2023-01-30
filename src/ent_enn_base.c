@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/27 16:40:15 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 15:24:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	_ft_ennemy_display(t_entity *self, t_data *game)
 			self->pos[1] - game->cam.pos[1]);
 	anim = ((int)(dat->fire_cool * 3) & 1);
 	ft_put_sprite_r(game->eng, game->spr[7 + dat->state * 2 + anim],
-		pos, ft_v2i(16, 16), self->rot);
+		(t_rect){pos, {16, 16}}, self->rot);
 	// ft_rect(game->eng, ft_v2iadd(pos, ft_v2i(-16, 18)),
 	// 	ft_v2i((float)dat->health / dat->max_health * 32, 3),
 	// 	ft_color_inter(ft_color_d(0x008F00), ft_color_d(0x8F0000),
@@ -64,7 +64,7 @@ static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	else
 		self->dir = ft_v2f(0, 0);
 	self->pos += self->dir * dt;
-	if (ft_v2fmag(game->eplay->pos - self->pos) < 50)
+	if (ft_v2fmag(game->eplay->pos - self->pos) < 50 || self->pressure > 5.0f)
 	{
 		dat->health = 0.0f;
 		ft_emmit_blood(game, 60, self->pos, self->rot + M_PI);
@@ -75,11 +75,9 @@ static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 		ft_emmit_pool_blood(game, 20, self->pos);
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_put_sprite_r(game->eng, game->spr[24],
-			ft_v2i(self->pos[0], self->pos[1]),
-			ft_v2i(16, 14), self->rot + M_PI);
+			(t_rect){{self->pos[0], self->pos[1]}, {16, 14}}, self->rot + M_PI);
 		ft_put_sprite_r(game->eng, game->spr[15],
-			ft_v2i(self->pos[0], self->pos[1]),
-			ft_v2i(16, 16), self->rot + M_PI);
+			(t_rect){{self->pos[0], self->pos[1]}, {16, 16}}, self->rot + M_PI);
 		ft_eng_sel_spr(game->eng, 0);
 		self->alive = 0;
 	}
@@ -115,7 +113,7 @@ t_entity	*ft_ennemy_create(t_v2f pos, float rot)
 	ent->pos = pos;
 	ent->dir = (t_v2f){0, 0};
 	ent->rot = rot;
-	ent->radius = 14;
+	ent->radius = 15.0f;
 	ent->uuid = ft_get_uuid();
 	ent->type = 2;
 	ent->alive = 1;

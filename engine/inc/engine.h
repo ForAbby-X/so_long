@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/27 14:21:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/29 13:21:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,15 @@ int			ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
 void		ft_get_border(t_sprite *spr,
 				t_v2i cen, float rot, t_v2i	out[2]);
 int			ft_put_sprite_r(t_engine *eng, t_sprite *spr,
-				t_v2i pos, t_v2i cen, float rot);
+				t_rect inf, float rot);
 
 /* [3] SPRITE */
-int			ft_draw_solid(t_engine *eng, t_v2i pos, t_color color);
 int			ft_put_sprite_part(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_rect rect);
 int			ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_rect_s rect_t);
-int			ft_put_sprite_solid(t_engine *eng, t_sprite *spr, t_v2i pos);
 void		ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size);
+void		ft_put_nbr(t_engine *eng, t_v2i pos, int nbr, t_length size);
 
 /* ENGINE EVENT */
 /* [1] KEYS AND MOUSE */

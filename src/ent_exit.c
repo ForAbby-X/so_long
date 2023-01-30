@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 18:49:07 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/01/30 17:27:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	_ft_exit_count(t_object obj)
 	t_entity	*ent;
 
 	ent = obj;
-	if (ent->type == 3)
+	if (ent->type == 20)
 		return (0);
 	return (1);
 }
@@ -25,13 +25,18 @@ static int	_ft_exit_count(t_object obj)
 static void	_ft_exit_display(t_entity *self, t_data *game)
 {
 	t_dat_exit	*data;
+	float		s;
 
 	(void)game;
 	data = self->data;
-	if (data->is_open)
-		ft_put_sprite(game->eng, game->spr[34], (t_v2i){self->pos[0] - 64 \
-		- game->cam.pos[0], self->pos[1] - 64 \
-		- game->cam.pos[1]});
+	if (data->is_open || 1)
+	{
+		s = sinf(game->time);
+		s = s * s * s;
+		ft_put_sprite_r(game->eng, game->spr[34], (t_rect){{self->pos[0]
+			- game->cam.pos[0], self->pos[1] - game->cam.pos[1]}, {14, 0}},
+			s * M_PI / 5.0f);
+	}
 }
 
 static void	_ft_exit_update(t_entity *self, t_data *game, float dt)
