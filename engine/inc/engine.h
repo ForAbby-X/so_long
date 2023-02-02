@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/29 13:21:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 13:22:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int			ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
 int			ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
 void		ft_get_border(t_sprite *spr,
 				t_v2i cen, float rot, t_v2i	out[2]);
-int			ft_put_sprite_r(t_engine *eng, t_sprite *spr,
-				t_rect inf, float rot);
+int			ft_put_sprite_r(t_engine *eng, t_sprite *spr, t_rect i, float rot);
 
 /* [3] SPRITE */
 int			ft_put_sprite_part(t_engine *eng, t_sprite *spr,

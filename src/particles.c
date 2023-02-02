@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 06:02:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/28 18:27:19 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:55:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,10 +133,10 @@ void	ft_emmit_explosion(t_data *game, t_v2f pos, float force)
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
-		par->dir = ft_v2fr(ft_rand(-M_PI, M_PI), ft_rand(0, 165));
+		par->dir = ft_v2fr(ft_rand(-M_PI, M_PI), ft_rand(0, 800));
 		par->accel = 0.0f;
 		par->time = 0.0f;
-		par->life_time = ft_rand(0.45f, 0.55f);
+		par->life_time = (800.0f - ft_v2fmag(par->dir)) / 1500.0f;
 		par->spr = game->spr[22 + ((rand() & 3) == 0) * 4];
 		par->off = (t_v2i){3, 3};
 		ft_vector_add(game->map->particles, par);
@@ -149,10 +149,10 @@ void	ft_emmit_explosion(t_data *game, t_v2f pos, float force)
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
-		par->dir = ft_v2fr(rot, ft_rand(140, 185));
+		par->dir = ft_v2fr(rot, ft_rand(140, 185) * 6);
 		par->accel = 0.0f;
 		par->time = 0.0f;
-		par->life_time = ft_rand(0.55f, 0.85f);
+		par->life_time = (185.0f - ft_v2fmag(par->dir)) / 1000.0f;
 		par->spr = game->spr[39];
 		par->off = (t_v2i){3, 3};
 		ft_vector_add(game->map->particles, par);

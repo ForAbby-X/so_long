@@ -6,13 +6,13 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 09:39:50 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 18:46:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 12:08:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static void	_ft_setup_ray(t_ray *ray, t_v2f start)
+static void	_ft_setup_ray(t_ray *ray, t_v2f st)
 {
 	if (ray->dir[0] != 0.0f)
 		ray->delta_dist[0] = fabsf(1.0f / ray->dir[0]);
@@ -21,22 +21,22 @@ static void	_ft_setup_ray(t_ray *ray, t_v2f start)
 	if (ray->dir[0] < 0)
 	{
 		ray->step[0] = -1;
-		ray->side_dist[0] = (start[0] - ray->pos[0]) * ray->delta_dist[0];
+		ray->side_dist[0] = (st[0] - ray->pos[0]) * ray->delta_dist[0];
 	}
 	else
 	{
 		ray->step[0] = 1;
-		ray->side_dist[0] = (ray->pos[0] + 1.0f - start[0]) * ray->delta_dist[0];
+		ray->side_dist[0] = (ray->pos[0] + 1.0f - st[0]) * ray->delta_dist[0];
 	}
 	if (ray->dir[1] < 0)
 	{
 		ray->step[1] = -1;
-		ray->side_dist[1] = (start[1] - ray->pos[1]) * ray->delta_dist[1];
+		ray->side_dist[1] = (st[1] - ray->pos[1]) * ray->delta_dist[1];
 	}
 	else
 	{
 		ray->step[1] = 1;
-		ray->side_dist[1] = (ray->pos[1] + 1.0f - start[1]) * ray->delta_dist[1];
+		ray->side_dist[1] = (ray->pos[1] + 1.0f - st[1]) * ray->delta_dist[1];
 	}
 }
 

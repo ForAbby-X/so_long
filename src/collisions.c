@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:51:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:05:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_is_overlap_circle(t_entity *ent_1, t_entity *ent_2)
 	return (0);
 }
 
-static void	ft_resolve_collision_circle(t_entity *ent_1, t_entity *ent_2)
+static void	ft_resolve_collision_circle(t_entity *e1, t_entity *e2, float dt)
 {
 	t_v2f	diff;
 	float	max;
@@ -32,24 +32,24 @@ static void	ft_resolve_collision_circle(t_entity *ent_1, t_entity *ent_2)
 	t_v2f	dir;
 	float	mass;
 
-	diff = ent_2->pos - ent_1->pos;
-	max = ent_1->radius * ent_1->radius + ent_2->radius * ent_2->radius;
+	diff = e2->pos - e1->pos;
+	max = e1->radius * e1->radius + e2->radius * e2->radius;
 	dist = ft_v2fmag(diff);
-	dir = ft_v2fnorm(diff, (ent_1->radius + ent_2->radius - dist));
-	mass = ent_1->radius * ent_1->radius / max;
-	ent_1->pos = ent_1->pos - dir * (1.0f - mass);
-	ent_2->pos = ent_2->pos + dir * mass;
-	ent_1->pressure += ft_v2fmag(dir * (1.0f - mass));
-	ent_2->pressure += ft_v2fmag(dir * mass);
+	dir = ft_v2fnorm(diff, (e1->radius + e2->radius - dist));
+	mass = e1->radius * e1->radius / max;
+	e1->pos -= dir * (1.0f - mass);
+	e2->pos += dir * mass;
+	e1->pressure += ft_v2fmag(dir * (1.0f - mass)) / dt;
+	e2->pressure += ft_v2fmag(dir * mass) / dt;
 }
 
-static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float dt)
+static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float d)
 {
 	t_v2i	cell;
 	t_v2f	c[3];
 	float	over;
 
-	c[1] = (ent->pos + ent->dir * dt) / 32;
+	c[1] = (ent->pos + ent->dir * d) / 32;
 	cell[1] = (int)fmaxf(ent->pos[1] / 32 - 1, 0) - 1;
 	while (++cell[1] <= fminf(ent->pos[1] / 32 + 1, game->map->size[1]))
 	{
@@ -66,8 +66,8 @@ static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float dt)
 					over = 0;
 				if (over > 0)
 				{
-					ent->pos = ent->pos - ft_v2fnorm(c[2], over * 32);
-					ent->pressure += ft_v2fmag(ft_v2fnorm(c[2], over * 32));
+					ent->pos -= ft_v2fnorm(c[2], over * 32);
+					ent->pressure += ft_v2fmag(ft_v2fnorm(c[2], over * 32)) / d;
 				}
 			}
 		}
@@ -93,7 +93,7 @@ void	ft_entity_collisions(t_data *game, float dt)
 				ent_2 = ft_vector_get(game->map->entities, j);
 				if (ent_2->radius > 0.0f)
 					if (ft_is_overlap_circle(ent_1, ent_2))
-						ft_resolve_collision_circle(ent_1, ent_2);
+						ft_resolve_collision_circle(ent_1, ent_2, dt);
 			}
 			j++;
 		}

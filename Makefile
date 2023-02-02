@@ -29,7 +29,6 @@ SRC		= main.c \
 		  map_loader.c \
 		  game_render.c \
 		  game_render_2.c \
-		  game_drawing.c \
 		  particles.c \
 		  raycast.c \
 		  collisions.c \
@@ -40,6 +39,7 @@ SRC		= main.c \
 		  ent_tank_drawing.c \
 		  ent_bullet.c \
 		  ent_enn_base.c \
+		  ent_enn_action.c \
 		  ent_shell.c \
 		  ent_coin.c \
 		  ent_exit.c \

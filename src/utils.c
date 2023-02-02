@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:43:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 13:19:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:49:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,33 @@ int	ft_get_obj_prob(t_map *map, t_v2i pos)
 		xy[1]++;
 	}
 	return (count);
+}
+
+void	ft_explosion(t_data *game, t_v2f pos, float power)
+{
+	t_length	i;
+	t_entity	*ent;
+	float		damage;
+	t_v2f		diff;
+
+	ft_emmit_explosion(game, pos, power);
+	ft_eng_sel_spr(game->eng, game->map->background);
+	ft_put_sprite_r(game->eng, game->spr[40], (t_rect){{pos[0], pos[1]},
+	{64, 64}}, ft_rand(-M_PI, M_PI));
+	ft_eng_sel_spr(game->eng, NULL);
+	i = 0;
+	while (i < game->map->active_nbr)
+	{
+		ent = ft_vector_get(game->map->entities, i);
+		i++;
+		diff = ent->pos - pos;
+		damage = fminf(fmaxf(ft_v2fmag(diff), 0.0f), 180.0f) / 1.4f / 128.0f;
+		damage = (1.0f - (damage * damage * damage)) * 110.0f;
+		if (damage < 0.5f || ft_cast_ray(game, pos, ent->pos) == 0)
+			continue ;
+		if (ent->type == 2)
+			ft_damage_enn(game, ent, damage, atan2f(diff[1], diff[0]));
+		if (ent->type == 10)
+			((t_dat_object *)ent->data)->health -= damage;
+	}
 }

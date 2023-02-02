@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:49:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:17:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ struct	s_camera
 int			ft_check_col(t_color a, t_color b, int diff);
 int			ft_check_col_zone(t_sprite *spr, t_v2i pos, t_color b, int diff);
 int			ft_get_obj_prob(t_map *map, t_v2i pos);
+void		ft_explosion(t_data *game, t_v2f pos, float power);
 
 /* MENU */
 void		ft_menu(t_data *game, t_vector	*maps);
@@ -97,12 +98,6 @@ t_map		*ft_pars_file(t_data *game, char *str);
 
 int			ft_check_map(t_map *map);
 
-/* DRAWING */
-int			ft_drawh(t_data *game, t_v2i pos, t_color color, uint8_t height);
-int			ft_put_sprite_h(t_data *game, t_sprite *spr, t_v2i pos);
-int			ft_put_sprite_rh(t_data *game, t_sprite *spr,
-				t_v2i pos, t_v2i cen, float rot);
-
 /* PARTICLES */
 void		ft_emmit_sparks(t_data *game, t_length nb, t_v2f pos, float rot);
 void		ft_emmit_blood(t_data *game, t_length nb, t_v2f pos, float rot);
@@ -126,6 +121,8 @@ t_entity	*ft_ent_add(t_data *game, t_entity *ent);
 t_entity	*ft_ent_get(t_data *game, t_length index);
 
 void		ft_paint_tank(t_data *game, t_entity *tank, t_entity *enn_pos);
+
+void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
 
 t_entity	*ft_tank_create(t_data *game, t_v2f pos);
 t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid);

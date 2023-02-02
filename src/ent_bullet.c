@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 15:35:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:19:57 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,26 +38,18 @@ static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 			&& ft_v2fmag(ent->pos - self->pos) < ent->radius)
 		{
 			if (ent->type == 2)
-			{
-				((t_dat_enn_base *)ent->data)->health -= ft_rand(15, 25);
-				ft_emmit_blood(game, 10, self->pos, self->rot);
-				ft_eng_sel_spr(game->eng, game->map->background);
-				ft_put_sprite_r(game->eng, game->spr[23],
-					(t_rect){{self->pos[0], self->pos[1]}, {11, 13}},
-					self->rot + ft_rand(-0.2f, 0.2f));
-				ft_eng_sel_spr(game->eng, 0);
-				self->alive = 0;
-			}
-			if (ent->type == 10)
+				ft_damage_enn(game, ent, ft_rand(15, 25), self->rot);
+			else if (ent->type == 10)
 			{
 				((t_dat_object *)ent->data)->health -= ft_rand(15, 25);
 				if (((t_dat_object *)ent->data)->type == 3)
 					ft_emmit_wood(game, self->pos);
 				else
 					ft_emmit_sparks(game, 6, self->pos, self->rot + M_PI);
-				self->alive = 0;
 			}
-			break ;
+			else
+				break ;
+			self->alive = 0;
 		}
 	}
 	if (ft_v2fmag(game->eplay->pos - self->pos) < 31 || ft_get_map(

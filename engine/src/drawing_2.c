@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/29 12:59:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 18:20:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos)
 		dim[0] = 0;
 		while (dim[0] < spr->size[0])
 		{
-			ft_draw(eng, ft_v2iadd(pos, dim), ft_get_color(spr, dim));
+			ft_draw(eng, pos + dim, ft_get_color(spr, dim));
 			dim[0]++;
 		}
 		dim[1]++;
@@ -51,7 +51,7 @@ int	ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 		dim[0] = 0;
 		while (dim[0] < spr->size[0])
 		{
-			ft_rect(eng, ft_v2iadd(pos, ft_v2imul(dim, d)), ft_v2i(d, d),
+			ft_rect(eng, pos + dim * d, (t_v2i){d, d},
 				ft_get_color(spr, dim));
 			dim[0]++;
 		}
@@ -75,10 +75,10 @@ void	ft_get_border(t_sprite *spr,
 	n = 1;
 	while (n < 4)
 	{
-		out[0][0] = ft_min(out[0][0], cor[n][0]);
-		out[0][1] = ft_min(out[0][1], cor[n][1]);
-		out[1][0] = ft_max(out[1][0], cor[n][0]);
-		out[1][1] = ft_max(out[1][1], cor[n][1]);
+		out[0][0] = fmin(out[0][0], cor[n][0]);
+		out[0][1] = fmin(out[0][1], cor[n][1]);
+		out[1][0] = fmax(out[1][0], cor[n][0]);
+		out[1][1] = fmax(out[1][1], cor[n][1]);
 		n++;
 	}
 }

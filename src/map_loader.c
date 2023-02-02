@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:12:29 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 12:49:16 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_map_load(t_data *game, t_map *map)
 						(i / map->size[0]) * 32 + 16}, 0.0f));
 			}
 			else if ((rand() % 25) <= ft_get_obj_prob(map,
-					(t_v2i){i % map->size[0], i / map->size[0]}) / 1.3)
+					(t_v2i){i % map->size[0], i / map->size[0]}) / 1.6f)
 			{
 				ft_ent_add(game, ft_object_create(rand() & 3,
 						(t_v2f){(i % map->size[0]) * 32 + 16,
