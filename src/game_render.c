@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 18:43:31 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:05:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int	ft_game_render_ent(t_data *data)
 	{
 		ent[0] = (t_entity *)ft_vector_get(data->map->entities, i++);
 		ent[0]->display(ent[0], data);
-		ft_put_nbr(data->eng, (t_v2i){ent[0]->pos[0] - data->cam.pos[0],
-			ent[0]->pos[1] - data->cam.pos[1]}, ent[0]->pressure, 2);
+		// ft_put_nbr(data->eng, (t_v2i){ent[0]->pos[0] - data->cam.pos[0],
+		// 	ent[0]->pos[1] - data->cam.pos[1]}, ent[0]->pressure, 2);
 	}
 	return (1);	
 }

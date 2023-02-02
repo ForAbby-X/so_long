@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 18:48:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:06:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	else
 		self->dir = ft_v2f(0, 0);
 	self->pos += self->dir * dt;
-	if (ft_v2fmag(game->eplay->pos - self->pos) < 50 || self->pressure > 600.0f)
+	if (ft_v2fmag(game->eplay->pos - self->pos) < 50 || self->pressure > 400.0f)
 	{
 		dat->health = 0.0f;
 		ft_emmit_blood(game, 60, self->pos, self->rot + M_PI);
