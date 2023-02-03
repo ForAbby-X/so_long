@@ -3,8 +3,8 @@
 ##########################################
 
 # Compiler options
-CC=gcc
-CFLAGS=-c -lm -Wall -Wextra -Werror -Ofast
+CC=clang
+CFLAGS=-c -Wall -Wextra -Werror
 LDFLAGS=
 BINARY_NAME=
 LIBRARY_NAME=libvec.a

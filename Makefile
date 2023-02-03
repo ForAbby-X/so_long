@@ -61,6 +61,9 @@ ENGINE_LNK	= -l Xext -l X11 -L ./engine -l engine
 
 all: obj $(ENGINE_LIB) $(NAME)
 
+malloc_test: obj $(ENGINE_LIB) $(NAME)
+	$(CC) $(CFLAGS) -fsanitize=undefined -rdynamic -o $@ ${OBJ} $(ENGINE_LNK) -L. -lmallocator
+
 raw: CFLAGS += -O0
 raw: obj $(ENGINE_LIB) $(NAME)
 
@@ -74,7 +77,7 @@ obj:
 	@mkdir -p $(OBJDIR)
 
 $(NAME): $(OBJ)
-	@$(CC) -o $(NAME) -lm $+ $(ENGINE_LNK)
+	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
 
 $(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 06:02:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 14:55:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 12:57:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_emmit_sparks(t_data *game, t_length nb, t_v2f pos, float rot)
 	while (nb)
 	{
 		par = malloc(sizeof(t_particle));
+		nb--;
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -29,7 +30,6 @@ void	ft_emmit_sparks(t_data *game, t_length nb, t_v2f pos, float rot)
 		par->spr = game->spr[20];
 		par->off = (t_v2i){1, 1};
 		ft_vector_add(game->map->particles, par);
-		nb--;
 	}
 }
 
@@ -40,6 +40,7 @@ void	ft_emmit_blood(t_data *game, t_length nb, t_v2f pos, float rot)
 	while (nb)
 	{
 		par = malloc(sizeof(t_particle));
+		nb--;
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -50,7 +51,6 @@ void	ft_emmit_blood(t_data *game, t_length nb, t_v2f pos, float rot)
 		par->spr = game->spr[21];
 		par->off = (t_v2i){2, 2};
 		ft_vector_add(game->map->particles, par);
-		nb--;
 	}
 }
 
@@ -61,6 +61,7 @@ void	ft_emmit_pool_blood(t_data *game, t_length nb, t_v2f pos)
 	while (nb)
 	{
 		par = malloc(sizeof(t_particle));
+		nb--;
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -71,7 +72,6 @@ void	ft_emmit_pool_blood(t_data *game, t_length nb, t_v2f pos)
 		par->spr = game->spr[21];
 		par->off = (t_v2i){2, 2};
 		ft_vector_add(game->map->particles, par);
-		nb--;
 	}
 }
 
@@ -82,6 +82,7 @@ void	ft_emmit_smoke_pipe(t_data *game, t_length nb, t_v2f pos)
 	while (nb)
 	{
 		par = malloc(sizeof(t_particle));
+		nb--;
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -93,7 +94,6 @@ void	ft_emmit_smoke_pipe(t_data *game, t_length nb, t_v2f pos)
 		par->spr = game->spr[22];
 		par->off = (t_v2i){3, 3};
 		ft_vector_add(game->map->particles, par);
-		nb--;
 	}
 }
 
@@ -106,6 +106,7 @@ void	ft_emmit_wood(t_data *game, t_v2f pos)
 	while (nb)
 	{
 		par = malloc(sizeof(t_particle));
+		nb--;
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -116,7 +117,6 @@ void	ft_emmit_wood(t_data *game, t_v2f pos)
 		par->spr = game->spr[35];
 		par->off = (t_v2i){2, 2};
 		ft_vector_add(game->map->particles, par);
-		nb--;
 	}
 }
 
@@ -130,6 +130,7 @@ void	ft_emmit_explosion(t_data *game, t_v2f pos, float force)
 	while (nb)
 	{
 		par = malloc(sizeof(t_particle));
+		nb--;
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -140,12 +141,12 @@ void	ft_emmit_explosion(t_data *game, t_v2f pos, float force)
 		par->spr = game->spr[22 + ((rand() & 3) == 0) * 4];
 		par->off = (t_v2i){3, 3};
 		ft_vector_add(game->map->particles, par);
-		nb--;
 	}
 	rot = 0.0f;
 	while (rot < M_PI * 2 * 3)
 	{
 		par = malloc(sizeof(t_particle));
+		rot += ft_rand(M_PI / 4.0f, 1.75f);
 		if (par == NULL)
 			continue ;
 		par->pos = pos;
@@ -156,6 +157,5 @@ void	ft_emmit_explosion(t_data *game, t_v2f pos, float force)
 		par->spr = game->spr[39];
 		par->off = (t_v2i){3, 3};
 		ft_vector_add(game->map->particles, par);
-		rot += ft_rand(M_PI / 4.0f, 1.75f);
 	}
 }

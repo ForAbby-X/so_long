@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:13:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 19:07:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 16:13:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	_ft_object_update(t_entity *self, t_data *game, float dt)
 	(void)dt;
 	dat = self->data;
 	if (ft_get_map(game->map, (t_v2i){self->pos[0], self->pos[1]} / 32) == '1'
-		|| self->pressure > 900.0f)
+		|| self->pressure > 650.0f)
 		dat->health = -10.0f;
 	if (dat->health < 0.0f)
 	{

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:20:39 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 15:27:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:50:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ t_object	ft_vector_rem(t_vector *vector, t_length index)
 	_ft_memmove(&vector->data[index], &vector->data[index + 1],
 		(vector->size - (index + 1)) * sizeof(t_object));
 	vector->size--;
-	if (vector->size > vector->base_size
-		&& vector->size < vector->capacity / 2)
-		if (_ft_vector_resize(vector, vector->capacity / 2))
-			return (VEC_ERROR);
 	return (object);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/25 17:41:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:12:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_init_textures(t_engine *eng, t_data	*data)
 			return (get_next_line(-1),
 				ft_putstr_fd("Error: get_next_line fail.\n", 2),
 				0);
-		str[ft_strlen(str) - 1] = '\0';
+		*ft_strchr(str, '\n') = '\0';
 		data->spr[i] = ft_sprite_p(eng, str);
 		if (data->spr[i] == NULL)
 			return (get_next_line(-1),
@@ -56,7 +56,10 @@ static int	ft_init_map(t_data *game)
 
 	game->maps = ft_pars_folder(game);
 	if (game->maps == NULL)
-		return (ft_putstr_fd("Error: Failed to allocate maps space.", 2), 0);
+		return (ft_putstr_fd("Error: Failed to allocate maps space.\n", 2), 0);
+	if (ft_vector_size(game->maps) == 0)
+		return (ft_putstr_fd("Error: No map could load.\n", 2),
+			ft_vector_destroy(game->maps), game->maps = NULL, 0);
 	i = 0;
 	while (i < ft_vector_size(game->maps) - 1)
 	{
@@ -92,7 +95,7 @@ void	ft_destroy_game(t_data *game)
 {
 	t_length	i;
 
-	i = 0;
-	while (game->spr[i] && i < SPRITES_NBR)
-		ft_destroy_sprite(game->eng, game->spr[i++]);
+	i = -1;
+	while (game->spr[++i] && i < SPRITES_NBR)
+		ft_destroy_sprite(game->eng, game->spr[i]);
 }

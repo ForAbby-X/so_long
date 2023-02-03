@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 09:29:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 17:13:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 12:36:48 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_engine	*ft_eng_create(size_t size_x, size_t size_y, char *title)
 	eng->win_x = size_x;
 	eng->win_y = size_y;
 	if (_ft_eng_create_2(eng) == 0)
-		return (NULL);
+		return (ft_destroy_sprite(eng, eng->screen), mlx_destroy_window(
+				eng->mlx, eng->win), free(eng->mlx), free(eng), NULL);
 	return (eng);
 }

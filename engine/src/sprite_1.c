@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:48:37 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/27 17:03:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:43:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,21 @@ t_sprite	*ft_sprite(t_engine *eng, size_t dx, size_t dy)
 	ft_putstr_fd("]\n", 1);
 	return (spr);
 }
-/* PANOU */
-/* PAMOA */
-/* BILIMBIMBAP */
 
 t_sprite	*ft_sprite_p(t_engine *eng, char *path)
 {
 	t_sprite	*spr;
 	int			tab[3];
+	int			xy[2];
 
 	spr = malloc(sizeof(t_sprite));
 	if (spr == NULL)
 		return (NULL);
 	spr->img.image = mlx_xpm_file_to_image(eng->mlx, path,
-			&(spr->size[0]), &(spr->size[1]));
+			&xy[0], &xy[1]);
 	if (spr->img.image == NULL)
 		return (free(spr), NULL);
+	spr->size = (t_v2i){xy[0], xy[1]};
 	spr->img.data
 		= mlx_get_data_addr(spr->img.image, &tab[0], &tab[1], &tab[2]);
 	spr->data = (t_color *)(uint32_t *)spr->img.data;

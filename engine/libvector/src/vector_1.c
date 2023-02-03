@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:17:31 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/24 15:46:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/03 15:57:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,6 @@ t_object	ft_vector_pop(t_vector *vector)
 		return (NO_OBJ);
 	vector->size--;
 	object = vector->data[vector->size];
-	if (vector->size > vector->base_size
-		&& vector->size < vector->capacity / 2)
-		if (_ft_vector_resize(vector, vector->capacity / 2))
-			return (VEC_ERROR);
 	return (object);
 }
 
