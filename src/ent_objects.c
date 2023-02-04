@@ -6,11 +6,23 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:13:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/03 16:13:24 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:55:50 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+void	ft_damage_object(t_data *game, t_entity *ent, float damage, float rot)
+{
+	t_dat_object	*dat;
+
+	dat = ent->data;
+	dat->health -= damage;
+	if (dat->type == 3)
+		ft_emmit_wood(game, ent->pos);
+	else
+		ft_emmit_sparks(game, 6, ent->pos, rot + M_PI);
+}
 
 static void	_ft_object_display(t_entity *self, t_data *game)
 {

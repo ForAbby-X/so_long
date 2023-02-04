@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 14:08:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:31:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 	while (i < ft_vector_size(game->map->entities))
 	{
 		ent = ft_vector_get(game->map->entities, i);
-		if (ent != self && (ent->type == 2)
+		if (ent != self && (ent->type == 2 || ent->type == 10)
 			&& ft_v2fmag(ent->pos - self->pos) < ent->radius)
 		{
 			ft_explosion(game, self->pos, 20);

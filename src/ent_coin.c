@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 14:18:13 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 15:47:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_entity	*ft_coin_create(t_v2f pos)
 	ent->rot = ft_rand(-M_PI, M_PI);
 	ent->radius = 10;
 	ent->uuid = ft_get_uuid();
-	ent->type = 20;
+	ent->type = 8;
 	ent->alive = 1;
 	return (ent);
 }

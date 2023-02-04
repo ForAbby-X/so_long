@@ -77,10 +77,16 @@ obj:
 	@mkdir -p $(OBJDIR)
 
 $(NAME): $(OBJ)
+	@echo "\e[1;35mLinking...\e[0m"
 	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
+	@echo "\e[1;32m➤" $@" created succesfully !\e[0m"
 
-$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@
+$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c temp
+	@echo "\e[0;36m⤷" $<"\e[0m"
+	@$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@
+
+temp:
+	@echo "\e[1;36mCompiling...\e[0m"
 
 $(ENGINE_LIB):
 	@make -C $(ENGINE)

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 14:17:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:55:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			ft_move_toward(t_v2f pos, t_v2f target, float speed, float r);
 int			ft_game_render(t_data *data);
 void		ft_game_render_ui(t_data *game);
 int			ft_game_render_map(t_data *data);
-int			ft_game_render_ent(t_data *data);
+void		ft_game_render_ent(t_data *data);
 int			ft_game_update_ent(t_data *data, float dt);
 
 int			ft_game_all_par(t_data *data, float dt);
@@ -121,8 +121,10 @@ t_entity	*ft_ent_add(t_data *game, t_entity *ent);
 t_entity	*ft_ent_get(t_data *game, t_length index);
 
 void		ft_paint_tank(t_data *game, t_entity *tank, t_entity *enn_pos);
+void		ft_paint_trail(t_data *g, t_v2i p, float r, float strength);
 
 void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
+void		ft_damage_object(t_data *ga, t_entity *en, float damage, float rot);
 
 t_entity	*ft_tank_create(t_data *game, t_v2f pos);
 t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid);

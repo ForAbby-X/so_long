@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 18:28:21 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 14:13:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ static void	_ft_tank_display(t_entity *self, t_data *game)
 		ft_emmit_smoke_pipe(game, 2, ft_v2f(self->pos[0], self->pos[1])
 			+ ft_v2fr(self->rot, -25));
 		ft_eng_sel_spr(game->eng, game->map->background);
-		ft_put_sprite_r(game->eng, game->spr[37 + (dat->bloody[0] > 0.0f)],
-			(t_rect){(t_v2i){self->pos[0], self->pos[1]}
-			- ft_v2irot((t_v2i){0, 20}, self->rot), {5, 7}}, self->rot);
-		ft_put_sprite_r(game->eng, game->spr[37 + (dat->bloody[1] > 0.0f)],
-			(t_rect){(t_v2i){self->pos[0], self->pos[1]}
-			+ ft_v2irot((t_v2i){0, 20}, self->rot), {5, 7}}, self->rot);
+		ft_paint_trail(game, (t_v2i){self->pos[0], self->pos[1]}
+			- ft_v2irot((t_v2i){0, 20}, self->rot), self->rot, 2.0f - dat->bloody[0]);
+		ft_paint_trail(game, (t_v2i){self->pos[0], self->pos[1]}
+			+ ft_v2irot((t_v2i){0, 20}, self->rot), self->rot, 2.0f - dat->bloody[1]);
 		ft_eng_sel_spr(game->eng, NULL);
 		dat->timer -= 0.0625f;
 	}

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/01/30 17:32:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:00:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	_ft_exit_count(t_object obj)
 	t_entity	*ent;
 
 	ent = obj;
-	if (ent->type == 20)
+	if (ent->type == 8)
 		return (0);
 	return (1);
 }
@@ -81,7 +81,7 @@ t_entity	*ft_exit_create(t_v2f pos)
 	ent->pos = pos;
 	ent->dir = (t_v2f){0, 0};
 	ent->rot = 0.0f;
-	ent->radius = 14;
+	ent->radius = 0.0f;
 	ent->uuid = ft_get_uuid();
 	ent->type = -1;
 	ent->alive = 1;

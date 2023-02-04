@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:43:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 14:49:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:59:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void	ft_explosion(t_data *game, t_v2f pos, float power)
 		if (ent->type == 2)
 			ft_damage_enn(game, ent, damage, atan2f(diff[1], diff[0]));
 		if (ent->type == 10)
-			((t_dat_object *)ent->data)->health -= damage;
+			ft_damage_object(game, ent, damage * 2, atan2f(diff[1], diff[0]));
 	}
 }

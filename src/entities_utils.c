@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:34:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 19:10:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:31:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	_ft_is_active(t_data *game, t_entity *ent)
 	t_v2i	center_pos;
 	t_v2i	dist;
 
-	center_pos = ft_v2iadd(game->cam.pos, ft_v2imul(game->cam.dim, 0.5f));
-	dist = ft_v2isub((t_v2i){ent->pos[0], ent->pos[1]}, center_pos);
+	center_pos = game->cam.pos + game->cam.dim / 2;
+	dist = (t_v2i){ent->pos[0], ent->pos[1]} - center_pos;
 	return (dist[0] * dist[0] + dist[1] * dist[1]
 		< (game->cam.dim[0]) * (game->cam.dim[0]));
 }

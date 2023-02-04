@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 18:35:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 16:28:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 		ft_exit(data, 0, 0);
 	ft_put_text(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
 		ft_eng_size_y(data->eng) - 9 * 2}, "intra:alde-fre", 2);
-	// usleep(1800);
 	return (1);
 }
 

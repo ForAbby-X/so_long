@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 14:19:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/04 18:54:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,7 @@ static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 			if (ent->type == 2)
 				ft_damage_enn(game, ent, ft_rand(15, 25), self->rot);
 			else if (ent->type == 10)
-			{
-				((t_dat_object *)ent->data)->health -= ft_rand(15, 25);
-				if (((t_dat_object *)ent->data)->type == 3)
-					ft_emmit_wood(game, self->pos);
-				else
-					ft_emmit_sparks(game, 6, self->pos, self->rot + M_PI);
-			}
+				ft_damage_object(game, ent, ft_rand(15, 25), self->rot);
 			else
 				break ;
 			self->alive = 0;
