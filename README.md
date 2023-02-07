@@ -12,5 +12,5 @@ The tank is painted by the blood of its crushed ennemies.
 
 # Screenshots:
 ![MENU](https://github.com/ForAbby-X/so_long/blob/main/github_image/menu.png?raw=true)
-
-![GAMEPLAY](https://github.com/ForAbby-X/so_long/blob/main/github_image/gameplay.png?raw=true)
+![GAMEPLAY_1](https://github.com/ForAbby-X/so_long/blob/main/github_image/gameplay_1.png?raw=true)
+![GAMEPLAY_2](https://github.com/ForAbby-X/so_long/blob/main/github_image/gameplay_2.png?raw=true)
