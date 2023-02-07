@@ -62,7 +62,7 @@ ENGINE_LNK	= -l Xext -l X11 -L ./engine -l engine
 all: obj $(ENGINE_LIB) $(NAME)
 
 malloc_test: obj $(ENGINE_LIB) $(NAME)
-	$(CC) $(CFLAGS) -fsanitize=undefined -rdynamic -o $@ ${OBJ} $(ENGINE_LNK) -L. -lmallocator
+	$(CC) $(CFLAGS) -fsanitize=undefined -rdynamic -o $@ $(OBJ) $(ENGINE_LNK) -L. -lmallocator
 
 raw: CFLAGS += -O0
 raw: obj $(ENGINE_LIB) $(NAME)
@@ -79,14 +79,14 @@ obj:
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
 	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
-	@echo "\e[1;32m➤" $@" created succesfully !\e[0m"
+	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
-$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c temp
-	@echo "\e[0;36m⤷" $<"\e[0m"
+$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@echo "\e[1;36m[\e[0;36mC\e[1;36m]\e[0;36m → " $<"\e[0m"
 	@$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@
 
 temp:
-	@echo "\e[1;36mCompiling...\e[0m"
+	@echo "\e[1;36mCompiling...\e[0m";
 
 $(ENGINE_LIB):
 	@make -C $(ENGINE)
