@@ -7,7 +7,7 @@ It does vector arithmetic and more using a small library i wrote along with the 
 The engine i wrote allow the use of the delta time between frames to calibrate all calculations.\
 It displays, updates and destroys entities using an oop approach.\
 There is circle to circle collisions and circle to square collisions with pressure calculations going on between every entities.\
-Only the entities close to the camera viewpoint are updated and displayed, nevertheless all the entities are deestroyed at the end of the mainloop if the tag 'entity->alive' is set to '0'.
+Only the entities close to the camera viewpoint are updated and displayed, nevertheless all the entities are destroyed at the end of the mainloop if the tag 'entity->alive' is set to '0'.
 
 # Screenshots:
 ![MENU](https://github.com/ForAbby-X/so_long/blob/main/github_image/menu.png?raw=true)
