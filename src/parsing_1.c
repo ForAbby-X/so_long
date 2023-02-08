@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 17:38:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/03 16:05:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:39:19 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_vector	*ft_pars_folder(t_data *game)
 	entry = readdir(folder);
 	while (entry)
 	{
-		if (ft_strncmp(ft_strrchr(entry->d_name, '.'), ".ber", 4) == 0)
+		if (ft_strncmp(ft_strrchr(entry->d_name, '.'), ".ber", 5) == 0)
 		{
 			map = ft_pars_file(game, entry->d_name);
 			if (map)
