@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:43:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 18:59:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:24:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ void	ft_explosion(t_data *game, t_v2f pos, float power)
 	float		damage;
 	t_v2f		diff;
 
+	game->map->bullet_time = 0.0f;
 	ft_emmit_explosion(game, pos, power);
 	ft_eng_sel_spr(game->eng, game->map->background);
 	ft_put_sprite_r(game->eng, game->spr[40], (t_rect){{pos[0], pos[1]},
 	{64, 64}}, ft_rand(-M_PI, M_PI));
 	ft_eng_sel_spr(game->eng, NULL);
-	i = 0;
-	while (i < game->map->active_nbr)
+	i = -1;
+	while (++i < game->map->active_nbr)
 	{
 		ent = ft_vector_get(game->map->entities, i);
-		i++;
 		diff = ent->pos - pos;
 		damage = fminf(fmaxf(ft_v2fmag(diff), 0.0f), 180.0f) / 1.4f / 128.0f;
 		damage = (1.0f - (damage * damage * damage)) * 110.0f;

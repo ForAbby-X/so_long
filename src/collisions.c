@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 19:05:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:48:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ static void	ft_resolve_collision_circle(t_entity *e1, t_entity *e2, float dt)
 	e2->pressure += ft_v2fmag(dir * mass) / dt;
 }
 
+static void	_ft_clamp(t_v2i cell, t_v2f c[3])
+{
+	c[0][0] = fmaxf(cell[0], fminf(c[1][0], cell[0] + 1));
+	c[0][1] = fmaxf(cell[1], fminf(c[1][1], cell[1] + 1));
+}
+
 static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float d)
 {
 	t_v2i	cell;
@@ -58,17 +64,15 @@ static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float d)
 		{
 			if (ft_get_map(game->map, cell) == '1')
 			{
-				c[0][0] = fmaxf(cell[0], fminf(c[1][0], cell[0] + 1));
-				c[0][1] = fmaxf(cell[1], fminf(c[1][1], cell[1] + 1));
+				_ft_clamp(cell, c);
 				c[2] = c[0] - c[1];
 				over = ent->radius / 32.0f - ft_v2fmag(c[2]);
 				if (isnan(over))
 					over = 0;
 				if (over > 0)
-				{
 					ent->pos -= ft_v2fnorm(c[2], over * 32);
+				if (over > 0)
 					ent->pressure += ft_v2fmag(ft_v2fnorm(c[2], over * 32)) / d;
-				}
 			}
 		}
 	}

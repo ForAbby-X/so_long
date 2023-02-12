@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/11 18:11:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:32:33 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,24 @@ int	ft_game_render(t_data *game)
 					- (t_v2i){game->eng->win_x / 2, game->eng->win_y / 2})
 				/ 6));
 	game->cam.pos = mouse - game->cam.dim / 2;
-	game->cam.pos += (t_v2i){game->shake[0] , game->shake[1]};
+	game->cam.pos += (t_v2i){game->shake[0], game->shake[1]};
 	return (1);
 }
 
 void	ft_game_render_ui(t_data *game)
 {
+	int	i;
+
 	ft_put_sprite_s(game->eng, game->spr[19], (t_v2i){0, 25}, 2);
 	ft_put_nbr(game->eng, (t_v2i){35, 70}, game->map->score / 32, 2);
+	i = 0;
+	while (i < game->map->crates_nb)
+	{
+		ft_put_sprite_s(game->eng, game->spr[28],
+			(t_v2i){10 + (i & 1) * 20 + sinf(game->time * 2 + i) * 5,
+			ft_eng_size_y(game->eng) - 60 - i * 20}, 2);
+		i++;
+	}
 }
 
 int	ft_game_render_map(t_data *data)
@@ -51,10 +61,8 @@ int	ft_game_render_map(t_data *data)
 			rpos[1] = (pos[1]
 					- (data->cam.pos[1] / 32. - data->cam.pos[1] / 32)) * 32;
 			wpos = pos + data->cam.pos / 32;
-			if (ft_get_map(data->map, wpos) == 'E')
-				ft_put_sprite(data->eng, data->spr[33], rpos);
-			else
-				ft_put_sprite(data->eng, data->spr[2], rpos);
+			ft_put_sprite(data->eng, data->spr[2 + 32
+				* (ft_get_map(data->map, wpos) == 'E')], rpos);
 			if (ft_get_map(data->map, wpos) == '1')
 				ft_put_sprite(data->eng, data->spr[3], rpos);
 			else
@@ -93,7 +101,7 @@ void	ft_game_render_ent(t_data *data)
 	}
 }
 
-int	ft_game_update_ent(t_data *data, float dt)
+void	ft_game_update_ent(t_data *data, float dt)
 {
 	t_entity	*ent;
 	t_length	i;
@@ -120,5 +128,4 @@ int	ft_game_update_ent(t_data *data, float dt)
 		else
 			i++;
 	}
-	return (1);
 }

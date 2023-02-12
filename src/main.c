@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/09 14:26:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:50:56 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 static	void	ft_game(t_engine *eng, t_data *game, double dt)
 {
+	float	slow;
+
+	game->map->bullet_time = fminf(game->map->bullet_time + dt, 2.015f);
+	slow = 1.0f + (atan(game->map->bullet_time) * game->map->bullet_time - 1.11
+			* game->map->bullet_time) * 2.6;
 	ft_ent_check_activ(game);
-	ft_game_update_ent(game, dt);
-	ft_entity_collisions(game, dt);
+	ft_game_update_ent(game, dt * slow);
+	ft_entity_collisions(game, dt * slow);
 	ft_game_render(game);
-	ft_game_all_par(game, dt);
+	ft_game_all_par(game, dt * slow);
 	ft_put_text(eng, (t_v2i){3, ft_eng_size_y(game->eng) - 9 * 2},
 		"[R] Menu Principal", 2);
 	if (eng->keys[XK_r])
@@ -56,6 +61,7 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 	return (1);
 }
 
+/* clear; norminette inc/*.h src/*.c engine/libvec engine/libft engine/libvector */
 int	main(void)
 {
 	t_engine	*eng;

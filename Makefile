@@ -29,7 +29,8 @@ SRC		= main.c \
 		  map_loader.c \
 		  game_render.c \
 		  game_render_2.c \
-		  particles.c \
+		  particles_1.c \
+		  particles_2.c \
 		  raycast.c \
 		  collisions.c \
 		  uuid.c \

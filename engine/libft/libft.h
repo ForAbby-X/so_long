@@ -68,15 +68,15 @@ t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstnew(void *content);
 int			ft_lstsize(t_list *lst);
 
-char	*ft_strjoin1(char const *s1, char const *s2);
-size_t	ft_strlen1(const char *s);
-int		ft_strchr_a(const char *s);
-void	ft_bzero1(void *s, size_t n);
-void	*ft_calloc1(size_t nmemb, size_t size);
-char	*ft_free_line(char *save, int line_len);
-char	*ft_extract_line(char *save, int line_len);
-char	*ft_read_file(int fd, char *past_buf);
-char	*get_next_line(int fd);
-char	*ft_free_nxtbuf(char *past_buf, char *next_buf);
+char		*ft_strjoin1(char const *s1, char const *s2);
+size_t		ft_strlen1(const char *s);
+int			ft_strchr_a(const char *s);
+void		ft_bzero1(void *s, size_t n);
+void		*ft_calloc1(size_t nmemb, size_t size);
+char		*ft_free_line(char *save, int line_len);
+char		*ft_extract_line(char *save, int line_len);
+char		*ft_read_file(int fd, char *past_buf);
+char		*get_next_line(int fd);
+char		*ft_free_nxtbuf(char *past_buf, char *next_buf);
 
 #endif

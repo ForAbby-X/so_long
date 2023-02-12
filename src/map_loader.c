@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/11 17:56:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:24:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 	{
 		if ((rand() & 15) == 0)
 			return (ft_ent_add(game, ft_ennemy_create(pos, 0.0f)));
-		else if ((rand() % 25) <= ft_get_obj_prob(map,
-				(t_v2i){(pos[0] - 16) / 32.0f, (pos[1] - 16) / 32.0f}) / 1.6f)
+		else if ((rand() % 25) * 2 <= ft_get_obj_prob(map,
+				(t_v2i){(pos[0] - 16) / 32.0f, (pos[1] - 16) / 32.0f}))
 			return (ft_ent_add(game, ft_object_create(rand() & 3, pos)));
 	}
 	if (cell == 'P')
@@ -68,7 +68,9 @@ void	ft_map_load(t_data *game, t_map *map)
 	}
 	game->dplay = game->eplay->data;
 	game->state = 1;
+	game->map->bullet_time = 999.0f;
 	game->map->score = 0.0f;
+	game->map->crates_nb = 0;
 }
 
 void	ft_map_unload(t_data *game)

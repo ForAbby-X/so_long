@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/11 17:52:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/12 17:32:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ struct	s_map
 	t_vector	*particles;
 	t_sprite	*background;
 	char		*name;
+	float		bullet_time;
 	float		score;
+	int			crates_nb;
 };
 
 struct	s_camera
@@ -80,7 +82,7 @@ int			ft_game_render(t_data *data);
 void		ft_game_render_ui(t_data *game);
 int			ft_game_render_map(t_data *data);
 void		ft_game_render_ent(t_data *data);
-int			ft_game_update_ent(t_data *data, float dt);
+void		ft_game_update_ent(t_data *data, float dt);
 
 int			ft_game_all_par(t_data *data, float dt);
 
