@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/05 15:40:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/11 18:11:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,14 @@ int	ft_game_render(t_data *game)
 					- (t_v2i){game->eng->win_x / 2, game->eng->win_y / 2})
 				/ 6));
 	game->cam.pos = mouse - game->cam.dim / 2;
-	game->cam.pos[0] = fminf(fmaxf(game->cam.pos[0], 0.0f), game->map->size[0] * 32 - game->cam.dim[0]);
-	game->cam.pos[1] = fminf(fmaxf(game->cam.pos[1], 0.0f), game->map->size[1] * 32 - game->cam.dim[1]);
-	game->cam.pos += ft_v2irot((t_v2i){-game->shake * 20, 0},
-			game->dplay->top_rot);
+	game->cam.pos += (t_v2i){game->shake[0] , game->shake[1]};
 	return (1);
 }
 
 void	ft_game_render_ui(t_data *game)
 {
-	float		s;
-	float		c;
-	float		ratio;
-
-	ratio = ft_min((game->dplay->fire_cool / 4.0f)
-			* (game->dplay->fire_cool / 4.0f)
-			* (game->dplay->fire_cool / 4.0f), 1.0f);
-	s = sinf(game->dplay->fire_cool * 80) * 2 * ratio;
-	c = cosf(game->dplay->fire_cool * 60.6) * 2 * ratio;
-	ft_rect(game->eng, (t_v2i){36 + s, 6 + c}, (t_v2i){ft_min(
-			game->dplay->fire_cool / 4.0f * 200, 200), 20},
-		ft_color_inter(ft_color_d(0x900A00), ft_color_d(0x65A165),
-			game->dplay->fire_cool / 4.0f));
-	ft_put_sprite_s(game->eng, game->spr[19], (t_v2i){0, 0}, 2);
-	ft_put_nbr(game->eng, (t_v2i){10, 40}, game->map->score / 32, 2);
+	ft_put_sprite_s(game->eng, game->spr[19], (t_v2i){0, 25}, 2);
+	ft_put_nbr(game->eng, (t_v2i){35, 70}, game->map->score / 32, 2);
 }
 
 int	ft_game_render_map(t_data *data)
@@ -114,7 +98,7 @@ int	ft_game_update_ent(t_data *data, float dt)
 	t_entity	*ent;
 	t_length	i;
 
-	data->shake = fmax(0, data->shake - dt * 2);
+	data->shake -= data->shake * 1000.0f * dt * dt;
 	i = -1;
 	while (++i < data->map->active_nbr)
 	{

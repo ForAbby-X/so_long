@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 14:13:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/11 18:02:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 					35) + ft_v2fr(dat->top_rot - M_PI_2, 10), dat->top_rot
 				+ ft_rand(-0.5f, 0.5f) * 0.20, self->uuid));
 		dat->fire_cool = 0.0f;
-		game->shake = 1.0f;
+		game->shake -= (t_v2f){cosf(dat->top_rot), sinf(dat->top_rot)} * 6;
 	}
 	if (game->eng->mouse[3] && dat->fire_cool >= 4.0f)
 	{
 		ft_ent_add(game, ft_shell_create(self->pos
 				+ ft_v2fr(dat->top_rot, 50), dat->top_rot));
 		dat->fire_cool = 0.0f;
-		game->shake = 2.0f;
+		game->shake -= (t_v2f){cosf(dat->top_rot), sinf(dat->top_rot)} * 80;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 18:55:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/11 17:52:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ struct s_data
 	t_entity	*eplay;
 	uint8_t		state;
 	float		state_time;
-	float		shake;
+	t_v2f		shake;
 	float		time;
 };
 
