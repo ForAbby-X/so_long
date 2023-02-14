@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 17:50:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:52:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 	return (1);
 }
 
-/* clear; norminette inc/*.h src/*.c engine/libvec engine/libft engine/libvector */
+// clear; norminette inc/*.h src/*.c engine/libvec engine/libft engine/libvector
 int	main(void)
 {
 	t_engine	*eng;

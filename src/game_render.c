@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 17:32:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:21:18 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,10 @@ int	ft_game_render(t_data *game)
 
 void	ft_game_render_ui(t_data *game)
 {
-	int	i;
-
-	ft_put_sprite_s(game->eng, game->spr[19], (t_v2i){0, 25}, 2);
-	ft_put_nbr(game->eng, (t_v2i){35, 70}, game->map->score / 32, 2);
-	i = 0;
-	while (i < game->map->crates_nb)
-	{
-		ft_put_sprite_s(game->eng, game->spr[28],
-			(t_v2i){10 + (i & 1) * 20 + sinf(game->time * 2 + i) * 5,
-			ft_eng_size_y(game->eng) - 60 - i * 20}, 2);
-		i++;
-	}
+	ft_put_sprite(game->eng, game->spr[19], (t_v2i){10, 10});
+	ft_put_nbr(game->eng, (t_v2i){26, 26}, game->map->score / 32, 2);
+	ft_put_sprite(game->eng, game->spr[28], (t_v2i){10, 42});
+	ft_put_nbr(game->eng, (t_v2i){26, 58}, game->map->crates_nb, 2);
 }
 
 int	ft_game_render_map(t_data *data)
