@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_tank.c                                         :+:      :+:    :+:   */
+/*   tank.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 17:33:55 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:41:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,38 +114,24 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	t_entity	*ent;
 	t_dat_tank	*data;
 
-	ent = malloc(sizeof(t_entity));
+	ent = ft_ent_create(0, pos, (t_v2f){0, 0}, 31.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_tank));
 	if (data == NULL)
 		return (free(ent), NULL);
+	ft_memset(data, 0, sizeof(t_dat_tank));
 	data->spr = ft_cpy_sprite(game->eng, game->spr[0]);
 	if (data->spr == NULL)
 		return (free(data), free(ent), NULL);
-	data->acc = (t_v2f){0, 0};
-	data->vel = (t_v2f){0, 0};
-	data->trac = (t_v2f){0, 0};
-	data->drag = (t_v2f){0, 0};
-	data->bloody = (t_v2i){0, 0};
-	data->top_rot = 0.0f;
-	data->fire_cool = 0.0f;
-	data->timer = 0.0f;
 	ent->data = data;
 	ent->display = &_ft_tank_display;
 	ent->update = &_ft_tank_update;
 	ent->destroy = &_ft_tank_destroy;
-	ent->pos = pos;
-	ent->dir = (t_v2f){0, 0};
 	ent->rot = ft_rand(-M_PI, M_PI);
-	ent->radius = 31.0f;
-	ent->uuid = ft_get_uuid();
-	ent->type = 0;
-	ent->alive = 1;
 	ft_eng_sel_spr(game->eng, game->map->background);
 	ft_put_sprite_r(game->eng, game->spr[41],
 		(t_rect){{pos[0], pos[1]}, {84, 96}}, ent->rot);
 	ft_eng_sel_spr(game->eng, NULL);
-
 	return (ent);
 }

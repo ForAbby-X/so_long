@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 17:32:47 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:38:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		ft_entity_collisions(t_data *game, float dt);
 long long	ft_get_uuid(void);
 
 /* ENTITIES */
+t_entity	*ft_ent_create(int type, t_v2f pos, t_v2f dir, float radius);
 t_entity	*ft_ent_add(t_data *game, t_entity *ent);
 t_entity	*ft_ent_get(t_data *game, t_length index);
 

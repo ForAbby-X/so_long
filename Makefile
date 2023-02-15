@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= so_long
+NAME	= so_long.out
 
 # directories
 SRCDIR	=	./src
@@ -34,17 +34,17 @@ SRC		= main.c \
 		  raycast.c \
 		  collisions.c \
 		  uuid.c \
-		  entities.c \
-		  entities_utils.c \
-		  ent_tank.c \
-		  ent_tank_drawing.c \
-		  ent_bullet.c \
-		  ent_enn_base.c \
-		  ent_enn_action.c \
-		  ent_shell.c \
-		  ent_coin.c \
-		  ent_exit.c \
-		  ent_objects.c
+		  entities/entities.c \
+		  entities/utils.c \
+		  entities/tank.c \
+		  entities/tank_drawing.c \
+		  entities/bullet.c \
+		  entities/enn_base.c \
+		  entities/enn_action.c \
+		  entities/shell.c \
+		  entities/coin.c \
+		  entities/exit.c \
+		  entities/objects.c
 
 INC		= game.h
 
@@ -84,6 +84,7 @@ $(NAME): $(OBJ)
 
 $(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@echo "\e[1;36m[\e[0;36mC\e[1;36m]\e[0;36m → " $<"\e[0m"
+	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@
 
 temp:
