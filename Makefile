@@ -38,6 +38,7 @@ SRC		= main.c \
 		  entities/entities.c \
 		  entities/utils.c \
 		  entities/tank.c \
+		  entities/tank_update.c \
 		  entities/tank_drawing.c \
 		  entities/bullet.c \
 		  entities/enn_base.c \
@@ -51,9 +52,12 @@ INC		= game.h
 
 OBJ		= $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
+DEPENDS := $(patsubst %.o,%.d,$(OBJ))
+-include $(DEPENDS)
+
 # compiler
 CC		= clang
-CFLAGS	= -MMD -Wall -Wextra -Werror
+CFLAGS	= -MMD -MP -Wall -Wextra -Werror
 
 # engine library
 ENGINE		= ./engine/
@@ -62,9 +66,6 @@ ENGINE_INC	= -I ./engine/inc
 ENGINE_LNK	= -l Xext -l X11 -L ./engine -l engine
 
 all: obj $(ENGINE_LIB) $(NAME)
-
-malloc_test: obj $(ENGINE_LIB) $(NAME)
-	$(CC) $(CFLAGS) -fsanitize=undefined -rdynamic -o $@ $(OBJ) $(ENGINE_LNK) -L. -lmallocator
 
 raw: CFLAGS += -O0
 raw: obj $(ENGINE_LIB) $(NAME)
@@ -83,7 +84,7 @@ $(NAME): $(OBJ)
 	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
-$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
 	@echo "\e[1;36m[\e[0;36mC\e[1;36m]\e[0;36m → " $<"\e[0m"
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@

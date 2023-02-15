@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:11:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:47:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 50
+# define SPRITES_NBR 52
 
 # include "engine.h"
 # include "vector.h"
@@ -128,6 +128,7 @@ t_entity	*ft_ent_get(t_data *game, t_length index);
 void		ft_paint_tank(t_data *game, t_entity *tank, t_entity *enn_pos);
 void		ft_paint_trail(t_data *g, t_v2i p, float r, float strength);
 
+void		ft_tank_update(t_entity *self, t_data *game, float dt);
 void		ft_enn_state(t_data *g, t_entity *ent, t_dat_enn_base *da, float d);
 
 int			ft_damage_ent(t_data *game, t_entity *ent, int dam, float rot);
@@ -210,7 +211,7 @@ struct s_dat_tank
 	t_v2f		drag;
 	t_v2f		bloody;
 	float		top_rot;
-	float		fire_cool;
+	t_v2f		fire_cool;
 	float		timer;
 	t_sprite	*spr;
 };

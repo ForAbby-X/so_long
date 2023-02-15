@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:08:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:40:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(void)
 	t_engine	*eng;
 	t_data		data;
 
-	eng = ft_eng_create(800, 600, "So Long");
+	eng = ft_eng_create(800, 600, "So Long (plus que classique)");
 	if (eng)
 	{
 		if (ft_init_game(eng, &data))

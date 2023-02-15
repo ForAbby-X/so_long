@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 15:52:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:13:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 	dat->time += dt;
 	self->alive = !(dat->time >= 2.0f);
 	i = 0;
-	while (self->alive && i < ft_vector_size(game->map->entities))
+	while (self->alive && i < game->map->active_nbr)
 	{
 		ent = ft_vector_get(game->map->entities, i);
 		if (((ent != self && (ent->type == 2 || ent->type == 10)
@@ -43,8 +43,7 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 				self->pos[1]} / 32) == '1')
 		{
 			game->map->bullet_time = 0.0f;
-			self->pos -= self->dir * dt * 2.0f;
-			ft_explosion(game, self->pos, 20);
+			ft_explosion(game, self->pos - self->dir * dt * 2.0f, 20);
 			self->alive = 0;
 		}
 		i++;

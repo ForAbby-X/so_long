@@ -48,3 +48,5 @@ assets/stain/destroyed_barrel_0.xpm
 assets/stain/destroyed_barrel_1.xpm
 assets/stain/destroyed_barrel_2.xpm
 assets/stain/destroyed_crate_0.xpm
+assets/ui/tank_gauges_empty.xpm
+assets/ui/tank_gauges_full.xpm
