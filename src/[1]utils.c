@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   [1]utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:43:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 17:24:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:17:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	ft_explosion(t_data *game, t_v2f pos, float power)
 	float		damage;
 	t_v2f		diff;
 
-	game->map->bullet_time = 0.0f;
 	ft_emmit_explosion(game, pos, power);
 	ft_eng_sel_spr(game->eng, game->map->background);
 	ft_put_sprite_r(game->eng, game->spr[40], (t_rect){{pos[0], pos[1]},
@@ -88,9 +87,6 @@ void	ft_explosion(t_data *game, t_v2f pos, float power)
 		damage = (1.0f - (damage * damage * damage)) * 110.0f;
 		if (damage < 0.5f || ft_cast_ray(game, pos, ent->pos) == 0)
 			continue ;
-		if (ent->type == 2)
-			ft_damage_enn(game, ent, damage, atan2f(diff[1], diff[0]));
-		if (ent->type == 10)
-			ft_damage_object(game, ent, damage * 2, atan2f(diff[1], diff[0]));
+		ft_damage_ent(game, ent, damage, atan2f(diff[1], diff[0]));
 	}
 }

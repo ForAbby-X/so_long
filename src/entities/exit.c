@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_exit.c                                         :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 16:00:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:18:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_entity	*ft_exit_create(t_v2f pos)
 	t_entity	*ent;
 	t_dat_exit	*data;
 
-	ent = malloc(sizeof(t_entity));
+	ent = ft_ent_create(-1, pos, (t_v2f){0, 0}, 0.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_exit));
@@ -78,12 +78,6 @@ t_entity	*ft_exit_create(t_v2f pos)
 	ent->display = &_ft_exit_display;
 	ent->update = &_ft_exit_update;
 	ent->destroy = &_ft_exit_destroy;
-	ent->pos = pos;
-	ent->dir = (t_v2f){0, 0};
 	ent->rot = 0.0f;
-	ent->radius = 0.0f;
-	ent->uuid = ft_get_uuid();
-	ent->type = -1;
-	ent->alive = 1;
 	return (ent);
 }

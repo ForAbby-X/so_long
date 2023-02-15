@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 12:38:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:11:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int			ft_check_col(t_color a, t_color b, int diff);
 int			ft_check_col_zone(t_sprite *spr, t_v2i pos, t_color b, int diff);
 int			ft_get_obj_prob(t_map *map, t_v2i pos);
 void		ft_explosion(t_data *game, t_v2f pos, float power);
+
+float		ft_vec_to_rad(t_v2f v);
 
 /* MENU */
 void		ft_menu(t_data *game, t_vector	*maps);
@@ -126,6 +128,9 @@ t_entity	*ft_ent_get(t_data *game, t_length index);
 void		ft_paint_tank(t_data *game, t_entity *tank, t_entity *enn_pos);
 void		ft_paint_trail(t_data *g, t_v2i p, float r, float strength);
 
+void		ft_enn_state(t_data *g, t_entity *ent, t_dat_enn_base *da, float d);
+
+int			ft_damage_ent(t_data *game, t_entity *ent, int dam, float rot);
 void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
 void		ft_damage_object(t_data *ga, t_entity *en, float damage, float rot);
 

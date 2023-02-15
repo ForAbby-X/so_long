@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_render.c                                      :+:      :+:    :+:   */
+/*   [1]game.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 11:51:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:40:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	ft_game_render_map(t_data *data)
 	pos[1] = -2;
 	while (++pos[1] <= data->cam.dim[1] / 32 + 1)
 	{
+		rpos[1] = (pos[1]
+				- (data->cam.pos[1] / 32.f - data->cam.pos[1] / 32)) * 32;
 		pos[0] = -2;
 		while (++pos[0] <= data->cam.dim[0] / 32 + 1)
 		{
 			rpos[0] = (pos[0]
-					- (data->cam.pos[0] / 32. - data->cam.pos[0] / 32)) * 32;
-			rpos[1] = (pos[1]
-					- (data->cam.pos[1] / 32. - data->cam.pos[1] / 32)) * 32;
+					- (data->cam.pos[0] / 32.f - data->cam.pos[0] / 32)) * 32;
 			wpos = pos + data->cam.pos / 32;
 			ft_put_sprite(data->eng, data->spr[2 + 32
 				* (ft_get_map(data->map, wpos) == 'E')], rpos);

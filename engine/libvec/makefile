@@ -16,9 +16,7 @@ BIN=bin
 OBJ=obj
 
 # Files
-SOURCE_NAME= vec2f_arit.c \
-			 vec2f_algo.c \
-			 vec2i_arit.c \
+SOURCE_NAME= vec2f_algo.c \
 			 vec2i_algo.c \
 
 ##########################################

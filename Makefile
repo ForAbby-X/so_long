@@ -19,16 +19,17 @@ OBJDIR	=	./obj
 
 # src / includes / obj files
 SRC		= main.c \
-		  utils.c \
-		  menu_1.c \
-		  menu_2.c \
-		  map.c \
-		  parsing_1.c \
-		  parsing_2.c \
+		  [1]utils.c \
+		  [2]utils.c \
 		  init_game.c \
-		  map_loader.c \
-		  game_render.c \
-		  game_render_2.c \
+		  map/map.c \
+		  map/loader.c \
+		  map/[1]parsing.c \
+		  map/[2]parsing.c \
+		  render/[1]game.c \
+		  render/[2]game.c \
+		  render/[1]menu.c \
+		  render/[2]menu.c \
 		  particles_1.c \
 		  particles_2.c \
 		  raycast.c \

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   menu_1.c                                           :+:      :+:    :+:   */
+/*   [1]menu.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:11:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 16:15:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:36:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static	void	_ft_3dbackground(t_data *game)
 			pix_pos[1] = 1.0 / pj[1] * 100.0;
 			pix = game->spr[2 + (((pix_pos[0] / 32 + pix_pos[1] / 32 / 2) & 3) \
 			== 0 && ((pix_pos[1] / 32) & 3) == 0)]->data[(pix_pos[0] & 31) \
-			+ (31 - pix_pos[1] & 31) * 32];
+			+ (31 - (pix_pos[1] & 31)) * 32];
 			ft_draw(game->eng, (t_v2i){p[0], p[1]},
 				ft_color_inter(pix, (t_color){0x067790}, fmax(0, pj[1] * 6)));
 			p[0]++;
@@ -82,14 +82,14 @@ void	ft_menu(t_data *game, t_vector	*maps)
 
 void	ft_entry(t_data *game)
 {
-	t_v2u	pos;
+	t_v2i	pos;
 	t_color	col;
 
 	pos[1] = -1;
-	while (++pos[1] < ft_eng_size_y(game->eng))
+	while (++pos[1] < (int)ft_eng_size_y(game->eng))
 	{
 		pos[0] = -1;
-		while (++pos[0] < ft_eng_size_x(game->eng))
+		while (++pos[0] < (int)ft_eng_size_x(game->eng))
 		{
 			col = ft_get_color(game->eng->screen, (t_v2i){pos[0], pos[1]});
 			col = ft_color_inter((t_color){0}, col, game->state_time / 4.0f);
@@ -108,16 +108,16 @@ void	ft_entry(t_data *game)
 
 void	ft_death(t_data *game)
 {
-	t_v2u	pos;
+	t_v2i	pos;
 	t_v2f	fpos;
 	t_color	col;
 
 	pos[1] = -1;
-	while (++pos[1] < ft_eng_size_y(game->eng))
+	while (++pos[1] < (int)ft_eng_size_y(game->eng))
 	{
 		fpos[1] = (float)pos[1] / ft_eng_size_y(game->eng);
 		pos[0] = -1;
-		while (++pos[0] < ft_eng_size_x(game->eng))
+		while (++pos[0] < (int)ft_eng_size_x(game->eng))
 		{
 			fpos[0] = (float)pos[0] / ft_eng_size_x(game->eng) * 6;
 			col = ft_get_color(game->eng->screen, (t_v2i){pos[0], pos[1]});

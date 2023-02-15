@@ -6,33 +6,19 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:27:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 18:49:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:13:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VEC2_H
 # define VEC2_H
 
+# define _USE_MATH_DEFINES
 # include <math.h>
 
 typedef float			t_v2f __attribute__((vector_size (8)));
 typedef unsigned int	t_v2u __attribute__((vector_size (8)));
 typedef int				t_v2i __attribute__((vector_size (8)));
-
-// arithmetic
-// FLOAT
-t_v2f	ft_v2f(float x, float y);
-t_v2f	ft_v2fadd(t_v2f a, t_v2f b);
-t_v2f	ft_v2fsub(t_v2f a, t_v2f b);
-t_v2f	ft_v2fmul(t_v2f a, float n);
-t_v2f	ft_v2fdiv(t_v2f a, float n);
-
-// INT
-t_v2i	ft_v2i(int x, int y);
-t_v2i	ft_v2iadd(t_v2i a, t_v2i b);
-t_v2i	ft_v2isub(t_v2i a, t_v2i b);
-t_v2i	ft_v2imul(t_v2i a, float n);
-t_v2i	ft_v2idiv(t_v2i a, float n);
 
 // algorithm
 // FLOAT

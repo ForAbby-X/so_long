@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   entities_utils.c                                   :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:34:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 16:31:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 13:45:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,15 @@ int	ft_move_toward(t_v2f pos, t_v2f target, float speed, float r)
 	if (diff[0] * diff[0] + diff[1] * diff[1] < r * r)
 		return (1);
 	return (0);
+}
+
+int	ft_damage_ent(t_data *game, t_entity *ent, int dam, float rot)
+{
+	if (ent->type == 2)
+		ft_damage_enn(game, ent, dam, rot);
+	else if (ent->type == 10)
+		ft_damage_object(game, ent, dam, rot);
+	else
+		return (0);
+	return (1);
 }

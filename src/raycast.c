@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 09:39:50 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 12:08:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:13:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	ft_cast_ray(t_data *game, t_v2f start, t_v2f end)
 {
 	t_ray	ray;
 
-	start = ft_v2fdiv(start, 32);
-	end = ft_v2fdiv(end, 32);
-	ray.dir = ft_v2fsub(end, start);
+	start = start / 32;
+	end = end / 32;
+	ray.dir = end - start;
 	if (ray.dir[0] == 0.0f)
 		ray.delta_dist[0] = 1e30;
 	if (ray.dir[1] == 0.0f)

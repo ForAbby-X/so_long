@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 12:41:55 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:44:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	_ft_tank_display(t_entity *self, t_data *game)
 	{17, 15}}, dat->top_rot);
 	if (dat->timer >= 0.0625f)
 	{
-		ft_emmit_smoke_pipe(game, 2, ft_v2f(self->pos[0], self->pos[1])
+		ft_emmit_smoke_pipe(game, 2, (t_v2f){self->pos[0], self->pos[1]}
 			+ ft_v2fr(self->rot, -25));
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_paint_trail(game, (t_v2i){self->pos[0], self->pos[1]}
@@ -61,14 +61,14 @@ static void	_ft_tank_update2(t_entity *self, t_data *game, float dt)
 					35) + ft_v2fr(dat->top_rot - M_PI_2, 10), dat->top_rot
 				+ ft_rand(-0.5f, 0.5f) * 0.20, self->uuid));
 		dat->fire_cool = 0.0f;
-		game->shake -= (t_v2f){cosf(dat->top_rot), sinf(dat->top_rot)} * 6;
+		game->shake -= ft_v2fr(dat->top_rot, 6);
 	}
 	if (game->eng->mouse[3] && dat->fire_cool >= 4.0f)
 	{
 		ft_ent_add(game, ft_shell_create(self->pos
 				+ ft_v2fr(dat->top_rot, 50), dat->top_rot));
 		dat->fire_cool = 0.0f;
-		game->shake -= (t_v2f){cosf(dat->top_rot), sinf(dat->top_rot)} * 80;
+		game->shake -= ft_v2fr(dat->top_rot, 80);
 	}
 }
 

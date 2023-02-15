@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_objects.c                                      :+:      :+:    :+:   */
+/*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:13:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 18:55:50 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:19:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ t_entity	*ft_object_create(int type, t_v2f pos)
 	t_entity		*ent;
 	t_dat_object	*data;
 
-	ent = malloc(sizeof(t_entity));
+	ent = ft_ent_create(10, pos + (t_v2f){ft_rand(-0.25, 0.25), ft_rand(-0.25,
+				0.25)}, (t_v2f){0.0f, 0.0f}, 14.0f + (type == 3) * 2.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_object));
@@ -79,12 +80,6 @@ t_entity	*ft_object_create(int type, t_v2f pos)
 	ent->display = &_ft_object_display;
 	ent->update = &_ft_object_update;
 	ent->destroy = &_ft_object_destroy;
-	ent->pos = pos + (t_v2f){ft_rand(-0.25, 0.25), ft_rand(-0.25, 0.25)};
-	ent->dir = (t_v2f){0.0f, 0.0f};
 	ent->rot = ft_rand(-M_PI, M_PI);
-	ent->radius = 14.0f + (type == 3) * 2.0f;
-	ent->uuid = ft_get_uuid();
-	ent->type = 10;
-	ent->alive = 1;
 	return (ent);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_coin.c                                         :+:      :+:    :+:   */
+/*   coin.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 13:54:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:12:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_entity	*ft_coin_create(t_v2f pos)
 	t_entity	*ent;
 	t_dat_coin	*data;
 
-	ent = malloc(sizeof(t_entity));
+	ent = ft_ent_create(8, pos, (t_v2f){0, 0}, 10);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_coin));
@@ -66,12 +66,6 @@ t_entity	*ft_coin_create(t_v2f pos)
 	ent->display = &_ft_coin_display;
 	ent->update = &_ft_coin_update;
 	ent->destroy = &_ft_coin_destroy;
-	ent->pos = pos;
-	ent->dir = (t_v2f){0, 0};
 	ent->rot = ft_rand(-M_PI, M_PI);
-	ent->radius = 10;
-	ent->uuid = ft_get_uuid();
-	ent->type = 8;
-	ent->alive = 1;
 	return (ent);
 }

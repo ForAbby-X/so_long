@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_shell.c                                        :+:      :+:    :+:   */
+/*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/12 17:30:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:52:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,17 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 	while (self->alive && i < ft_vector_size(game->map->entities))
 	{
 		ent = ft_vector_get(game->map->entities, i);
-		if ((ent != self && (ent->type == 2 || ent->type == 10)
-				&& ft_v2fmag(ent->pos - self->pos) < ent->radius))
+		if (((ent != self && (ent->type == 2 || ent->type == 10)
+					&& ft_v2fmag(ent->pos - self->pos) < ent->radius))
+			|| ft_get_map(game->map, (t_v2i){self->pos[0],
+				self->pos[1]} / 32) == '1')
 		{
+			game->map->bullet_time = 0.0f;
+			self->pos -= self->dir * dt * 2.0f;
 			ft_explosion(game, self->pos, 20);
 			self->alive = 0;
 		}
 		i++;
-	}
-	if (ft_get_map(game->map, (t_v2i){self->pos[0], self->pos[1]} / 32) == '1')
-	{
-		ft_explosion(game, self->pos - self->dir * dt, 20);
-		self->alive = 0;
 	}
 	self->pos += self->dir * dt;
 }
@@ -65,7 +64,7 @@ t_entity	*ft_shell_create(t_v2f pos, float rot)
 	t_entity	*ent;
 	t_dat_shell	*data;
 
-	ent = malloc(sizeof(t_entity));
+	ent = ft_ent_create(-2, pos, ft_v2fr(rot, 400), 0.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_shell));
@@ -76,12 +75,6 @@ t_entity	*ft_shell_create(t_v2f pos, float rot)
 	ent->display = &_ft_shell_display;
 	ent->update = &_ft_shell_update;
 	ent->destroy = &_ft_shell_destroy;
-	ent->pos = pos;
-	ent->dir = ft_v2fr(rot, 400);
 	ent->rot = rot;
-	ent->radius = 0.0f;
-	ent->uuid = ft_get_uuid();
-	ent->type = -2;
-	ent->alive = 1;
 	return (ent);
 }

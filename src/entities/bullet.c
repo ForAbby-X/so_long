@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_bullet.c                                       :+:      :+:    :+:   */
+/*   bullet.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/04 18:54:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 14:17:40 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,13 @@ static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	self->alive = !(dat->time >= 2.0f);
 	i = -1;
-	while (++i < game->map->active_nbr - 1)
+	while (++i < game->map->active_nbr - 1 && self->alive)
 	{
 		ent = ft_vector_get(game->map->entities, i);
 		if (ent->uuid != dat->shooter_id && ent->type > 0 && ent->type != 3
 			&& ft_v2fmag(ent->pos - self->pos) < ent->radius)
-		{
-			if (ent->type == 2)
-				ft_damage_enn(game, ent, ft_rand(15, 25), self->rot);
-			else if (ent->type == 10)
-				ft_damage_object(game, ent, ft_rand(15, 25), self->rot);
-			else
-				break ;
-			self->alive = 0;
-		}
+			if (ft_damage_ent(game, ent, ft_rand(15, 25), self->rot))
+				self->alive = 0;
 	}
 	if (ft_v2fmag(game->eplay->pos - self->pos) < 31 || ft_get_map(
 			game->map, (t_v2i){floor(self->pos[0] / 32),
@@ -69,7 +62,7 @@ t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid)
 	t_entity		*ent;
 	t_dat_bullet	*data;
 
-	ent = malloc(sizeof(t_entity));
+	ent = ft_ent_create(-1, pos, ft_v2fr(rot, 1000), 0.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_bullet));
@@ -82,12 +75,6 @@ t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid)
 	ent->display = &_ft_bullet_display;
 	ent->update = &_ft_bullet_update;
 	ent->destroy = &_ft_bullet_destroy;
-	ent->pos = pos;
-	ent->dir = ft_v2fr(rot, 1000);
 	ent->rot = rot;
-	ent->radius = 0.0f;
-	ent->uuid = ft_get_uuid();
-	ent->type = -1;
-	ent->alive = 1;
 	return (ent);
 }
