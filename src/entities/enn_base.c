@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:17:15 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:23:48 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	dat->fire_cool += dt;
 	ft_enn_state(game, self, dat, dist);
 	self->pos += self->dir * dt;
-	if (dist < 50 || self->pressure > 250.0f)
+	if (game->eplay->type == 0 && (dist < 50 || self->pressure > 250.0f))
 	{
 		ft_damage_enn(game, self, dat->health, self->rot + M_PI);
 		ft_paint_tank(game, game->eplay, self);

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 13:39:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:56:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 	}
 	else if (data->state == 4)
 		ft_exit(data, 0, 0);
+	printf("fps:%f\n", 1.0f / dt);
 	ft_put_text(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
 		ft_eng_size_y(data->eng) - 9 * 2}, "intra:alde-fre", 2);
 	return (1);

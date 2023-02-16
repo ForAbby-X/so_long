@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= so_long.out
+NAME	= so_long
 
 # directories
 SRCDIR	=	./src
@@ -38,6 +38,7 @@ SRC		= main.c \
 		  entities/entities.c \
 		  entities/utils.c \
 		  entities/tank.c \
+		  entities/rambo.c \
 		  entities/tank_update.c \
 		  entities/tank_drawing.c \
 		  entities/bullet.c \

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:54:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 12:35:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 17:24:58 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_damage_tank(t_data *game, t_entity *ent, int dam, float rot)
 	dat->health -= dam;
 	if (dat->health <= 0.0f)
 	{
-		//ft_explosion(game, ent->pos, 80);
 		ent->alive = 0;
 		game->state = 3;
 		game->state_time = 0.0f;

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 13:07:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 16:08:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,14 @@ void	ft_game_render_ui(t_data *game)
 {
 	int	min;
 
-	min = ft_min(game->dplay->fire_cool[1] * 18.75f, 75);
-	ft_put_sprite_part_s(game->eng, game->spr[51], (t_v2i){2, 2},
-		(t_rect_s){{0, 0}, {43 + min, 36}, 2});
-	ft_put_sprite_part_s(game->eng, game->spr[50],
-		(t_v2i){88 + min * 2, 2}, (t_rect_s){{43 + min, 0}, {75 - min, 36}, 2});
+	if (game->eplay->type == 0)
+	{
+		min = ft_min(game->dplay->fire_cool[1] * 18.75f, 75);
+		ft_put_sprite_part_s(game->eng, game->spr[51], (t_v2i){2, 2},
+			(t_rect_s){{0, 0}, {43 + min, 36}, 2});
+		ft_put_sprite_part_s(game->eng, game->spr[50], (t_v2i){88 + min * 2, 2},
+			(t_rect_s){{43 + min, 0}, {75 - min, 36}, 2});
+	}
 	ft_put_sprite(game->eng, game->spr[19], (t_v2i){10, 72 + 5});
 	ft_put_sprite(game->eng, game->spr[28], (t_v2i){10, 72 + 41});
 	ft_put_nbr(game->eng, (t_v2i){26, 72 + 24}, game->map->score / 32, 2);

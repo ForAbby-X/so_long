@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 17:30:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:16:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 53
+# define SPRITES_NBR 56
 
 # include "engine.h"
 # include "vector.h"
@@ -32,6 +32,7 @@ typedef struct s_particle		t_particle;
 typedef long long				t_uuid;
 
 typedef struct s_dat_tank		t_dat_tank;
+typedef struct s_dat_rambo		t_dat_rambo;
 typedef struct s_dat_bullet		t_dat_bullet;
 typedef struct s_dat_enn_base	t_dat_enn_base;
 typedef struct s_dat_shell		t_dat_shell;
@@ -138,6 +139,7 @@ void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
 void		ft_damage_object(t_data *ga, t_entity *en, float damage, float rot);
 
 t_entity	*ft_tank_create(t_data *game, t_v2f pos);
+t_entity	*ft_rambo_create(t_data *game, t_v2f pos);
 t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid);
 t_entity	*ft_ennemy_create(t_v2f pos, float rot);
 t_entity	*ft_shell_create(t_v2f pos, float rot);
@@ -218,7 +220,12 @@ struct s_dat_tank
 	float		health;
 	t_sprite	*spr;
 };
-
+struct s_dat_rambo
+{
+	t_v2f	fire_cool;
+	float	health;
+	float	timer;
+};
 struct s_dat_bullet
 {
 	t_uuid	shooter_id;

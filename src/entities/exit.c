@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 13:47:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 16:11:48 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_entity	*ft_exit_create(t_v2f pos)
 	t_entity	*ent;
 	t_dat_exit	*data;
 
-	ent = ft_ent_create(-1, pos, (t_v2f){0, 0}, 0.0f);
+	ent = ft_ent_create(-3, pos, (t_v2f){0, 0}, 0.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_exit));

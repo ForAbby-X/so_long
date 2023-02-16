@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 17:28:58 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:25:38 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static void	_ft_tank_health(t_data *game, t_entity *self, t_dat_tank *dat)
 {
 	(void)dat;
-	if (dat->health < 700)
+	if (dat->health < 1800)
 		ft_emmit_smoke_pipe(game, 1, (t_v2f){self->pos[0], self->pos[1]}
 			+ ft_v2fr(self->rot, -25));
-	if (dat->health < 600)
+	if (dat->health < 1600)
 		ft_emmit_smoke_pipe(game, 1, (t_v2f){self->pos[0], self->pos[1]}
 			+ ft_v2fr(self->rot + 0.25, 15));
-	if (dat->health < 500)
+	if (dat->health < 1200)
 		ft_emmit_flame_pipe(game, 1, (t_v2f){self->pos[0], self->pos[1]}
 			+ ft_v2fr(self->rot, -25));
-	if (dat->health < 300)
+	if (dat->health < 900)
 		ft_emmit_flame_pipe(game, 2, (t_v2f){self->pos[0], self->pos[1]}
 			+ ft_v2fr(self->rot + 0.5, 25));
-	if (dat->health < 200)
+	if (dat->health < 600)
 		ft_emmit_flame_pipe(game, 2, (t_v2f){self->pos[0], self->pos[1]}
 			+ ft_v2fr(self->rot - 1.56, 25));
 }
@@ -80,7 +80,7 @@ t_entity	*ft_tank_create(t_data *game, t_v2f pos)
 	data->spr = ft_cpy_sprite(game->eng, game->spr[0]);
 	if (data->spr == NULL)
 		return (free(data), free(ent), NULL);
-	data->health = 800.0f;
+	data->health = 2000.0f;
 	ent->data = data;
 	ent->display = &_ft_tank_display;
 	ent->update = &ft_tank_update;
