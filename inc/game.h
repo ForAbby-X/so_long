@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 16:47:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:30:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 52
+# define SPRITES_NBR 53
 
 # include "engine.h"
 # include "vector.h"
@@ -110,6 +110,7 @@ void		ft_emmit_smoke_pipe(t_data *game, t_length nb, t_v2f pos);
 void		ft_emmit_wood(t_data *game, t_v2f pos);
 
 void		ft_emmit_explosion(t_data *game, t_v2f pos, float force);
+void		ft_emmit_flame_pipe(t_data *game, t_length nb, t_v2f pos);
 
 /* RAYCASTING */
 int			ft_cast_ray(t_data *game, t_v2f start, t_v2f end);
@@ -132,6 +133,7 @@ void		ft_tank_update(t_entity *self, t_data *game, float dt);
 void		ft_enn_state(t_data *g, t_entity *ent, t_dat_enn_base *da, float d);
 
 int			ft_damage_ent(t_data *game, t_entity *ent, int dam, float rot);
+void		ft_damage_tank(t_data *game, t_entity *ent, int dam, float rot);
 void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
 void		ft_damage_object(t_data *ga, t_entity *en, float damage, float rot);
 
@@ -213,6 +215,7 @@ struct s_dat_tank
 	float		top_rot;
 	t_v2f		fire_cool;
 	float		timer;
+	float		health;
 	t_sprite	*spr;
 };
 

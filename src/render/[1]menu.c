@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:11:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 15:36:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 12:37:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	ft_death(t_data *game)
 		{
 			fpos[0] = (float)pos[0] / ft_eng_size_x(game->eng) * 6;
 			col = ft_get_color(game->eng->screen, (t_v2i){pos[0], pos[1]});
-			col = ft_color_inter((t_color){0}, col, game->state_time / 4.0f);
 			if ((fpos[1] - game->state_time + 1.0f) < ((sinf(fpos[0])
 						+ sinf(fpos[0] * 3 + 3)) / 2))
 				col = (t_color){0x850606};

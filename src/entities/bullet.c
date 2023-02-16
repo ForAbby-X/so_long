@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:17:40 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/15 17:31:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,12 @@ static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 	while (++i < game->map->active_nbr - 1 && self->alive)
 	{
 		ent = ft_vector_get(game->map->entities, i);
-		if (ent->uuid != dat->shooter_id && ent->type > 0 && ent->type != 3
+		if (ent->uuid != dat->shooter_id && ent->type >= 0 && ent->type != 3
 			&& ft_v2fmag(ent->pos - self->pos) < ent->radius)
 			if (ft_damage_ent(game, ent, ft_rand(15, 25), self->rot))
 				self->alive = 0;
 	}
-	if (ft_v2fmag(game->eplay->pos - self->pos) < 31 || ft_get_map(
-			game->map, (t_v2i){floor(self->pos[0] / 32),
+	if (ft_get_map(game->map, (t_v2i){floor(self->pos[0] / 32),
 			floor(self->pos[1] / 32)}) == '1')
 	{
 		ft_emmit_sparks(game, 6, self->pos, self->rot + M_PI);

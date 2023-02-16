@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:34:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 13:45:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 12:40:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	ft_damage_ent(t_data *game, t_entity *ent, int dam, float rot)
 		ft_damage_enn(game, ent, dam, rot);
 	else if (ent->type == 10)
 		ft_damage_object(game, ent, dam, rot);
+	else if (ent->type == 0)
+		ft_damage_tank(game, ent, dam, rot);
 	else
 		return (0);
 	return (1);

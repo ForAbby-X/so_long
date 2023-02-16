@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 16:13:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:18:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 				self->pos[1]} / 32) == '1')
 		{
 			game->map->bullet_time = 0.0f;
-			ft_explosion(game, self->pos - self->dir * dt * 2.0f, 20);
+			ft_explosion(game, self->pos - self->dir * dt * 2.0f, 64);
 			self->alive = 0;
 		}
 		i++;
