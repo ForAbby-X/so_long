@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 13:43:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 13:26:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:44:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_explosion(t_data *game, t_v2f pos, float power)
 		ent = ft_vector_get(game->map->entities, i);
 		diff = ent->pos - pos;
 		if (ft_v2fmag(diff) > radius || ft_cast_ray(game, pos, ent->pos) == 0
-			|| ent->type < 0)
+			|| ent->type < 0 || ent->alive)
 			continue ;
 		damage = (1.0f - (ft_v2fmag(diff) / power / 2.0f)) * 0.75f;
 		damage = (damage * damage + damage) * 8.0f * power + 1.0f;

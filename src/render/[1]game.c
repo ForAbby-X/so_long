@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 16:08:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:40:28 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	ft_game_update_ent(t_data *data, float dt)
 	while (i < ft_vector_size(data->map->entities))
 	{
 		ent = (t_entity *)ft_vector_get(data->map->entities, i);
-		if (ent->alive == 0 && ent->type != 0)
+		if (ent->alive == 0)
 		{
 			ent->destroy(ent, data);
 			ft_vector_rem(data->map->entities, i);

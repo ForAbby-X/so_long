@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 18:24:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:42:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ t_entity	*ft_rambo_create(t_data *game, t_v2f pos)
 	t_entity	*ent;
 	t_dat_rambo	*data;
 
+	(void)game;
 	ent = ft_ent_create(1, pos, (t_v2f){0, 0}, 16.0f);
 	if (ent == NULL)
 		return (NULL);
@@ -90,9 +91,5 @@ t_entity	*ft_rambo_create(t_data *game, t_v2f pos)
 	ent->update = &_ft_rambo_update;
 	ent->destroy = &_ft_rambo_destroy;
 	ent->rot = 0.0f;
-	ft_eng_sel_spr(game->eng, game->map->background);
-	ft_put_sprite_r(game->eng, game->spr[41],
-		(t_rect){{pos[0], pos[1]}, {84, 96}}, ent->rot);
-	ft_eng_sel_spr(game->eng, NULL);
 	return (ent);
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 18:04:35 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:34:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 			return (ft_ent_add(game, ft_object_create(rand() & 3, pos)));
 	}
 	if (cell == 'P')
-		game->eplay = ft_ent_add(game, ft_rambo_create(game, pos));//ft_tank_create(game, pos)); //
+		game->eplay = ft_ent_add(game, ft_tank_create(game, pos));
 	if (cell == 'C')
 		return (ft_ent_add(game, ft_coin_create(pos)));
 	if (cell == 'E')
