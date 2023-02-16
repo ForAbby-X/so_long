@@ -68,7 +68,7 @@ t_entity	*ft_object_create(int type, t_v2f pos)
 	t_dat_object	*data;
 
 	ent = ft_ent_create(10, pos + (t_v2f){ft_rand(-0.25, 0.25), ft_rand(-0.25,
-				0.25)}, (t_v2f){0.0f, 0.0f}, 14.0f + (type == 3) * 2.0f);
+				0.25)}, (t_v2f){0.0f, 0.0f}, 13.0f + (type == 3) * 2.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_object));

@@ -78,7 +78,7 @@ t_entity	*ft_rambo_create(t_data *game, t_v2f pos)
 	t_dat_rambo	*data;
 
 	(void)game;
-	ent = ft_ent_create(1, pos, (t_v2f){0, 0}, 16.0f);
+	ent = ft_ent_create(1, pos, (t_v2f){0, 0}, 13.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_rambo));

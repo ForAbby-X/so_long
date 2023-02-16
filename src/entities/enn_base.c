@@ -55,7 +55,7 @@ t_entity	*ft_ennemy_create(t_v2f pos, float rot)
 	t_entity		*ent;
 	t_dat_enn_base	*data;
 
-	ent = ft_ent_create(2, pos, (t_v2f){0, 0}, 15.0f);
+	ent = ft_ent_create(2, pos, (t_v2f){0, 0}, 10.0f);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_enn_base));

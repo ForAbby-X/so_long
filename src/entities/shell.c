@@ -33,18 +33,22 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	dat->time += dt;
 	self->alive = !(dat->time >= 2.0f);
+	if (ft_get_map(game->map, (t_v2i){self->pos[0],
+		self->pos[1]} / 32) == '1')
+		{
+			self->alive = 0;
+			ft_explosion(game, self->pos - self->dir * dt * 2, 64);
+		}
 	i = 0;
 	while (self->alive && i < game->map->active_nbr)
 	{
 		ent = ft_vector_get(game->map->entities, i);
 		if (((ent != self && (ent->type == 2 || ent->type == 10)
-					&& ft_v2fmag(ent->pos - self->pos) < ent->radius))
-			|| ft_get_map(game->map, (t_v2i){self->pos[0],
-				self->pos[1]} / 32) == '1')
+					&& ft_v2fmag(ent->pos - self->pos) < ent->radius)))
 		{
 			game->map->bullet_time = 0.0f;
-			ft_explosion(game, self->pos - self->dir * dt * 2.0f, 64);
 			self->alive = 0;
+			ft_explosion(game, ent->pos, 64);
 		}
 		i++;
 	}

@@ -85,8 +85,8 @@ void	ft_explosion(t_data *game, t_v2f pos, float power)
 	{
 		ent = ft_vector_get(game->map->entities, i);
 		diff = ent->pos - pos;
-		if (ft_v2fmag(diff) > radius || ft_cast_ray(game, pos, ent->pos) == 0
-			|| ent->type < 0 || ent->alive)
+		if (ent->alive == 0 || ft_v2fmag(diff) > radius
+			|| ft_cast_ray(game, pos, ent->pos) == 0 || ent->type < 0)
 			continue ;
 		damage = (1.0f - (ft_v2fmag(diff) / power / 2.0f)) * 0.75f;
 		damage = (damage * damage + damage) * 8.0f * power + 1.0f;
