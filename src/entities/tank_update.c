@@ -6,11 +6,30 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:54:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 18:43:19 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:03:05 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+static void	_ft_kill_tank(t_data *game, t_entity *ent)
+{
+	ent->alive = 0;
+	game->map->bullet_time = 0.0f;
+	ft_explosion(game, ent->pos, 120);
+	ft_eng_sel_spr(game->eng, game->map->background);
+	ft_put_sprite_r(game->eng, game->spr[57],
+		(t_rect){(t_v2i){ent->pos[0], ent->pos[1]}, {36, 25}}, ent->rot);
+	ft_eng_sel_spr(game->eng, NULL);
+	game->eplay = ft_ent_add(game, ft_rambo_create(game, ent->pos));
+	if (game->eplay == NULL)
+	{
+		game->state = 0;
+		game->state_time = 0.0f;
+		ft_putstr_fd("ERROR: tank couldn't spawn !", 2);
+	}
+		game->rplay = game->eplay->data;
+}
 
 void	ft_damage_tank(t_data *game, t_entity *ent, int dam, float rot)
 {
@@ -20,12 +39,7 @@ void	ft_damage_tank(t_data *game, t_entity *ent, int dam, float rot)
 	ft_emmit_sparks(game, 6, ent->pos, rot);
 	dat->health -= dam;
 	if (dat->health <= 0.0f)
-	{
-		ent->alive = 0;
-		ft_explosion(game, ent->pos, 160);
-		game->eplay = ft_ent_add(game, ft_rambo_create(game, ent->pos));
-		game->dplay = game->eplay->data;
-	}
+		_ft_kill_tank(game, ent);
 }
 
 static void	_ft_tank_update3(t_entity *s, t_dat_tank *dat, t_data *g)
@@ -45,11 +59,13 @@ static void	_ft_tank_update3(t_entity *s, t_dat_tank *dat, t_data *g)
 		dat->fire_cool[1] = 0.0f;
 		g->shake -= ft_v2fr(dat->top_rot, 80);
 	}
+	if (g->eng->keys[XK_space])
+		_ft_kill_tank(g, s);
 }
 
 static void	_ft_tank_update2(t_entity *s, t_dat_tank *dat, t_data *g, float dt)
 {
-	g->map->score += ft_v2fmag(dat->vel) * 32.0f * dt;
+	g->score += ft_v2fmag(dat->vel) * 32.0f * dt;
 	dat = s->data;
 	dat->bloody[0] = fmaxf(dat->bloody[0] - dt, 0.0f);
 	dat->bloody[1] = fmaxf(dat->bloody[1] - dt, 0.0f);

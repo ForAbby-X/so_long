@@ -6,11 +6,32 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 18:34:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:08:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
+
+static int	_ft_is_space(t_map *map, t_v2i pos)
+{
+	t_v2i	xy;
+	int		flag;
+
+	flag = 0;
+	xy[1] = -2;
+	while (++xy[1] < 1)
+	{
+		xy[0] = -2;
+		while (++xy[0] < 1)
+		{
+			flag |= ((ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1')
+					&& (ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1')
+					&& (ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1')
+					&& (ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1'));
+		}
+	}
+	return (flag);
+}
 
 static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 {
@@ -23,7 +44,13 @@ static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 			return (ft_ent_add(game, ft_object_create(rand() & 3, pos)));
 	}
 	if (cell == 'P')
-		game->eplay = ft_ent_add(game, ft_tank_create(game, pos));
+	{
+		if (_ft_is_space(map, (t_v2i){(pos[0] - 16) / 32.0f,
+				(pos[1] - 16) / 32.0f}))
+			game->eplay = ft_ent_add(game, ft_tank_create(game, pos));
+		else
+			game->eplay = ft_ent_add(game, ft_rambo_create(game, pos));
+	}
 	if (cell == 'C')
 		return (ft_ent_add(game, ft_coin_create(pos)));
 	if (cell == 'E')
@@ -66,11 +93,15 @@ void	ft_map_load(t_data *game, t_map *map)
 		ft_map_unload(game);
 		return ;
 	}
-	game->dplay = game->eplay->data;
+	if (game->eplay->type == 0)
+		game->tplay = game->eplay->data;
+	if (game->eplay->type == 1)
+		game->rplay = game->eplay->data;
 	game->state = 1;
 	game->map->bullet_time = 999.0f;
-	game->map->score = 0.0f;
-	game->map->crates_nb = 0;
+	game->score = 0.0f;
+	game->crate_nb = 0;
+	game->max_crate = ft_vector_countif(map->entities, &ft_exit_count);
 }
 
 void	ft_map_unload(t_data *game)
@@ -86,6 +117,7 @@ void	ft_map_unload(t_data *game)
 		free(ft_vector_pop(game->map->particles));
 	game->map->active_nbr = 0;
 	game->eplay = NULL;
-	game->dplay = NULL;
+	game->tplay = NULL;
+	game->rplay = NULL;
 	game->map = NULL;
 }

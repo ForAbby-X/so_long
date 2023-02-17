@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:12:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:09:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,13 @@ static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 			(t_rect){{self->pos[0], self->pos[1]}, {16, 16}}, self->rot);
 		ft_eng_sel_spr(game->eng, NULL);
 		ft_emmit_wood(game, self->pos);
-		game->map->crates_nb++;
+		if (game->eplay->type == 0)
+		{
+			ft_emmit_gear(game, game->eplay->pos, 3);
+			((t_dat_tank *)game->tplay)->health
+				= fminf(((t_dat_tank *)game->tplay)->health + 500.0f, 1000.0f);
+		}
+		game->crate_nb++;
 		self->alive = 0;
 	}
 }

@@ -39,6 +39,7 @@ SRC		= main.c \
 		  entities/utils.c \
 		  entities/tank.c \
 		  entities/rambo.c \
+		  entities/rambo_update.c \
 		  entities/tank_update.c \
 		  entities/tank_drawing.c \
 		  entities/bullet.c \

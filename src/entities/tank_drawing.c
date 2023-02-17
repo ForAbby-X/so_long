@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ent_tank_drawing.c                                 :+:      :+:    :+:   */
+/*   tank_drawing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 07:53:59 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/11 17:53:25 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 15:31:25 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	ft_put_sprite_r2(t_data *game, t_sprite *spr,
 			read[0] = floor(i.dim[0] + cosf(rot) * dim[0] + sinf(rot) * dim[1]);
 			read[1] = floor(i.dim[1] - sinf(rot) * dim[0] + cosf(rot) * dim[1]);
 			col = ft_get_color(spr, read);
-			col2 = ft_get_color(game->dplay->spr, i.pos + dim);
+			col2 = ft_get_color(game->tplay->spr, i.pos + dim);
 			if ((col2.d >> 24) != 255 && (col.d >> 24) != 255)
 				ft_draw(game->eng, i.pos + dim,
 					ft_color_inter(col, col2, 0.25f));

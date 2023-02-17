@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 18:16:24 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:08:45 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 56
+# define SPRITES_NBR 59
 
 # include "engine.h"
 # include "vector.h"
@@ -50,8 +50,6 @@ struct	s_map
 	t_sprite	*background;
 	char		*name;
 	float		bullet_time;
-	float		score;
-	int			crates_nb;
 };
 
 struct	s_camera
@@ -81,7 +79,7 @@ void		ft_destroy_game(t_data *game);
 void		ft_ent_check_activ(t_data *game);
 int			ft_move_toward(t_v2f pos, t_v2f target, float speed, float r);
 
-int			ft_game_render(t_data *data);
+int			ft_game_render(t_data *data, float dt);
 void		ft_game_render_ui(t_data *game);
 int			ft_game_render_map(t_data *data);
 void		ft_game_render_ent(t_data *data);
@@ -112,6 +110,7 @@ void		ft_emmit_wood(t_data *game, t_v2f pos);
 
 void		ft_emmit_explosion(t_data *game, t_v2f pos, float force);
 void		ft_emmit_flame_pipe(t_data *game, t_length nb, t_v2f pos);
+void		ft_emmit_gear(t_data *game, t_v2f pos, int nb);
 
 /* RAYCASTING */
 int			ft_cast_ray(t_data *game, t_v2f start, t_v2f end);
@@ -123,6 +122,8 @@ void		ft_entity_collisions(t_data *game, float dt);
 long long	ft_get_uuid(void);
 
 /* ENTITIES */
+int			ft_exit_count(t_object obj);
+
 t_entity	*ft_ent_create(int type, t_v2f pos, t_v2f dir, float radius);
 t_entity	*ft_ent_add(t_data *game, t_entity *ent);
 t_entity	*ft_ent_get(t_data *game, t_length index);
@@ -131,10 +132,12 @@ void		ft_paint_tank(t_data *game, t_entity *tank, t_entity *enn_pos);
 void		ft_paint_trail(t_data *g, t_v2i p, float r, float strength);
 
 void		ft_tank_update(t_entity *self, t_data *game, float dt);
+void		ft_rambo_update(t_entity *self, t_data *game, float dt);
 void		ft_enn_state(t_data *g, t_entity *ent, t_dat_enn_base *da, float d);
 
 int			ft_damage_ent(t_data *game, t_entity *ent, int dam, float rot);
 void		ft_damage_tank(t_data *game, t_entity *ent, int dam, float rot);
+void		ft_damage_rambo(t_data *game, t_entity *ent, float dam, float rot);
 void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
 void		ft_damage_object(t_data *ga, t_entity *en, float damage, float rot);
 
@@ -155,12 +158,16 @@ struct s_data
 	t_map		*map;
 	t_vector	*maps;
 	t_camera	cam;
-	t_dat_tank	*dplay;
+	t_dat_rambo	*rplay;
+	t_dat_tank	*tplay;
 	t_entity	*eplay;
 	uint8_t		state;
 	float		state_time;
 	t_v2f		shake;
 	float		time;
+	float		score;
+	int			crate_nb;
+	int			max_crate;
 };
 
 struct	s_cell

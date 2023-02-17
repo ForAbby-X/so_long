@@ -6,13 +6,13 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 16:11:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:08:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-static int	_ft_exit_count(t_object obj)
+int	ft_exit_count(t_object obj)
 {
 	t_entity	*ent;
 
@@ -46,7 +46,7 @@ static void	_ft_exit_update(t_entity *self, t_data *game, float dt)
 	(void)game;
 	data = self->data;
 	data->time += dt;
-	data->is_open = !ft_vector_countif(game->map->entities, &_ft_exit_count);
+	data->is_open = !ft_vector_countif(game->map->entities, &ft_exit_count);
 	if (data->is_open && ft_v2fmag(game->eplay->pos - self->pos) < 50)
 	{
 		game->state = 4;

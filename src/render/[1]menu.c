@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:11:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 12:37:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 13:42:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ static int	_ft_display_menu(t_data *game, t_map *map, int i)
 
 static	void	_ft_3dbackground(t_data *game)
 {
-	t_v2u	p;
+	t_v2i	p;
 	t_v2f	pj;
 	t_v2i	pix_pos;
 	t_color	pix;
 
 	p[1] = 0;
-	while (p[1] < game->eng->win_y)
+	while (p[1] < (int)game->eng->win_y)
 	{
 		p[0] = 0;
-		while (p[0] < game->eng->win_x)
+		while (p[0] < (int)game->eng->win_x)
 		{
 			pj[0] = ((float)p[0] / game->eng->win_x * 2) - 1.0f;
 			pj[1] = ((float)p[1] / game->eng->win_y * 2) - 1.0f;

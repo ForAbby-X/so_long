@@ -6,18 +6,19 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 18:40:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:11:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
 
-int	ft_game_render(t_data *game)
+int	ft_game_render(t_data *game, float dt)
 {
 	t_v2i	mouse;
 
 	ft_game_render_map(game);
 	ft_game_render_ent(game);
+	ft_game_all_par(game, dt);
 	ft_game_render_ui(game);
 	mouse = ((t_v2i){game->eplay->pos[0], game->eplay->pos[1]}
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
@@ -34,16 +35,31 @@ void	ft_game_render_ui(t_data *game)
 
 	if (game->eplay->type == 0)
 	{
-		min = ft_min(game->dplay->fire_cool[1] * 18.75f, 75);
+		min = ft_min(game->tplay->fire_cool[1] * 18.75f, 75);
 		ft_put_sprite_part_s(game->eng, game->spr[51], (t_v2i){2, 2},
 			(t_rect_s){{0, 0}, {43 + min, 36}, 2});
 		ft_put_sprite_part_s(game->eng, game->spr[50], (t_v2i){88 + min * 2, 2},
 			(t_rect_s){{43 + min, 0}, {75 - min, 36}, 2});
+		if (game->tplay->fire_cool[1] > 4.0f && ((int)(game->time * 2) & 1))
+			ft_put_text(game->eng, (t_v2i){10, 10}, "[RC] to shoot !", 2);
+		ft_put_text(game->eng, (t_v2i){game->eng->win_x / 2 - 10 * 14,
+			game->eng->win_y - 20}, "[SPACE] self destruct", 2);
+	}
+	if (game->eplay->type == 1)
+	{
+		min = ft_min(game->rplay->health / 2.5f, 400);
+		ft_rect(game->eng, (t_v2i){10, 10}, (t_v2i){min, 30},
+			(t_color){0xFE000C});
+		ft_rect(game->eng, (t_v2i){10 + min, 10}, (t_v2i){400 - min, 30},
+			(t_color){0x00000C});
+		ft_put_nbr(game->eng, (t_v2i){10, 10}, (int)game->rplay->health, 2);
 	}
 	ft_put_sprite(game->eng, game->spr[19], (t_v2i){10, 72 + 5});
 	ft_put_sprite(game->eng, game->spr[28], (t_v2i){10, 72 + 41});
-	ft_put_nbr(game->eng, (t_v2i){26, 72 + 24}, game->map->score / 32, 2);
-	ft_put_nbr(game->eng, (t_v2i){26, 72 + 59}, game->map->crates_nb, 2);
+	ft_put_nbr(game->eng, (t_v2i){26, 72 + 24}, game->score / 32, 2);
+	ft_put_nbr(game->eng, (t_v2i){26, 72 + 59}, game->crate_nb, 2);
+	ft_put_text(game->eng, (t_v2i){36, 82 + 59}, "/", 2);
+	ft_put_nbr(game->eng, (t_v2i){36 + 7 * 2, 82 + 59}, game->max_crate, 2);
 }
 
 int	ft_game_render_map(t_data *data)
@@ -63,7 +79,7 @@ int	ft_game_render_map(t_data *data)
 			rpos[0] = (pos[0]
 					- (data->cam.pos[0] / 32.f - data->cam.pos[0] / 32)) * 32;
 			wpos = pos + data->cam.pos / 32;
-			ft_put_sprite(data->eng, data->spr[2 + 32
+			ft_put_sprite(data->eng, data->spr[2 + 31
 				* (ft_get_map(data->map, wpos) == 'E')], rpos);
 			if (ft_get_map(data->map, wpos) == '1')
 				ft_put_sprite(data->eng, data->spr[3], rpos);
