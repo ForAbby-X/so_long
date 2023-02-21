@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:27:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:13:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:15:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,13 @@ struct s_v2i
 	int	x;
 	int	y;
 };
+
+typedef union u_vec
+{
+	float	d __attribute__((vector_size (8)));
+	struct {
+		float	x;
+		float	y;
+	};
+}	t_vec;
 #endif
