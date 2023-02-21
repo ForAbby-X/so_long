@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 17:23:48 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:17:43 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ static void	_ft_ennemy_update(t_entity *self, t_data *game, float dt)
 	float			dist;
 
 	dat = self->data;
-	dist = ft_v2fmag(game->eplay->pos - self->pos);
 	dat->fire_cool += dt;
+	if (game->is_finished)
+	{
+		dat->state = 3;
+		return ;
+	}
+	dist = ft_v2fmag(game->eplay->pos - self->pos);
 	ft_enn_state(game, self, dat, dist);
 	self->pos += self->dir * dt;
 	if (game->eplay->type == 0 && (dist < 50 || self->pressure > 250.0f))

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/17 17:08:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/21 10:55:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_map_load(t_data *game, t_map *map)
 	game->map->bullet_time = 999.0f;
 	game->score = 0.0f;
 	game->crate_nb = 0;
+	game->is_finished = 0;
 	game->max_crate = ft_vector_countif(map->entities, &ft_exit_count);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/17 17:08:45 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/21 10:54:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ struct s_data
 	float		score;
 	int			crate_nb;
 	int			max_crate;
+	int			is_finished;
 };
 
 struct	s_cell

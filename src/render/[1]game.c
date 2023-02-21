@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/17 17:11:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:06:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	ft_game_render(t_data *game, float dt)
 	ft_game_render_ent(game);
 	ft_game_all_par(game, dt);
 	ft_game_render_ui(game);
+	if (game->is_finished)
+		return (1);
 	mouse = ((t_v2i){game->eplay->pos[0], game->eplay->pos[1]}
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
 					- (t_v2i){game->eng->win_x / 2, game->eng->win_y / 2})
@@ -33,6 +35,12 @@ void	ft_game_render_ui(t_data *game)
 {
 	int	min;
 
+	if (game->is_finished)
+	{
+		ft_put_text(game->eng, (t_v2i){game->eng->win_x / 2 - 6 * 4 * 7,
+			game->eng->win_y / 2 - 36}, "YOU ARE DEAD", 4);
+		return ;
+	}
 	if (game->eplay->type == 0)
 	{
 		min = ft_min(game->tplay->fire_cool[1] * 18.75f, 75);
