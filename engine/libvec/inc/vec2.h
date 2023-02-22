@@ -48,13 +48,4 @@ struct s_v2i
 	int	x;
 	int	y;
 };
-
-typedef union u_vec
-{
-	float	d __attribute__((vector_size (8)));
-	struct {
-		float	x;
-		float	y;
-	};
-}	t_vec;
 #endif

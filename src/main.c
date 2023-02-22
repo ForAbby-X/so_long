@@ -79,11 +79,5 @@ int	main(void)
 		ft_destroy_game(&data);
 		ft_eng_destroy(eng);
 	}
-	t_vec	my_vec;
-
-	my_vec.x = 10;
-	my_vec.y = 1;
-
-	my_vec.d += 1;
 	return (0);
 }
