@@ -57,6 +57,8 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 		ft_exit(data, 0, 0);
 	ft_put_text(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
 		ft_eng_size_y(data->eng) - 9 * 2}, "intra:alde-fre", 2);
+	ft_putnbr_fd(1.0f / dt, 1);
+	write(1, (char[1]){'\n'}, 1);
 	return (1);
 }
 

@@ -12,20 +12,19 @@
 
 #include "engine.h"
 
-int	ft_draw(t_engine *eng, t_v2i pos, t_color color)
+void	ft_draw(t_engine *eng, t_v2i pos, t_color color)
 {
 	size_t	index;
 
 	if ((color.d >> 24) == 255 || pos[0] < 0 || pos[1] < 0
 		|| (size_t)pos[0] >= ft_eng_size_x(eng)
 		|| (size_t)pos[1] >= ft_eng_size_y(eng))
-		return (0);
+		return ;
 	index = pos[0] + pos[1] * ft_eng_size_x(eng);
 	eng->sel_spr->data[index] = color;
-	return (1);
 }
 
-int	ft_clear(t_engine *eng, t_color color)
+void	ft_clear(t_engine *eng, t_color color)
 {
 	size_t	index;
 
@@ -35,22 +34,21 @@ int	ft_clear(t_engine *eng, t_color color)
 		eng->sel_spr->data[index] = color;
 		index++;
 	}
-	return (1);
 }
 
 static void	ft_pt_circle(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 {
-	ft_draw(eng, (t_v2i){pos[0] + dim[0], pos[1] + dim[1]}, color);
+	ft_draw(eng, pos + dim, color);
 	ft_draw(eng, (t_v2i){pos[0] - dim[0], pos[1] + dim[1]}, color);
 	ft_draw(eng, (t_v2i){pos[0] + dim[0], pos[1] - dim[1]}, color);
-	ft_draw(eng, (t_v2i){pos[0] - dim[0], pos[1] - dim[1]}, color);
+	ft_draw(eng, pos - dim, color);
 	ft_draw(eng, (t_v2i){pos[0] + dim[1], pos[1] + dim[0]}, color);
 	ft_draw(eng, (t_v2i){pos[0] - dim[1], pos[1] + dim[0]}, color);
 	ft_draw(eng, (t_v2i){pos[0] + dim[1], pos[1] - dim[0]}, color);
 	ft_draw(eng, (t_v2i){pos[0] - dim[1], pos[1] - dim[0]}, color);
 }
 
-int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
+void	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
 {
 	t_v2i	dim;
 	int		d;
@@ -71,10 +69,9 @@ int	ft_circle(t_engine *eng, t_v2i pos, int r, t_color color)
 			d = d + 4 * dim[0] + 6;
 		ft_pt_circle(eng, pos, dim, color);
 	}
-	return (1);
 }
 
-int	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
+void	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 {
 	t_v2i	p;
 
@@ -89,5 +86,4 @@ int	ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color)
 		}
 		p[1]++;
 	}
-	return (1);
 }

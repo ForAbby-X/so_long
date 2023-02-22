@@ -42,7 +42,7 @@ static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 		{
 			ft_emmit_gear(game, game->eplay->pos, 3);
 			((t_dat_tank *)game->tplay)->health
-				= fminf(((t_dat_tank *)game->tplay)->health + 500.0f, 1000.0f);
+				= fminf(((t_dat_tank *)game->tplay)->health + 500.0f, 2000.0f);
 		}
 		game->crate_nb++;
 		self->alive = 0;

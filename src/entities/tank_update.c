@@ -19,7 +19,7 @@ static void	_ft_kill_tank(t_data *game, t_entity *ent)
 	ft_explosion(game, ent->pos, 120);
 	ft_eng_sel_spr(game->eng, game->map->background);
 	ft_put_sprite_r(game->eng, game->spr[57],
-		(t_rect){(t_v2i){ent->pos[0], ent->pos[1]}, {36, 25}}, ent->rot);
+		(t_rect){{ent->pos[0], ent->pos[1]}, {36, 25}}, ent->rot);
 	ft_eng_sel_spr(game->eng, NULL);
 	game->eplay = ft_ent_add(game, ft_rambo_create(game, ent->pos));
 	if (game->eplay == NULL)

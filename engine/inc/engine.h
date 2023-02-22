@@ -48,23 +48,23 @@ void		ft_eng_sel_spr(t_engine *eng, t_sprite	*spr);
 
 /* ENGINE DRAWING */
 /* [1] SHAPES */
-int			ft_draw(t_engine *eng, t_v2i pos, t_color color);
-int			ft_clear(t_engine *eng, t_color color);
-int			ft_circle(t_engine *eng, t_v2i pos, int r, t_color color);
-int			ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color);
+void		ft_draw(t_engine *eng, t_v2i pos, t_color color);
+void		ft_clear(t_engine *eng, t_color color);
+void		ft_circle(t_engine *eng, t_v2i pos, int r, t_color color);
+void		ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color);
 
 /* [2] SPRITE */
 t_color		ft_get_color(t_sprite *spr, t_v2i pos);
-int			ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
-int			ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
+void		ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
+void		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
 void		ft_get_border(t_sprite *spr,
 				t_v2i cen, float rot, t_v2i	out[2]);
-int			ft_put_sprite_r(t_engine *eng, t_sprite *spr, t_rect i, float rot);
+void		ft_put_sprite_r(t_engine *eng, t_sprite *spr, t_rect i, float rot);
 
 /* [3] SPRITE */
-int			ft_put_sprite_part(t_engine *eng, t_sprite *spr,
+void		ft_put_sprite_part(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_rect rect);
-int			ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
+void		ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
 				t_v2i pos, t_rect_s rect_t);
 void		ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size);
 void		ft_put_nbr(t_engine *eng, t_v2i pos, int nbr, t_length size);

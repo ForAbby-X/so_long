@@ -18,12 +18,12 @@ t_color	ft_get_color(t_sprite *spr, t_v2i pos)
 
 	if (pos[0] < 0 || pos[1] < 0
 		|| pos[0] >= spr->size[0] || pos[1] >= spr->size[1])
-		return (ft_color_d(0xFF000000));
+		return ((t_color)(0xFF000000));
 	index = pos[1] * spr->size[0] + pos[0];
 	return (spr->data[index]);
 }
 
-int	ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos)
+void	ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos)
 {
 	t_v2i	dim;
 
@@ -38,10 +38,9 @@ int	ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos)
 		}
 		dim[1]++;
 	}
-	return (1);
 }
 
-int	ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
+void	ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 {
 	t_v2i	dim;
 
@@ -57,7 +56,6 @@ int	ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d)
 		}
 		dim[1]++;
 	}
-	return (1);
 }
 
 void	ft_get_border(t_sprite *spr,
@@ -75,34 +73,35 @@ void	ft_get_border(t_sprite *spr,
 	n = 1;
 	while (n < 4)
 	{
-		out[0][0] = fmin(out[0][0], cor[n][0]);
-		out[0][1] = fmin(out[0][1], cor[n][1]);
-		out[1][0] = fmax(out[1][0], cor[n][0]);
-		out[1][1] = fmax(out[1][1], cor[n][1]);
+		out[0][0] = ft_min(out[0][0], cor[n][0]);
+		out[0][1] = ft_min(out[0][1], cor[n][1]);
+		out[1][0] = ft_max(out[1][0], cor[n][0]);
+		out[1][1] = ft_max(out[1][1], cor[n][1]);
 		n++;
 	}
 }
 
-int	ft_put_sprite_r(t_engine *eng, t_sprite *spr,
+void	ft_put_sprite_r(t_engine *eng, t_sprite *spr,
 			t_rect i, float rot)
 {
 	t_v2i	dim;
 	t_v2i	read;
 	t_v2i	bord[2];
+	t_v2f	sc;
 
 	ft_get_border(spr, i.dim, rot, bord);
+	sc = (t_v2f){sinf(rot), cosf(rot)};
 	dim[1] = bord[0][1];
 	while (dim[1] <= bord[1][1])
 	{
 		dim[0] = bord[0][0];
 		while (dim[0] <= bord[1][0])
 		{
-			read[0] = floor(i.dim[0] + cosf(rot) * dim[0] + sinf(rot) * dim[1]);
-			read[1] = floor(i.dim[1] - sinf(rot) * dim[0] + cosf(rot) * dim[1]);
+			read[0] = floorl(i.dim[0] + sc[1] * dim[0] + sc[0] * dim[1]);
+			read[1] = floorl(i.dim[1] - sc[0] * dim[0] + sc[1] * dim[1]);
 			ft_draw(eng, i.pos + dim, ft_get_color(spr, read));
 			dim[0]++;
 		}
 		dim[1]++;
 	}
-	return (1);
 }

@@ -12,6 +12,25 @@
 
 #include "game.h"
 
+static void	ft_sand_shader(t_data *gam, float ratio)
+{
+	size_t	index;
+	t_color	col[2];
+	uint8_t	alpha;
+
+	(void)ratio;
+	index = 0;
+	while (index < gam->eng->win_x * gam->eng->win_y)
+	{
+		col[0] = gam->eng->sel_spr->data[index];
+		col[1] = gam->spr[58]->data[index];
+		alpha = 255 - ((col[1].d & 0xFF000000) >> 24);
+		col[1].d = col[1].d & 0xFFFFFF;
+		gam->eng->sel_spr->data[index] = ft_color_inter(col[1], col[0], ratio * (alpha / 255.0f));
+		index++;
+	}
+}
+
 int	ft_game_render(t_data *game, float dt)
 {
 	t_v2i	mouse;
@@ -19,6 +38,10 @@ int	ft_game_render(t_data *game, float dt)
 	ft_game_render_map(game);
 	ft_game_render_ent(game);
 	ft_game_all_par(game, dt);
+	if (game->eplay->type == 0)
+		ft_sand_shader(game, (1.0f - game->tplay->health / 2000.0f));
+	if (game->eplay->type == 1)
+		ft_sand_shader(game, (1.0f - game->rplay->health / 1000.0f));
 	ft_game_render_ui(game);
 	if (game->is_finished)
 		return (1);

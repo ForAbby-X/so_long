@@ -12,7 +12,7 @@
 
 #include "engine.h"
 
-int	ft_put_sprite_part(t_engine *eng, t_sprite *spr, t_v2i pos, t_rect rect)
+void	ft_put_sprite_part(t_engine *eng, t_sprite *spr, t_v2i pos, t_rect rect)
 {
 	t_v2i	dim;
 
@@ -27,10 +27,9 @@ int	ft_put_sprite_part(t_engine *eng, t_sprite *spr, t_v2i pos, t_rect rect)
 		}
 		dim[1]++;
 	}
-	return (1);
 }
 
-int	ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
+void	ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
 		t_v2i pos, t_rect_s rect_t)
 {
 	t_v2i	dim;
@@ -48,7 +47,6 @@ int	ft_put_sprite_part_s(t_engine *eng, t_sprite *spr,
 		}
 		dim[1]++;
 	}
-	return (1);
 }
 
 void	ft_put_text(t_engine *eng, t_v2i pos, char *str, t_length size)
