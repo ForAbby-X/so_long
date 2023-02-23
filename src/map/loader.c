@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/21 10:55:03 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:56:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 				(t_v2i){(pos[0] - 16) / 32.0f, (pos[1] - 16) / 32.0f}))
 			return (ft_ent_add(game, ft_object_create(rand() & 3, pos)));
 	}
-	if (cell == 'P')
+	else if (cell == 'P')
 	{
 		if (_ft_is_space(map, (t_v2i){(pos[0] - 16) / 32.0f,
 				(pos[1] - 16) / 32.0f}))
@@ -51,9 +51,9 @@ static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 		else
 			game->eplay = ft_ent_add(game, ft_rambo_create(game, pos));
 	}
-	if (cell == 'C')
+	else if (cell == 'C')
 		return (ft_ent_add(game, ft_coin_create(pos)));
-	if (cell == 'E')
+	else if (cell == 'E')
 		return (ft_ent_add(game, ft_exit_create(pos)));
 	return ((t_entity *)1);
 }
@@ -66,12 +66,10 @@ static int	_ft_temp(t_data *game, t_map *map)
 	i = -1;
 	flag = 1;
 	while (++i < map->size[0] * map->size[1])
-	{
 		flag &= _ft_add_ent(
 				ft_get_map(map, (t_v2i){i % map->size[0], i / map->size[0]}),
 				game, map, (t_v2f){(i % map->size[0]) * 32 + 16,
 				(i / map->size[0]) * 32 + 16}) != NULL;
-	}
 	return (flag);
 }
 
