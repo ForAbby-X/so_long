@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/21 11:09:29 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:55:42 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_entity	*ft_coin_create(t_v2f pos)
 	t_entity	*ent;
 	t_dat_coin	*data;
 
-	ent = ft_ent_create(8, pos, (t_v2f){0, 0}, 10);
+	ent = ft_ent_create(8, pos, (t_v2f){0, 0}, 13);
 	if (ent == NULL)
 		return (NULL);
 	data = malloc(sizeof(t_dat_coin));

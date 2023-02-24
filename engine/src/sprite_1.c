@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 11:48:37 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/03 15:43:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/24 17:53:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ t_sprite	*ft_sprite_p(t_engine *eng, char *path)
 	if (spr->img.image == NULL)
 		return (free(spr), NULL);
 	spr->size = (t_v2i){xy[0], xy[1]};
+	ft_putstr_fd("la taille est la\n", 1);
 	spr->img.data
 		= mlx_get_data_addr(spr->img.image, &tab[0], &tab[1], &tab[2]);
+	ft_putstr_fd("l'adresse est la\n", 1);
 	spr->data = (t_color *)(uint32_t *)spr->img.data;
 	ft_putstr_fd("Created sprite [", 1);
 	ft_putnbr_fd(spr->size[0], 1);
