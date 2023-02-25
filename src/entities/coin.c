@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/24 17:55:42 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/25 14:36:14 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 
 	data = self->data;
 	data->time += dt;
-	if (!game->is_finished && ft_v2fmag(game->eplay->pos - self->pos) < 31 + 12)
+	if (!game->is_finished && ft_v2fmag(game->eplay->pos - self->pos)
+		< game->eplay->radius + self->radius)
 	{
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_put_sprite_r(game->eng, game->spr[36],

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/23 13:54:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:41:30 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static void	ft_shader(t_data *gam, t_sprite *spr, float ratio)
 	{
 		col[0] = gam->eng->sel_spr->data[index];
 		col[1] = spr->data[index];
-		alpha = 255 - ((col[1].d & 0xFF000000) >> 24);
-		col[1].d = col[1].d & 0xFFFFFF;
+		alpha = col[1].a;
 		gam->eng->sel_spr->data[index]
 			= ft_color_inter(col[1], col[0], ratio * (alpha / 255.0f));
 		index++;
@@ -79,11 +78,13 @@ void	ft_game_render_ui(t_data *game)
 	}
 	if (game->eplay->type == 1)
 	{
-		min = ft_min(game->rplay->health / 2.5f, 400);
-		ft_rect(game->eng, (t_v2i){10, 10}, (t_v2i){min, 30},
-			(t_color){0xFE000C});
-		ft_rect(game->eng, (t_v2i){10 + min, 10}, (t_v2i){400 - min, 30},
-			(t_color){0x00000C});
+		min = ft_min(game->rplay->health / 1000.f * 37.f, 37);
+		printf("%d\n", min);
+		ft_put_sprite_part_s(game->eng, game->spr[61], (t_v2i){2, 2},
+			(t_rect_s){{0, 0}, {23, 37 - min}, 2});
+		ft_put_sprite_part_s(game->eng, game->spr[62],
+			(t_v2i){2, 2 + (37 - min) * 2},
+			(t_rect_s){{0, 37 - min}, {23, min}, 2});
 		ft_put_nbr(game->eng, (t_v2i){10, 10}, (int)game->rplay->health, 2);
 	}
 	ft_put_sprite(game->eng, game->spr[19], (t_v2i){10, 72 + 5});

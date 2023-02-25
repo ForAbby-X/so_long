@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:13:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:19:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/25 18:44:22 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void	_ft_object_update(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	if (ft_get_map(game->map, (t_v2i){self->pos[0], self->pos[1]} / 32) == '1'
 		|| self->pressure > 650.0f)
-		dat->health = -10.0f;
-	if (dat->health < 0.0f)
+		dat->health = 0.0f;
+	if (dat->health <= 0.0f)
 	{
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_put_sprite_r(game->eng, game->spr[46 + dat->type],

@@ -59,3 +59,5 @@ assets/stain/tank_scrap.xpm
 assets/shader/bloody.xpm
 assets/stain/rambo_dead.xpm
 assets/shader/crack.xpm
+assets/ui/rambo_health_empty.xpm
+assets/ui/rambo_health_full.xpm
