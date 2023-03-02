@@ -75,7 +75,7 @@ raw: obj $(ENGINE_LIB) $(NAME)
 fast: CFLAGS += -Ofast
 fast: obj $(ENGINE_LIB) $(NAME)
 
-debug: CFLAGS += -g3
+debug: CFLAGS += -g3 -fsanitize=address
 debug: obj $(ENGINE_LIB) $(NAME)
 
 obj:
@@ -83,7 +83,7 @@ obj:
 
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
-	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
+	@$(CC) -o $(NAME) $+ -lasan $(ENGINE_LNK) -lm
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
 $(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile

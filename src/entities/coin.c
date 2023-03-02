@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 14:36:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/28 14:10:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 	data = self->data;
 	data->time += dt;
 	if (!game->is_finished && ft_v2fmag(game->eplay->pos - self->pos)
-		< game->eplay->radius + self->radius)
+		< game->eplay->radius + self->radius + 1)
 	{
 		ft_eng_sel_spr(game->eng, game->map->background);
 		ft_put_sprite_r(game->eng, game->spr[36],
@@ -43,7 +43,7 @@ static void	_ft_coin_update(t_entity *self, t_data *game, float dt)
 		{
 			ft_emmit_gear(game, game->eplay->pos, 3);
 			((t_dat_tank *)game->tplay)->health
-				= fminf(((t_dat_tank *)game->tplay)->health + 500.0f, 2000.0f);
+				= fminf(((t_dat_tank *)game->tplay)->health + 300.0f, 2000.0f);
 		}
 		game->crate_nb++;
 		self->alive = 0;

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 18:51:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/28 14:05:46 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	_ft_rambo_display(t_entity *self, t_data *game)
 	if (ft_v2fmag(self->dir) > 0.2f && ((anim) & 1))
 	{
 		ft_put_sprite_r(game->eng,
-			game->spr[54 + ((anim * 2) & 1)],
+			game->spr[54 + ((anim / 2) & 1)],
 			(t_rect){{self->pos[0] - game->cam.pos[0],
 			self->pos[1] - game->cam.pos[1]},
 		{10, 11}}, ft_vec_to_rad(self->dir));

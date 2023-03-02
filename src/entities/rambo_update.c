@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 15:17:24 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/28 13:25:11 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_damage_rambo(t_data *game, t_entity *ent, float damage, float rot)
 		ft_put_sprite_r(game->eng, game->spr[59],
 			(t_rect){{ent->pos[0], ent->pos[1]}, {16, 16}}, ent->rot + M_PI);
 		ft_eng_sel_spr(game->eng, 0);
-		ent->alive = 0;
+		ent->pos = (t_v2f){-9999, -9999};
 		game->is_finished = 1;
 	}
 }
@@ -63,6 +63,8 @@ void	ft_rambo_update(t_entity *self, t_data *game, float dt)
 
 	dat = self->data;
 	dat->timer += dt;
+	if (game->is_finished)
+		return ;
 	if (game->eng->mouse[1])
 		dat->fire_cool[0] += dt;
 	else

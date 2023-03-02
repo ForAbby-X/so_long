@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_1.c                                        :+:      :+:    :+:   */
+/*   [1]parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 17:38:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/08 11:39:19 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/28 15:50:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_map	*ft_pars_file(t_data *game, char *str)
 	t_v2i	size;
 	char	*name;
 
-	ft_putstr_fd("Parsing: ", 1);
+	ft_putstr_fd("[Parsing] ", 1);
 	ft_putendl_fd(str, 1);
 	ft_memmove(str + 5, str, ft_strlen(str) + 1);
 	ft_memcpy(str, "maps/", 5);
@@ -144,5 +144,5 @@ t_map	*ft_pars_file(t_data *game, char *str)
 		return (ft_putstr_fd("Failed to create map\n", 2), close(fd), NULL);
 	if (ft_check_map(map) == 0)
 		return (ft_map_destroy(game, map), close(fd), NULL);
-	return (ft_putstr_fd("Success\n", 1), map);
+	return (ft_putstr_fd("[Parsing] success\n", 1), map);
 }

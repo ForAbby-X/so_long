@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 15:06:14 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/28 13:22:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,11 @@ static void	_ft_exit_update(t_entity *self, t_data *game, float dt)
 
 	data = self->data;
 	data->time += dt;
-	data->is_open = !ft_vector_countif(game->map->entities, &ft_exit_count);
+	data->is_open = (game->crate_nb == game->max_crate);
 	if (!game->is_finished
 		&& data->is_open && ft_v2fmag(game->eplay->pos - self->pos)
 		< game->eplay->radius + 4)
-	{
-		game->state = 4;
-		game->state_time = 0.0f;
-	}
+		game->is_finished = 1;
 }
 
 static void	_ft_exit_destroy(t_entity *self, t_data *game)

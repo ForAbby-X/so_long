@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/23 15:56:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/02 04:13:09 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@ static int	_ft_is_space(t_map *map, t_v2i pos)
 	int		flag;
 
 	flag = 0;
-	xy[1] = -2;
-	while (++xy[1] < 1)
+	xy[1] = -1;
+	while (xy[1] < 1)
 	{
-		xy[0] = -2;
-		while (++xy[0] < 1)
+		xy[0] = -1;
+		while (xy[0] < 1)
 		{
 			flag |= ((ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1')
-					&& (ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1')
-					&& (ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1')
-					&& (ft_get_map(map, pos + xy + (t_v2i){0, 0}) != '1'));
+					&& (ft_get_map(map, pos + xy + (t_v2i){1, 0}) != '1')
+					&& (ft_get_map(map, pos + xy + (t_v2i){0, 1}) != '1')
+					&& (ft_get_map(map, pos + xy + (t_v2i){1, 1}) != '1'));
+			xy[0]++;
 		}
+		xy[1]++;
 	}
 	return (flag);
 }
@@ -100,6 +102,8 @@ void	ft_map_load(t_data *game, t_map *map)
 	game->score = 0.0f;
 	game->crate_nb = 0;
 	game->is_finished = 0;
+	game->blood = 1000 + (rand() & 1023);
+	game->shake = (t_v2f){0.0f, 0.0f};
 	game->max_crate = ft_vector_countif(map->entities, &ft_exit_count);
 }
 

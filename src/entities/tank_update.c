@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:54:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/23 15:43:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/28 13:25:47 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ static void	_ft_tank_update3(t_entity *s, t_dat_tank *dat, t_data *g)
 
 static void	_ft_tank_update2(t_entity *s, t_dat_tank *dat, t_data *g, float dt)
 {
+	dat->vel += dat->acc * dt;
+	s->pos += dat->vel * 32.0f * dt;
 	g->score += ft_v2fmag(dat->vel) * 32.0f * dt;
 	dat = s->data;
 	dat->bloody[0] = fmaxf(dat->bloody[0] - dt, 0.0f);
@@ -92,6 +94,8 @@ void	ft_tank_update(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	dat->fire_cool += (t_v2f){dt, dt};
 	dat->timer += dt;
+	if (game->is_finished)
+		return ;
 	if (game->eng->keys[XK_a])
 		self->rot -= M_PI * dt * (1.0f - ft_v2fmag(dat->vel) / 15.5f);
 	if (game->eng->keys[XK_d])
@@ -107,7 +111,5 @@ void	ft_tank_update(t_entity *self, t_data *game, float dt)
 	coef = -60.4f * (1.0f - ft_v2fdot(self->dir, ft_v2fnorm(dat->vel, 1.0f)))
 		* dat->vel;
 	dat->acc = (dat->trac + dat->drag + rolling + coef) / 4.0f;
-	dat->vel += dat->acc * dt;
-	self->pos += dat->vel * 32.0f * dt;
 	_ft_tank_update2(self, dat, game, dt);
 }

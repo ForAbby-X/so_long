@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 15:18:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/02 04:14:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ static	void	ft_game(t_engine *eng, t_data *game, double dt)
 	ft_game_render(game, dt * slow);
 	ft_put_text(eng, (t_v2i){3, ft_eng_size_y(game->eng) - 9 * 2},
 		"[R] Menu Principal", 2);
-	if (eng->keys[XK_r] && game->state == 2)
+	if (eng->keys[XK_r])
 	{
 		game->state = 0;
 		game->state_time = 0.0f;
-	}
-	if (game->state != 2)
 		ft_map_unload(game);
+	}
 }
 
 int	ft_loop(t_engine *eng, t_data *data, double dt)

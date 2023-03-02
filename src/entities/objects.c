@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:13:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 18:44:22 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/02/27 11:46:44 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	ft_damage_object(t_data *game, t_entity *ent, float damage, float rot)
 		ft_emmit_wood(game, ent->pos);
 	else
 		ft_emmit_sparks(game, 6, ent->pos, rot + M_PI);
+	if (dat->health <= 0.0f)
+	{
+		ft_eng_sel_spr(game->eng, game->map->background);
+		ft_put_sprite_r(game->eng, game->spr[46 + dat->type],
+			(t_rect){{ent->pos[0], ent->pos[1]},
+			(t_v2i){14, 14} + (dat->type == 3) * 2}, ent->rot);
+		ft_eng_sel_spr(game->eng, NULL);
+		ent->alive = 0;
+	}
 }
 
 static void	_ft_object_display(t_entity *self, t_data *game)
@@ -43,16 +52,7 @@ static void	_ft_object_update(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	if (ft_get_map(game->map, (t_v2i){self->pos[0], self->pos[1]} / 32) == '1'
 		|| self->pressure > 650.0f)
-		dat->health = 0.0f;
-	if (dat->health <= 0.0f)
-	{
-		ft_eng_sel_spr(game->eng, game->map->background);
-		ft_put_sprite_r(game->eng, game->spr[46 + dat->type],
-			(t_rect){{self->pos[0], self->pos[1]},
-			(t_v2i){14, 14} + (dat->type == 3) * 2}, self->rot);
-		ft_eng_sel_spr(game->eng, NULL);
-	}
-	self->alive = (dat->health >= 0.0f);
+		ft_damage_object(game, self, dat->health, self->rot);
 }
 
 static void	_ft_object_destroy(t_entity *self, t_data *game)

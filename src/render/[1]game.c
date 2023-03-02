@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/25 18:41:30 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/02 07:17:37 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_shader(t_data *gam, t_sprite *spr, float ratio)
 	t_color	col[2];
 	uint8_t	alpha;
 
-	(void)ratio;
+	ratio = fminf(fmax(ratio, 0.0f), 1.0f);
 	index = 0;
 	while (index < gam->eng->win_x * gam->eng->win_y)
 	{
@@ -31,6 +31,22 @@ static void	ft_shader(t_data *gam, t_sprite *spr, float ratio)
 	}
 }
 
+static void	ft_game_render_ui_end(t_data *game)
+{
+	ft_shader(game, game->spr[63], 1.f);
+	if (game->eplay->pos[0] > 0.0f)
+		ft_put_text(game->eng, (t_v2i){221, 169}, "vivant", 2);
+	else
+		ft_put_text(game->eng, (t_v2i){221, 169}, "mort", 2);
+	if (game->crate_nb == game->max_crate)
+		ft_put_text(game->eng, (t_v2i){154, 213}, "atteint", 2);
+	else
+		ft_put_text(game->eng, (t_v2i){154, 213}, "manque", 2);
+	ft_put_nbr(game->eng, (t_v2i){221, 256}, game->crate_nb, 2);
+	ft_put_nbr(game->eng, (t_v2i){248, 278}, game->score, 2);
+	ft_put_nbr(game->eng, (t_v2i){183, 323}, game->blood, 2);
+}
+
 int	ft_game_render(t_data *game, float dt)
 {
 	t_v2i	mouse;
@@ -38,13 +54,13 @@ int	ft_game_render(t_data *game, float dt)
 	ft_game_render_map(game);
 	ft_game_render_ent(game);
 	ft_game_all_par(game, dt);
+	if (game->is_finished)
+		return (ft_game_render_ui_end(game), 1);
 	if (game->eplay->type == 0)
 		ft_shader(game, game->spr[60], (1.0f - game->tplay->health / 2000.0f));
 	if (game->eplay->type == 1)
 		ft_shader(game, game->spr[58], (1.0f - game->rplay->health / 1000.0f));
 	ft_game_render_ui(game);
-	if (game->is_finished)
-		return (1);
 	mouse = ((t_v2i){game->eplay->pos[0], game->eplay->pos[1]}
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
 					- (t_v2i){game->eng->win_x / 2, game->eng->win_y / 2})
@@ -79,7 +95,6 @@ void	ft_game_render_ui(t_data *game)
 	if (game->eplay->type == 1)
 	{
 		min = ft_min(game->rplay->health / 1000.f * 37.f, 37);
-		printf("%d\n", min);
 		ft_put_sprite_part_s(game->eng, game->spr[61], (t_v2i){2, 2},
 			(t_rect_s){{0, 0}, {23, 37 - min}, 2});
 		ft_put_sprite_part_s(game->eng, game->spr[62],
@@ -130,7 +145,7 @@ void	ft_game_render_ent(t_data *data)
 	t_length	i;
 
 	i = 0;
-	while (i < data->map->active_nbr - 1u)
+	while (data->map->active_nbr && i < data->map->active_nbr - 1u)
 	{
 		ent[0] = ft_vector_get(data->map->entities, i);
 		ent[1] = ft_vector_get(data->map->entities, i + 1);
@@ -158,10 +173,10 @@ void	ft_game_update_ent(t_data *data, float dt)
 	t_length	i;
 
 	data->shake -= data->shake * 1000.0f * dt * dt;
-	i = -1;
-	while (++i < data->map->active_nbr)
+	i = 0;
+	while (i < data->map->active_nbr)
 	{
-		ent = (t_entity *)ft_vector_get(data->map->entities, i);
+		ent = (t_entity *)ft_vector_get(data->map->entities, i++);
 		ent->update(ent, data, dt);
 		ent->pressure = 0.0f;
 	}
