@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/02 04:11:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:49:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ float		ft_vec_to_rad(t_v2f v);
 void		ft_menu(t_data *game, t_vector	*maps);
 void		ft_entry(t_data *game);
 void		ft_exit(t_data *game, int crates, float meter);
-void		ft_death(t_data *game);
 
 char		ft_get_map(t_map *map, t_v2i pos);
 int			ft_init_game(t_engine *eng, t_data *data);
@@ -80,12 +79,14 @@ void		ft_ent_check_activ(t_data *game);
 int			ft_move_toward(t_v2f pos, t_v2f target, float speed, float r);
 
 int			ft_game_render(t_data *data, float dt);
-void		ft_game_render_ui(t_data *game);
 int			ft_game_render_map(t_data *data);
 void		ft_game_render_ent(t_data *data);
 void		ft_game_update_ent(t_data *data, float dt);
 
 int			ft_game_all_par(t_data *data, float dt);
+void		ft_shader(t_data *gam, t_sprite *spr, float ratio);
+void		ft_game_render_ui_1(t_data *game);
+void		ft_game_render_ui_2(t_data *game);
 
 /* MAP */
 t_map		*ft_map_create(t_data *game, char *data, t_v2i size, char *name);

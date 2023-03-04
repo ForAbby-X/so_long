@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 09:39:50 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:13:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/03 13:30:03 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	_ft_setup_ray(t_ray *ray, t_v2f st)
 	}
 }
 
-static	int	ft_ray_test(t_data *game, t_ray *ray, t_v2f end)
+static	inline int	ft_ray_test(t_data *game, t_ray *ray, t_v2f end)
 {
 	return (ft_get_map(game->map, ray->pos) != '1'
 		&& (ray->pos[0] != floor(end[0])

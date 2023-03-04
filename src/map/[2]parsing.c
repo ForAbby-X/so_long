@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_2.c                                        :+:      :+:    :+:   */
+/*   [2]parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 16:38:02 by alde-fre          #+#    #+#             */
-/*   Updated: 2022/12/23 18:46:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:53:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ static int	_ft_check_flood(char *data, t_v2i size, t_v2i start)
 		|| data[start[0] + start[1] * size[0]] == '1'
 		|| data[start[0] + start[1] * size[0]] == '*')
 		return (0);
-	ret = 0;
-	if (data[start[0] + start[1] * size[0]] == 'C')
-		ret = 1;
+	ret = (data[start[0] + start[1] * size[0]] == 'C');
 	data[start[0] + start[1] * size[0]] = '*';
 	ret += _ft_check_flood(data, size, (t_v2i){start[0] + 1, start[1]});
 	ret += _ft_check_flood(data, size, (t_v2i){start[0] - 1, start[1]});
@@ -46,7 +44,7 @@ static int	_ft_check_result(t_map *map, t_length start,
 		return (ft_putstr_fd("ERROR: More than one player spawn.\n", 2), 0);
 	if (start == 0)
 		return (ft_putstr_fd("ERROR: No player spawn.\n", 2), 0);
-	if (coins < 1)
+	if (coins == 0)
 		return (ft_putstr_fd("ERROR: No coins on map.\n", 2), 0);
 	i = 0;
 	while (map->data[i] != 'P')

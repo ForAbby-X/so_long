@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:11:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/27 12:26:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:48:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,30 +104,4 @@ void	ft_entry(t_data *game)
 		game->state = 2;
 		game->state_time = 0.0f;
 	}
-}
-
-void	ft_death(t_data *game)
-{
-	t_v2i	pos;
-	t_v2f	fpos;
-	t_color	col;
-
-	pos[1] = -1;
-	while (++pos[1] < (int)ft_eng_size_y(game->eng))
-	{
-		fpos[1] = (float)pos[1] / ft_eng_size_y(game->eng);
-		pos[0] = -1;
-		while (++pos[0] < (int)ft_eng_size_x(game->eng))
-		{
-			fpos[0] = (float)pos[0] / ft_eng_size_x(game->eng) * 6;
-			col = ft_get_color(game->eng->screen, (t_v2i){pos[0], pos[1]});
-			if ((fpos[1] - game->state_time + 1.0f) < ((sinf(fpos[0])
-						+ sinf(fpos[0] * 3 + 3)) / 2))
-				col = (t_color){0x850606};
-			ft_draw(game->eng, pos, col);
-		}
-	}
-	ft_put_text(game->eng, (t_v2i){ft_eng_size_x(game->eng) / 2
-		- 17 * 14,
-		ft_eng_size_y(game->eng) / 2 - 4 * 4}, "Vous etes mort...", 4);
 }

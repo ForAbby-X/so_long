@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/02 04:14:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 13:51:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,6 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 		ft_entry(data);
 	else if (data->state == 2)
 		ft_game(eng, data, dt);
-	else if (data->state == 3)
-	{
-		ft_death(data);
-		if (data->state_time > 4.0f)
-		{
-			data->state = 0;
-			data->state_time = 0.0f;
-		}
-	}
 	else if (data->state == 4)
 		ft_exit(data, 0, 0);
 	ft_put_text(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
@@ -59,7 +50,6 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 	return (1);
 }
 
-// clear; norminette inc/*.h src/*.c engine/libvec engine/libft engine/libvector
 int	main(void)
 {
 	t_engine	*eng;

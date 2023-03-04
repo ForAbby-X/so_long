@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/16 16:11:56 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/03 13:14:53 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 	dat = self->data;
 	self->alive = !(dat->time >= 2.0f);
 	i = -1;
-	while (++i < game->map->active_nbr - 1 && self->alive)
+	while (++i < game->map->active_nbr && self->alive)
 	{
 		ent = ft_vector_get(game->map->entities, i);
 		if (ent->uuid != dat->shooter_id && ent->type >= 0 && ent->type != 3

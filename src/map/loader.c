@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/02 04:13:09 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:59:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,8 @@ void	ft_map_load(t_data *game, t_map *map)
 	flag = _ft_temp(game, map);
 	game->state_time = 0.0f;
 	if (game->eplay == NULL || flag == 0)
-	{
-		ft_putstr_fd("Error: Failed to spawn the player/missing essential entit"
-			"ies.\n", 2);
-		game->state = 0;
-		ft_map_unload(game);
-		return ;
-	}
+		return (ft_putstr_fd("Error: Failed to spawn the player/missing essenti"
+				"al entities.\n", 2), game->state = 0, ft_map_unload(game));
 	if (game->eplay->type == 0)
 		game->tplay = game->eplay->data;
 	if (game->eplay->type == 1)

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/17 14:59:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:17:23 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ static void	_ft_shell_display(t_entity *self, t_data *game)
 
 static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 {
-	t_dat_shell	*dat;
 	t_entity	*ent;
 	t_length	i;
 
-	dat = self->data;
-	dat->time += dt;
-	self->alive = !(dat->time >= 2.0f);
+	((t_dat_shell *)self->data)->time += dt;
+	self->alive = !(((t_dat_shell *)self->data)->time >= 2.0f);
 	if (ft_get_map(game->map, (t_v2i){self->pos[0], self->pos[1]} / 32) == '1')
 	{
 		self->alive = 0;

@@ -6,30 +6,11 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/02 07:17:37 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 12:10:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-
-static void	ft_shader(t_data *gam, t_sprite *spr, float ratio)
-{
-	size_t	index;
-	t_color	col[2];
-	uint8_t	alpha;
-
-	ratio = fminf(fmax(ratio, 0.0f), 1.0f);
-	index = 0;
-	while (index < gam->eng->win_x * gam->eng->win_y)
-	{
-		col[0] = gam->eng->sel_spr->data[index];
-		col[1] = spr->data[index];
-		alpha = col[1].a;
-		gam->eng->sel_spr->data[index]
-			= ft_color_inter(col[1], col[0], ratio * (alpha / 255.0f));
-		index++;
-	}
-}
 
 static void	ft_game_render_ui_end(t_data *game)
 {
@@ -60,7 +41,7 @@ int	ft_game_render(t_data *game, float dt)
 		ft_shader(game, game->spr[60], (1.0f - game->tplay->health / 2000.0f));
 	if (game->eplay->type == 1)
 		ft_shader(game, game->spr[58], (1.0f - game->rplay->health / 1000.0f));
-	ft_game_render_ui(game);
+	ft_game_render_ui_1(game);
 	mouse = ((t_v2i){game->eplay->pos[0], game->eplay->pos[1]}
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
 					- (t_v2i){game->eng->win_x / 2, game->eng->win_y / 2})
@@ -68,46 +49,6 @@ int	ft_game_render(t_data *game, float dt)
 	game->cam.pos = mouse - game->cam.dim / 2;
 	game->cam.pos += (t_v2i){game->shake[0], game->shake[1]};
 	return (1);
-}
-
-void	ft_game_render_ui(t_data *game)
-{
-	int	min;
-
-	if (game->is_finished)
-	{
-		ft_put_text(game->eng, (t_v2i){game->eng->win_x / 2 - 6 * 4 * 7,
-			game->eng->win_y / 2 - 36}, "YOU ARE DEAD", 4);
-		return ;
-	}
-	if (game->eplay->type == 0)
-	{
-		min = ft_min(game->tplay->fire_cool[1] * 18.75f, 75);
-		ft_put_sprite_part_s(game->eng, game->spr[51], (t_v2i){2, 2},
-			(t_rect_s){{0, 0}, {43 + min, 36}, 2});
-		ft_put_sprite_part_s(game->eng, game->spr[50], (t_v2i){88 + min * 2, 2},
-			(t_rect_s){{43 + min, 0}, {75 - min, 36}, 2});
-		if (game->tplay->fire_cool[1] > 4.0f && ((int)(game->time * 2) & 1))
-			ft_put_text(game->eng, (t_v2i){10, 10}, "[RC] to shoot !", 2);
-		ft_put_text(game->eng, (t_v2i){game->eng->win_x / 2 - 10 * 14,
-			game->eng->win_y - 20}, "[SPACE] self destruct", 2);
-	}
-	if (game->eplay->type == 1)
-	{
-		min = ft_min(game->rplay->health / 1000.f * 37.f, 37);
-		ft_put_sprite_part_s(game->eng, game->spr[61], (t_v2i){2, 2},
-			(t_rect_s){{0, 0}, {23, 37 - min}, 2});
-		ft_put_sprite_part_s(game->eng, game->spr[62],
-			(t_v2i){2, 2 + (37 - min) * 2},
-			(t_rect_s){{0, 37 - min}, {23, min}, 2});
-		ft_put_nbr(game->eng, (t_v2i){10, 10}, (int)game->rplay->health, 2);
-	}
-	ft_put_sprite(game->eng, game->spr[19], (t_v2i){10, 72 + 5});
-	ft_put_sprite(game->eng, game->spr[28], (t_v2i){10, 72 + 41});
-	ft_put_nbr(game->eng, (t_v2i){26, 72 + 24}, game->score / 32, 2);
-	ft_put_nbr(game->eng, (t_v2i){26, 72 + 59}, game->crate_nb, 2);
-	ft_put_text(game->eng, (t_v2i){36, 82 + 59}, "/", 2);
-	ft_put_nbr(game->eng, (t_v2i){36 + 7 * 2, 82 + 59}, game->max_crate, 2);
 }
 
 int	ft_game_render_map(t_data *data)
