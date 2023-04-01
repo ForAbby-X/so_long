@@ -79,15 +79,20 @@ debug: CFLAGS += -g3
 debug: obj $(ENGINE_LIB) $(NAME)
 
 obj:
+	@rm -rf .print
 	@mkdir -p $(OBJDIR)
+
+.print:
+	@> $@
+	@echo "\e[1;36mCompiling...\e[0m"
 
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
 	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
-$(OBJ): $(OBJDIR)/%.o: $(SRCDIR)/%.c Makefile
-	@echo "\e[1;36m[\e[0;36mC\e[1;36m]\e[0;36m → " $<"\e[0m"
+$(OBJDIR)/%.o: $(SRCDIR)/%.c .print
+	@echo "\e[0;36m ↳\e[0;36m" $<"\e[0m"
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@
 

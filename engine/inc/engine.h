@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 10:15:36 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/02 13:22:34 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/14 23:18:48 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,30 @@ void		ft_eng_destroy(t_engine *eng);
 int			ft_eng_play(t_engine *eng, t_data *data,
 				int (*on_repeat)(t_engine *, t_data *, double));
 
-size_t		ft_eng_size_x(t_engine *eng);
-size_t		ft_eng_size_y(t_engine *eng);
-void		ft_eng_sel_spr(t_engine *eng, t_sprite	*spr);
+size_t		ft_eng_size_x(t_engine *eng)
+			__attribute__((always_inline));
+size_t		ft_eng_size_y(t_engine *eng)
+			__attribute__((always_inline));
+void		ft_eng_sel_spr(t_engine *eng, t_sprite	*spr)
+			__attribute__((always_inline));
 
 /* ENGINE DRAWING */
 /* [1] SHAPES */
-void		ft_draw(t_engine *eng, t_v2i pos, t_color color);
-void		ft_clear(t_engine *eng, t_color color);
+void		ft_draw(t_engine *eng, t_v2i pos, t_color color)
+			__attribute__((always_inline));
+void		ft_clear(t_engine *eng, t_color color)
+			__attribute__((always_inline));
 void		ft_circle(t_engine *eng, t_v2i pos, int r, t_color color);
 void		ft_rect(t_engine *eng, t_v2i pos, t_v2i dim, t_color color);
 
 /* [2] SPRITE */
-t_color		ft_get_color(t_sprite *spr, t_v2i pos);
+t_color		ft_get_color(t_sprite *spr, t_v2i pos)
+			__attribute__((always_inline));
 void		ft_put_sprite(t_engine *eng, t_sprite *spr, t_v2i pos);
 void		ft_put_sprite_s(t_engine *eng, t_sprite *spr, t_v2i pos, int d);
 void		ft_get_border(t_sprite *spr,
-				t_v2i cen, float rot, t_v2i	out[2]);
+				t_v2i cen, float rot, t_v2i	out[2])
+			__attribute__((always_inline));
 void		ft_put_sprite_r(t_engine *eng, t_sprite *spr, t_rect i, float rot);
 
 /* [3] SPRITE */
@@ -80,11 +87,16 @@ int			ft_eng_moved_mouse(int x, int y, t_engine *eng);
 int			ft_eng_close(t_engine *eng);
 
 /* COLOR */
-t_color		ft_color_d(uint32_t d);
-t_color		ft_color(uint8_t a, uint8_t r, uint8_t g, uint8_t b);
-t_color		ft_color_f(float a, float r, float g, float b);
-t_color		ft_color_inter(t_color col_a, t_color col_b, float n);
-uint8_t		ft_color_med(t_color col);
+t_color		ft_color_d(uint32_t d)
+			__attribute__((always_inline));
+t_color		ft_color(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
+			__attribute__((always_inline));
+t_color		ft_color_f(float a, float r, float g, float b)
+			__attribute__((always_inline));
+t_color		ft_color_inter(t_color col_a, t_color col_b, float n)
+			__attribute__((always_inline));
+uint8_t		ft_color_med(t_color col)
+			__attribute__((always_inline));
 
 /* SPRITE */
 t_sprite	*ft_sprite(t_engine *eng, size_t dx, size_t dy);
@@ -93,10 +105,14 @@ int			ft_destroy_sprite(t_engine *eng, t_sprite *spr);
 t_sprite	*ft_cpy_sprite(t_engine *eng, t_sprite *spr);
 
 /* UTILS */
-int			ft_min(int a, int b);
-int			ft_max(int a, int b);
-void		ft_swap(void **a, void **b);
-float		ft_rand(float min, float max);
+int			ft_min(int a, int b)
+			__attribute__((always_inline));
+int			ft_max(int a, int b)
+			__attribute__((always_inline));
+void		ft_swap(void **a, void **b)
+			__attribute__((always_inline));
+float		ft_rand(float min, float max)
+			__attribute__((always_inline));
 
 struct	s_engine
 {

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 09:29:30 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/11 11:53:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/04 17:15:34 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ static	void	_ft_unzip_ascii(t_color *address)
 		u[2] = -1;
 		while (++u[2] < 24)
 		{
-			address[u[0] * 6 + u[2]] = ft_color(0, 255, 255, 255);
+			address[u[0] * 6 + u[2]] = (t_color){0x00FFFFFF};
 			if (u[1] & (1 << (23 - u[2])))
-				address[u[0] * 6 + u[2]] = ft_color(255, 0, 0, 0);
+				address[u[0] * 6 + u[2]] = (t_color){0xFF000000};
 		}
 		u[0] += 4;
 	}

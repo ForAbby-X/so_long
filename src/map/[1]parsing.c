@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 17:38:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/28 15:50:29 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/03/14 14:02:55 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static t_vector	*_ft_read_file(int fd, t_v2i *size, char **name)
 	if (lines == NULL)
 		return (NULL);
 	line = get_next_line(fd);
+	*name = NULL;
 	while (line)
 	{
 		if (ft_vector_add(lines, line) == NULL)
@@ -119,6 +120,8 @@ t_vector	*ft_pars_folder(t_data *game)
 	return (map_vector);
 }
 
+
+
 t_map	*ft_pars_file(t_data *game, char *str)
 {
 	int		fd;
@@ -134,11 +137,12 @@ t_map	*ft_pars_file(t_data *game, char *str)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		return (ft_putstr_fd("Failed to open file\n", 2), NULL);
-	data = NULL;
 	size = (t_v2i){0, 0};
 	name = NULL;
 	if (_ft_pars_str(fd, &data, &size, &name) == 0)
 		return (ft_putstr_fd("Couldn't parse file\n", 2), close(fd), NULL);
+	if (size[0] * size[1] > 74000)
+		return (ft_putstr_fd("Map too big\n", 2), close(fd), NULL);
 	map = ft_map_create(game, data, size, name);
 	if (map == NULL)
 		return (ft_putstr_fd("Failed to create map\n", 2), close(fd), NULL);

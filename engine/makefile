@@ -6,7 +6,7 @@
 #    By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 16:35:02 by alde-fre          #+#    #+#              #
-#    Updated: 2023/02/27 12:42:28 by alde-fre         ###   ########.fr        #
+#    Updated: 2023/03/14 13:32:59 by alde-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,8 +75,14 @@ all: $(VECTOR_LIB) $(VEC_LIB) $(FT_LIB) $(MLX_LIB) $(LIBRARY_NAME)
 
 $(LIBRARY_NAME): $(OBJECT_FILES)
 	@echo Packing $+ $(VECTOR_LIB) $(VEC_LIB) $(FT_LIB) $(MLX_LIB) ...
-	@ar rcT $@ $+ $(VEC_LIB) $(FT_LIB) $(MLX_LIB) $(VECTOR_LIB)
+	@(ar -t $(VECTOR_LIB) && ar -t $(VEC_LIB) && ar -t $(FT_LIB) && ar -t $(MLX_LIB)) > .tmp
+	@ar x $(VECTOR_LIB)
+	@ar x $(VEC_LIB)
+	@ar x $(FT_LIB)
+	@ar x $(MLX_LIB)
+	@ar rcs $@ $+ $(shell cat .tmp)
 	@ranlib $@
+	@rm -rf $(shell cat .tmp)
 	@echo "Engine lib created succesfully!"
 
 $(OBJECT_FILES): $(OBJ)/%.o: $(SRC)/%.c
