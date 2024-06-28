@@ -3,7 +3,7 @@
 ##########################################
 
 # Compiler options
-CC=clang
+CC=cc
 CFLAGS=-c -Wall -Wextra -Werror
 LDFLAGS=
 BINARY_NAME=

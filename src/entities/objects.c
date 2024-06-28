@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 16:13:08 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/27 11:46:44 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:57:08 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,24 @@ static void	_ft_object_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
-	free((t_entity *)self);
 }
 
-t_entity	*ft_object_create(int type, t_v2f pos)
+t_entity	ft_object_create(int type, t_v2f pos)
 {
-	t_entity		*ent;
+	t_entity		ent;
 	t_dat_object	*data;
 
 	ent = ft_ent_create(10, pos + (t_v2f){ft_rand(-0.25, 0.25), ft_rand(-0.25,
 				0.25)}, (t_v2f){0.0f, 0.0f}, 13.0f + (type == 3) * 2.0f);
-	if (ent == NULL)
-		return (NULL);
 	data = malloc(sizeof(t_dat_object));
 	if (data == NULL)
-		return (free(ent), NULL);
+		return ((t_entity){0});
 	data->type = type;
 	data->health = ft_rand(175, 200) - (type == 3) * 50.0f;
-	ent->data = data;
-	ent->display = &_ft_object_display;
-	ent->update = &_ft_object_update;
-	ent->destroy = &_ft_object_destroy;
-	ent->rot = ft_rand(-M_PI, M_PI);
+	ent.data = data;
+	ent.display = &_ft_object_display;
+	ent.update = &_ft_object_update;
+	ent.destroy = &_ft_object_destroy;
+	ent.rot = ft_rand(-M_PI, M_PI);
 	return (ent);
 }

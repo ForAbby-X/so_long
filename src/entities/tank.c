@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/24 17:37:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:43:02 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,33 +62,30 @@ static void	_ft_tank_destroy(t_entity *self, t_data *game)
 {
 	ft_destroy_sprite(game->eng, ((t_dat_tank *)self->data)->spr);
 	free((t_entity *)self->data);
-	free((t_entity *)self);
 }
 
-t_entity	*ft_tank_create(t_data *game, t_v2f pos)
+t_entity	ft_tank_create(t_data *game, t_v2f pos)
 {
-	t_entity	*ent;
+	t_entity	ent;
 	t_dat_tank	*data;
 
 	ent = ft_ent_create(0, pos, (t_v2f){0, 0}, 31.0f);
-	if (ent == NULL)
-		return (NULL);
 	data = malloc(sizeof(t_dat_tank));
 	if (data == NULL)
-		return (free(ent), NULL);
+		return ((t_entity){0});
 	ft_memset(data, 0, sizeof(t_dat_tank));
 	data->spr = ft_cpy_sprite(game->eng, game->spr[0]);
 	if (data->spr == NULL)
-		return (free(data), free(ent), NULL);
+		return (free(data), (t_entity){0});
 	data->health = 2000.0f;
-	ent->data = data;
-	ent->display = &_ft_tank_display;
-	ent->update = &ft_tank_update;
-	ent->destroy = &_ft_tank_destroy;
-	ent->rot = ft_rand(-M_PI, M_PI);
+	ent.data = data;
+	ent.display = &_ft_tank_display;
+	ent.update = &ft_tank_update;
+	ent.destroy = &_ft_tank_destroy;
+	ent.rot = ft_rand(-M_PI, M_PI);
 	ft_eng_sel_spr(game->eng, game->map->background);
 	ft_put_sprite_r(game->eng, game->spr[41],
-		(t_rect){{pos[0], pos[1]}, {84, 96}}, ent->rot);
+		(t_rect){{pos[0], pos[1]}, {84, 96}}, ent.rot);
 	ft_eng_sel_spr(game->eng, NULL);
 	return (ent);
 }

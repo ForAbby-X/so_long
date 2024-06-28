@@ -6,7 +6,7 @@
 #    By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/23 16:35:02 by alde-fre          #+#    #+#              #
-#    Updated: 2023/03/14 13:32:59 by alde-fre         ###   ########.fr        #
+#    Updated: 2023/04/11 20:59:22 by alde-fre         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 ##########################################
 
 # Compiler options
-CC=clang
+CC=cc
 CFLAGS=-Wall -Wextra -Werror -Ofast
 LDFLAGS=
 BINARY_NAME=

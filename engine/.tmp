@@ -1,6 +1,12 @@
 utils.o
-vector_1.o
-vector_2.o
+manager.o
+methods.o
+method_choice.o
+size_modifiers.o
+iterations.o
+getter.o
+adder.o
+remover.o
 vec2f_algo.o
 vec2i_algo.o
 ft_isalpha.o

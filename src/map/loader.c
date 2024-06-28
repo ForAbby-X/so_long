@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/04 11:59:12 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:12:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,41 @@ static int	_ft_is_space(t_map *map, t_v2i pos)
 
 static t_entity	*_ft_add_ent(uint8_t cell, t_data *game, t_map *map, t_v2f pos)
 {
+	t_entity ent;
 	if (cell == '0')
 	{
 		if ((rand() & 15) == 0)
-			return (ft_ent_add(game, ft_ennemy_create(pos, 0.0f)));
+		{
+			ent = ft_ennemy_create(pos, 0.0f);
+			return (ft_ent_add(game, &ent));
+		}
 		else if ((rand() % 25) * 2 <= ft_get_obj_prob(map,
 				(t_v2i){(pos[0] - 16) / 32.0f, (pos[1] - 16) / 32.0f}))
-			return (ft_ent_add(game, ft_object_create(rand() & 3, pos)));
+		{
+			ent = ft_object_create(rand() & 3, pos);
+			return (ft_ent_add(game, &ent));
+		}
 	}
 	else if (cell == 'P')
 	{
 		if (_ft_is_space(map, (t_v2i){(pos[0] - 16) / 32.0f,
 				(pos[1] - 16) / 32.0f}))
-			game->eplay = ft_ent_add(game, ft_tank_create(game, pos));
+			ent = ft_tank_create(game, pos);
 		else
-			game->eplay = ft_ent_add(game, ft_rambo_create(game, pos));
+			ent = ft_rambo_create(game, pos);
+		ft_ent_add(game, &ent);
+		game->pindex = vector_size(&game->map->entities) - 1;
 	}
 	else if (cell == 'C')
-		return (ft_ent_add(game, ft_coin_create(pos)));
+	{
+		ent = ft_coin_create(pos);
+		return (ft_ent_add(game, &ent));
+	}
 	else if (cell == 'E')
-		return (ft_ent_add(game, ft_exit_create(pos)));
+	{
+		ent = ft_exit_create(pos);
+		return (ft_ent_add(game, &ent));
+	}
 	return ((t_entity *)1);
 }
 
@@ -83,15 +98,17 @@ void	ft_map_load(t_data *game, t_map *map)
 	ft_eng_sel_spr(game->eng, map->background);
 	ft_clear(game->eng, ft_color_d(0xFF000000));
 	ft_eng_sel_spr(game->eng, NULL);
+	game->pindex = 999999999;
 	flag = _ft_temp(game, map);
 	game->state_time = 0.0f;
-	if (game->eplay == NULL || flag == 0)
+	if (game->pindex == 999999999 || flag == 0)
 		return (ft_putstr_fd("Error: Failed to spawn the player/missing essenti"
 				"al entities.\n", 2), game->state = 0, ft_map_unload(game));
-	if (game->eplay->type == 0)
-		game->tplay = game->eplay->data;
-	if (game->eplay->type == 1)
-		game->rplay = game->eplay->data;
+
+	game->eplay = vector_get(&map->entities, game->pindex);
+	game->tplay = game->eplay->data;
+	game->rplay = game->eplay->data;
+	
 	game->state = 1;
 	game->map->bullet_time = 999.0f;
 	game->score = 0.0f;
@@ -99,20 +116,19 @@ void	ft_map_load(t_data *game, t_map *map)
 	game->is_finished = 0;
 	game->blood = 1000 + (rand() & 1023);
 	game->shake = (t_v2f){0.0f, 0.0f};
-	game->max_crate = ft_vector_countif(map->entities, &ft_exit_count);
+	game->max_crate = vector_count_if(&map->entities, &ft_exit_count);
 }
 
 void	ft_map_unload(t_data *game)
 {
 	t_entity	*ent;
 
-	while (ft_vector_size(game->map->entities))
+	while (vector_size(&game->map->entities))
 	{
-		ent = ft_vector_pop(game->map->entities);
+		ent = vector_pop(&game->map->entities);
 		ent->destroy(ent, game);
 	}
-	while (ft_vector_size(game->map->particles))
-		free(ft_vector_pop(game->map->particles));
+	vector_clear(&game->map->particles);
 	game->map->active_nbr = 0;
 	game->eplay = NULL;
 	game->tplay = NULL;

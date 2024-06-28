@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:06:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/28 13:22:10 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:56:26 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,23 @@ static void	_ft_exit_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
-	free((t_entity *)self);
 }
 
-t_entity	*ft_exit_create(t_v2f pos)
+t_entity	ft_exit_create(t_v2f pos)
 {
-	t_entity	*ent;
+	t_entity	ent;
 	t_dat_exit	*data;
 
 	ent = ft_ent_create(-3, pos, (t_v2f){0, 0}, 0.0f);
-	if (ent == NULL)
-		return (NULL);
 	data = malloc(sizeof(t_dat_exit));
 	if (data == NULL)
-		return (free(ent), NULL);
+		return ((t_entity){0});
 	data->is_open = 0;
 	data->time = 0.0f;
-	ent->data = data;
-	ent->display = &_ft_exit_display;
-	ent->update = &_ft_exit_update;
-	ent->destroy = &_ft_exit_destroy;
-	ent->rot = 0.0f;
+	ent.data = data;
+	ent.display = &_ft_exit_display;
+	ent.update = &_ft_exit_update;
+	ent.destroy = &_ft_exit_destroy;
+	ent.rot = 0.0f;
 	return (ent);
 }

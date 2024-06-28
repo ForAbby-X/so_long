@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:34 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/03 13:14:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:54:36 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	_ft_bullet_update(t_entity *self, t_data *game, float dt)
 	i = -1;
 	while (++i < game->map->active_nbr && self->alive)
 	{
-		ent = ft_vector_get(game->map->entities, i);
+		ent = vector_get(&game->map->entities, i);
 		if (ent->uuid != dat->shooter_id && ent->type >= 0 && ent->type != 3
 			&& ft_v2fmag(ent->pos - self->pos) < ent->radius)
 			if (ft_damage_ent(game, ent, ft_rand(15, 25), self->rot))
@@ -53,27 +53,24 @@ static void	_ft_bullet_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
-	free((t_entity *)self);
 }
 
-t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid)
+t_entity	ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid)
 {
-	t_entity		*ent;
+	t_entity		ent;
 	t_dat_bullet	*data;
 
 	ent = ft_ent_create(-1, pos, ft_v2fr(rot, 1000), 0.0f);
-	if (ent == NULL)
-		return (NULL);
 	data = malloc(sizeof(t_dat_bullet));
 	if (data == NULL)
-		return (free(ent), NULL);
+		return ((t_entity){0});
 	data->type = type;
 	data->time = 0.0f;
 	data->shooter_id = uuid;
-	ent->data = data;
-	ent->display = &_ft_bullet_display;
-	ent->update = &_ft_bullet_update;
-	ent->destroy = &_ft_bullet_destroy;
-	ent->rot = rot;
+	ent.data = data;
+	ent.display = &_ft_bullet_display;
+	ent.update = &_ft_bullet_update;
+	ent.destroy = &_ft_bullet_destroy;
+	ent.rot = rot;
 	return (ent);
 }

@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:18:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/04 12:17:23 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:55:40 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	_ft_shell_update(t_entity *self, t_data *game, float dt)
 	i = -1;
 	while (self->alive && ++i < game->map->active_nbr)
 	{
-		ent = ft_vector_get(game->map->entities, i);
+		ent = vector_get(&game->map->entities, i);
 		if (((ent != self && (ent->type == 2 || ent->type == 10)
 					&& ft_v2fmag(ent->pos - self->pos) < ent->radius)))
 		{
@@ -56,25 +56,22 @@ static void	_ft_shell_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
-	free((t_entity *)self);
 }
 
-t_entity	*ft_shell_create(t_v2f pos, float rot)
+t_entity	ft_shell_create(t_v2f pos, float rot)
 {
-	t_entity	*ent;
+	t_entity	ent;
 	t_dat_shell	*data;
 
 	ent = ft_ent_create(-2, pos, ft_v2fr(rot, 400), 0.0f);
-	if (ent == NULL)
-		return (NULL);
 	data = malloc(sizeof(t_dat_shell));
 	if (data == NULL)
-		return (free(ent), NULL);
+		return ((t_entity){0});
 	data->time = 0.0f;
-	ent->data = data;
-	ent->display = &_ft_shell_display;
-	ent->update = &_ft_shell_update;
-	ent->destroy = &_ft_shell_destroy;
-	ent->rot = rot;
+	ent.data = data;
+	ent.display = &_ft_shell_display;
+	ent.update = &_ft_shell_update;
+	ent.destroy = &_ft_shell_destroy;
+	ent.rot = rot;
 	return (ent);
 }

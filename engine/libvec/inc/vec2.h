@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 17:27:32 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/23 13:10:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/04/09 21:34:40 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,4 @@ t_v2f	ft_v2fnorm(t_v2f a, float n);
 
 // INT
 t_v2i	ft_v2irot(t_v2i a, float r);
-
-struct s_v2f
-{
-	float	x;
-	float	y;
-};
-
-struct s_v2u
-{
-	unsigned int	x;
-	unsigned int	y;
-};
-
-struct s_v2i
-{
-	int	x;
-	int	y;
-};
 #endif

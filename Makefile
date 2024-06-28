@@ -58,14 +58,14 @@ DEPENDS := $(patsubst %.o,%.d,$(OBJ))
 -include $(DEPENDS)
 
 # compiler
-CC		= clang
+CC		= cc
 CFLAGS	= -MMD -MP -Wall -Wextra -Werror
 
 # engine library
 ENGINE		= ./engine/
 ENGINE_LIB	= $(addprefix $(ENGINE),libengine.a)
 ENGINE_INC	= -I ./engine/inc
-ENGINE_LNK	= -l Xext -l X11 -L ./engine -l engine
+ENGINE_LNK	= -l Xext -l X11 -L ./engine -l engine -l m
 
 all: obj $(ENGINE_LIB) $(NAME)
 
@@ -88,16 +88,13 @@ obj:
 
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
-	@$(CC) -o $(NAME) $+ $(ENGINE_LNK) -lm
+	@$(CC) -o $(NAME) $+ $(ENGINE_LNK)
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c .print
 	@echo "\e[0;36m ↳\e[0;36m" $<"\e[0m"
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) $(INCDIR) $(ENGINE_INC) -c $< -o $@
-
-temp:
-	@echo "\e[1;36mCompiling...\e[0m";
 
 $(ENGINE_LIB):
 	@make -C $(ENGINE)

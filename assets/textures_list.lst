@@ -1,7 +1,7 @@
 assets/tank/tank_base.xpm
 assets/tank/tank_top.xpm
-assets/ground/dirt.xpm
-assets/walls/wall_0.xpm
+assets/walls/floor.xpm
+assets/tilemap/connected_tileset.xpm
 assets/walls/h_wall_0.xpm
 assets/bullets/bullets_small.xpm
 assets/bullets/bullets_big.xpm
@@ -62,3 +62,4 @@ assets/shader/crack.xpm
 assets/ui/rambo_health_empty.xpm
 assets/ui/rambo_health_full.xpm
 assets/shader/end.xpm
+assets/ui/fuel_arrow.xpm

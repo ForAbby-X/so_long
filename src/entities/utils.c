@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 18:34:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/17 15:07:33 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:44:24 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,45 @@ void	ft_ent_check_activ(t_data *game)
 {
 	t_entity	*ent;
 	t_length	i;
-
+	
 	i = 0;
 	while (i < game->map->active_nbr)
 	{
-		ent = (t_entity *)ft_vector_get(game->map->entities, i);
+		ent = ft_ent_get(game, i);
 		if (!_ft_is_active(game, ent))
 		{
-			ft_vector_swap(game->map->entities, i, game->map->active_nbr - 1);
+			if (game->pindex == game->map->active_nbr - 1)
+				game->pindex = i;
+			else if (game->pindex == i)
+				game->pindex = game->map->active_nbr - 1;
+
+			t_entity tmp = *ft_ent_get(game, i);
+			*ft_ent_get(game, i) = *ft_ent_get(game, game->map->active_nbr - 1);
+			*ft_ent_get(game, game->map->active_nbr - 1) = tmp;
 			game->map->active_nbr--;
 		}
 		i++;
 	}
-	while (i < ft_vector_size(game->map->entities))
+	while (i < vector_size(&game->map->entities))
 	{
-		ent = (t_entity *)ft_vector_get(game->map->entities, i);
+		ent = ft_ent_get(game, i);
 		if (_ft_is_active(game, ent))
 		{
-			ft_vector_swap(game->map->entities, i, game->map->active_nbr);
+			if (game->pindex == i)
+				game->pindex = game->map->active_nbr;
+			else if (game->pindex == game->map->active_nbr)
+				game->pindex = i;
+
+			t_entity tmp = *ft_ent_get(game, i);
+			*ft_ent_get(game, i) = *ft_ent_get(game, game->map->active_nbr);
+			*ft_ent_get(game, game->map->active_nbr) = tmp;
 			game->map->active_nbr++;
 		}
 		i++;
 	}
+	game->eplay = ft_ent_get(game, game->pindex);
+	game->rplay = game->eplay->data;
+	game->tplay = game->eplay->data;
 }
 
 int	ft_move_toward(t_v2f pos, t_v2f target, float speed, float r)

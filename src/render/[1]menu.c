@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:11:46 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/04 13:48:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:21:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ void	ft_menu(t_data *game, t_vector	*maps)
 	ft_put_text(game->eng, (t_v2i){30, 180}, "Choisis une carte:", 4);
 	i = -1;
 	sel = -1;
-	while (++i < ((int)ft_vector_size(maps)))
-		if (_ft_display_menu(game, ft_vector_get(maps, i), i))
+	while (++i < ((int)vector_size(maps)))
+		if (_ft_display_menu(game, vector_get(maps, i), i))
 			sel = i;
 	ft_put_text(game->eng, (t_v2i){3, ft_eng_size_y(game->eng) - 9 * 2},
 		"[Esc] Quitter", 2);
 	if (sel >= 0 && game->eng->mouse[1])
-		ft_map_load(game, ft_vector_get(maps, sel));
+		ft_map_load(game, vector_get(maps, sel));
 }
 
 void	ft_entry(t_data *game)

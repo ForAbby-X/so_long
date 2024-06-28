@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/24 17:55:04 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:42:59 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ void	ft_entity_collisions(t_data *game, float dt)
 	i = 0;
 	while (i < game->map->active_nbr)
 	{
-		ent_1 = ft_vector_get(game->map->entities, i);
+		ent_1 = vector_get(&game->map->entities, i);
 		j = 0;
 		while (j < game->map->active_nbr)
 		{
 			if (i != j && ent_1->type > 0 && ent_1->radius > 0.0f)
 			{
-				ent_2 = ft_vector_get(game->map->entities, j);
+				ent_2 = vector_get(&game->map->entities, j);
 				if (ent_2->radius > 0.0f)
 					if (ft_is_overlap_circle(ent_1, ent_2))
 						ft_resolve_collision_circle(ent_1, ent_2, dt);

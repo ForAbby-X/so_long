@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:54:55 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/28 13:25:47 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:54:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ static void	_ft_kill_tank(t_data *game, t_entity *ent)
 	ft_put_sprite_r(game->eng, game->spr[57],
 		(t_rect){{ent->pos[0], ent->pos[1]}, {36, 25}}, ent->rot);
 	ft_eng_sel_spr(game->eng, NULL);
-	game->eplay = ft_ent_add(game, ft_rambo_create(game, ent->pos));
-	if (game->eplay == NULL)
+	t_entity rambo = ft_rambo_create(game, ent->pos);
+	if (rambo.data == NULL || ft_ent_add(game, &rambo) == NULL)
 	{
 		game->state = 0;
 		game->state_time = 0.0f;
 		ft_putstr_fd("ERROR: tank couldn't spawn !", 2);
 	}
-		game->rplay = game->eplay->data;
+	game->pindex = vector_size(&game->map->entities) - 1;
+	game->tplay = game->eplay->data;
+	game->rplay = game->eplay->data;
 }
 
 void	ft_damage_tank(t_data *game, t_entity *ent, int dam, float rot)
@@ -46,16 +48,18 @@ static void	_ft_tank_update3(t_entity *s, t_dat_tank *dat, t_data *g)
 {
 	if (g->eng->mouse[1] && dat->fire_cool[0] >= 0.125f / 2)
 	{
-		ft_ent_add(g, ft_bullet_create(1, s->pos + ft_v2fr(dat->top_rot,
+		t_entity bullet = ft_bullet_create(1, s->pos + ft_v2fr(dat->top_rot,
 					35) + ft_v2fr(dat->top_rot - M_PI_2, 10), dat->top_rot
-				+ ft_rand(-0.5f, 0.5f) * 0.20, s->uuid));
+				+ ft_rand(-0.5f, 0.5f) * 0.20, s->uuid);
+		ft_ent_add(g, &bullet);
 		dat->fire_cool[0] = 0.0f;
 		g->shake -= ft_v2fr(dat->top_rot, 6);
 	}
 	if (g->eng->mouse[3] && dat->fire_cool[1] >= 4.0f)
 	{
-		ft_ent_add(g, ft_shell_create(s->pos
-				+ ft_v2fr(dat->top_rot, 50), dat->top_rot));
+		t_entity shell = ft_shell_create(s->pos
+				+ ft_v2fr(dat->top_rot, 50), dat->top_rot);
+		ft_ent_add(g, &shell);
 		dat->fire_cool[1] = 0.0f;
 		g->shake -= ft_v2fr(dat->top_rot, 80);
 	}
@@ -106,10 +110,15 @@ void	ft_tank_update(t_entity *self, t_data *game, float dt)
 		dat->trac = self->dir * 90.0f;
 	if (game->eng->keys[XK_s])
 		dat->trac = -self->dir * 320.0f;
-	dat->drag = -1.4257f * dat->vel * ft_v2fmag(dat->vel);
-	rolling = -12.8f * dat->vel;
+	dat->drag = -0.4257f * dat->vel * ft_v2fmag(dat->vel);
+	rolling = -13.8f * dat->vel;
 	coef = -60.4f * (1.0f - ft_v2fdot(self->dir, ft_v2fnorm(dat->vel, 1.0f)))
 		* dat->vel;
 	dat->acc = (dat->trac + dat->drag + rolling + coef) / 4.0f;
+	// dat->drag = -1.4257f * dat->vel * ft_v2fmag(dat->vel);
+	// rolling = -12.8f * dat->vel;
+	// coef = -60.4f * (1.0f - ft_v2fdot(self->dir, ft_v2fnorm(dat->vel, 1.0f)))
+	// 	* dat->vel;
+	// dat->acc = (dat->trac + dat->drag + rolling + coef) / 4.0f;
 	_ft_tank_update2(self, dat, game, dt);
 }

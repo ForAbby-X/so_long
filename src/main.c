@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/08 19:23:13 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 16:08:04 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 	data->time += dt;
 	data->state_time += dt;
 	if (data->state == 0)
-		ft_menu(data, data->maps);
+		ft_menu(data, &data->maps);
 	else if (data->state == 1)
 		ft_entry(data);
 	else if (data->state == 2)
@@ -47,6 +47,8 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 		ft_exit(data, 0, 0);
 	ft_put_text(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
 		ft_eng_size_y(data->eng) - 9 * 2}, "intra:alde-fre", 2);
+	ft_put_nbr(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
+		4}, 1.0 / dt, 2);
 	return (1);
 }
 
@@ -54,11 +56,14 @@ int	main(void)
 {
 	t_engine	*eng;
 	t_data		data;
+	int			flag;
 
 	eng = ft_eng_create(800, 600, "So Long (plus que classique)");
+	flag = 0;
 	if (eng)
 	{
-		if (ft_init_game(eng, &data))
+		flag = ft_init_game(eng, &data);
+		if (flag)
 		{
 			ft_eng_play(eng, &data, ft_loop);
 			ft_maps_destroy(&data);
@@ -68,5 +73,5 @@ int	main(void)
 		ft_destroy_game(&data);
 		ft_eng_destroy(eng);
 	}
-	return (0);
+	return (!flag);
 }

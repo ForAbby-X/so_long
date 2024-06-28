@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:26 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/04 12:09:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:11:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,16 @@ int	ft_game_all_par(t_data *data, float dt)
 	t_particle	*par;
 
 	i = 0;
-	while (i < ft_vector_size(data->map->particles))
+	while (i < vector_size(&data->map->particles))
 	{
-		par = (t_particle *)ft_vector_get(data->map->particles, i);
+		par = (t_particle *)vector_get(&data->map->particles, i);
 		par->pos = par->pos + par->dir * dt;
 		par->time += dt;
 		ft_put_sprite(data->eng, par->spr,
 			(t_v2i){par->pos[0] - data->cam.pos[0],
 			par->pos[1] - data->cam.pos[1]} - par->off);
 		if (par->time >= par->life_time)
-		{
-			free(par);
-			ft_vector_rem(data->map->particles, i);
-		}
+			vector_erase(&data->map->particles, i);
 		else
 			i++;
 	}
@@ -77,6 +74,14 @@ void	ft_game_render_ui_1(t_data *game)
 			ft_put_text(game->eng, (t_v2i){10, 10}, "[RC] to shoot !", 2);
 		ft_put_text(game->eng, (t_v2i){game->eng->win_x / 2 - 10 * 14,
 			game->eng->win_y - 20}, "[SPACE] self destruct", 2);
+
+		// speed bars
+		float speed = ft_v2fmag(game->tplay->vel);
+		// ft_rect(game->eng, (t_v2i){4, game->eng->win_y - 16 - speed * 14},
+		// 	(t_v2i){20, speed * 14}, ft_color_d(0x6495ED));
+		ft_put_sprite_r(game->eng, game->spr[64],
+			(t_rect){{25, game->eng->win_y - 25}, {15, 12}},
+			speed * 0.2f + M_PI);
 	}
 	ft_game_render_ui_2(game);
 }

@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/04 13:49:54 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 18:07:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 64
+# define SPRITES_NBR 65
 
 # include "engine.h"
 # include "vector.h"
@@ -44,9 +44,9 @@ struct	s_map
 {
 	char		*data;
 	t_v2i		size;
-	t_vector	*entities;
+	t_vector	entities;
 	t_length	active_nbr;
-	t_vector	*particles;
+	t_vector	particles;
 	t_sprite	*background;
 	char		*name;
 	float		bullet_time;
@@ -89,7 +89,7 @@ void		ft_game_render_ui_1(t_data *game);
 void		ft_game_render_ui_2(t_data *game);
 
 /* MAP */
-t_map		*ft_map_create(t_data *game, char *data, t_v2i size, char *name);
+t_map		ft_map_create(t_data *game, char *data, t_v2i size, char *name);
 void		ft_maps_destroy(t_data *game);
 void		ft_map_destroy(t_data *game, t_map *map);
 
@@ -97,8 +97,8 @@ void		ft_map_load(t_data *game, t_map *map);
 void		ft_map_unload(t_data *game);
 
 /* PARSING */
-t_vector	*ft_pars_folder(t_data *game);
-t_map		*ft_pars_file(t_data *game, char *str);
+t_vector	ft_pars_folder(t_data *game);
+t_map		ft_pars_file(t_data *game, char *str);
 
 int			ft_check_map(t_map *map);
 
@@ -125,7 +125,7 @@ long long	ft_get_uuid(void);
 /* ENTITIES */
 int			ft_exit_count(t_object obj);
 
-t_entity	*ft_ent_create(int type, t_v2f pos, t_v2f dir, float radius);
+t_entity	ft_ent_create(int type, t_v2f pos, t_v2f dir, float radius);
 t_entity	*ft_ent_add(t_data *game, t_entity *ent);
 t_entity	*ft_ent_get(t_data *game, t_length index);
 
@@ -142,14 +142,14 @@ void		ft_damage_rambo(t_data *game, t_entity *ent, float dam, float rot);
 void		ft_damage_enn(t_data *game, t_entity *ent, float damage, float rot);
 void		ft_damage_object(t_data *ga, t_entity *en, float damage, float rot);
 
-t_entity	*ft_tank_create(t_data *game, t_v2f pos);
-t_entity	*ft_rambo_create(t_data *game, t_v2f pos);
-t_entity	*ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid);
-t_entity	*ft_ennemy_create(t_v2f pos, float rot);
-t_entity	*ft_shell_create(t_v2f pos, float rot);
-t_entity	*ft_coin_create(t_v2f pos);
-t_entity	*ft_exit_create(t_v2f pos);
-t_entity	*ft_object_create(int type, t_v2f pos);
+t_entity	ft_tank_create(t_data *game, t_v2f pos);
+t_entity	ft_rambo_create(t_data *game, t_v2f pos);
+t_entity	ft_bullet_create(int type, t_v2f pos, float rot, t_uuid uuid);
+t_entity	ft_ennemy_create(t_v2f pos, float rot);
+t_entity	ft_shell_create(t_v2f pos, float rot);
+t_entity	ft_coin_create(t_v2f pos);
+t_entity	ft_exit_create(t_v2f pos);
+t_entity	ft_object_create(int type, t_v2f pos);
 
 /* STRUCTURES */
 struct s_data
@@ -157,8 +157,9 @@ struct s_data
 	t_engine	*eng;
 	t_sprite	*spr[SPRITES_NBR];
 	t_map		*map;
-	t_vector	*maps;
+	t_vector	maps;
 	t_camera	cam;
+	t_length	pindex;
 	t_dat_rambo	*rplay;
 	t_dat_tank	*tplay;
 	t_entity	*eplay;

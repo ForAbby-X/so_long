@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/03/14 13:59:08 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:26:32 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ static int	ft_init_textures(t_engine *eng, t_data	*data)
 	{
 		str = get_next_line(fd);
 		if (str == NULL)
-			return (get_next_line(-1),
+			return (get_next_line(-1), close(fd),
 				ft_putstr_fd("Error: get_next_line fail.\n", 2),
 				0);
 		*ft_strchr(str, '\n') = '\0';
 		data->spr[i] = ft_sprite_p(eng, str);
 		if (data->spr[i] == NULL)
-			return (get_next_line(-1),
+			return (get_next_line(-1), close(fd),
 				ft_putstr_fd("Error: Couldnt find image:\"", 2),
 				ft_putstr_fd(str, 2), ft_putstr_fd("\"\n", 2), free(str), 0);
 		free(str);
@@ -55,19 +55,21 @@ static int	ft_init_map(t_data *game)
 	t_map	*map[3];
 
 	game->maps = ft_pars_folder(game);
-	if (game->maps == NULL)
+	if (game->maps.data == NULL)
 		return (ft_putstr_fd("Error: Failed to allocate maps space.\n", 2), 0);
-	if (ft_vector_size(game->maps) == 0)
+	if (vector_size(&game->maps) == 0)
 		return (ft_putstr_fd("Error: No map could load.\n", 2),
-			ft_vector_destroy(game->maps), game->maps = NULL, 0);
+			vector_destroy(&game->maps), 0);
 	i = 0;
-	while (i < ft_vector_size(game->maps) - 1)
+	while (i < vector_size(&game->maps) - 1)
 	{
-		map[0] = ft_vector_get(game->maps, i);
-		map[1] = ft_vector_get(game->maps, i + 1);
+		map[0] = vector_get(&game->maps, i);
+		map[1] = vector_get(&game->maps, i + 1);
 		if (ft_strncmp(map[0]->name, map[1]->name, 999) > 0)
 		{
-			ft_vector_swap(game->maps, i, i + 1);
+			t_map temp = *(t_map *)vector_get(&game->maps, i);
+			*(t_map *)vector_get(&game->maps, i) = *(t_map *)vector_get(&game->maps, i + 1);
+			*(t_map *)vector_get(&game->maps, i + 1) = temp;
 			i = 0;
 		}
 		else

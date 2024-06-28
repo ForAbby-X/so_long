@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 14:13:06 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/15 14:06:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:55:10 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ void	ft_enn_state(t_data *g, t_entity *ent, t_dat_enn_base *dat, float dist)
 	else if (dat->state == 1)
 	{
 		if (dat->fire_cool >= 0.4f)
-			ft_ent_add(g, ft_bullet_create(dat->fire_cool = 0, ent->pos,
-					ent->rot + ft_rand(-0.25f, 0.25f), ent->uuid));
+		{
+			t_entity bullet = ft_bullet_create(dat->fire_cool = 0, ent->pos,
+					ent->rot + ft_rand(-0.25f, 0.25f), ent->uuid);
+			ft_ent_add(g, &bullet);
+		}
 	}
 	else if (dat->state == 2)
 		ent->dir = ft_v2fnorm(g->eplay->pos - ent->pos, -80.0f);

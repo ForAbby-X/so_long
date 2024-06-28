@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:17 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/21 11:17:43 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:54:48 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,26 @@ static void	_ft_ennemy_destroy(t_entity *self, t_data *game)
 {
 	(void)game;
 	free((t_entity *)self->data);
-	free((t_entity *)self);
 }
 
-t_entity	*ft_ennemy_create(t_v2f pos, float rot)
+t_entity	ft_ennemy_create(t_v2f pos, float rot)
 {
-	t_entity		*ent;
+	t_entity		ent;
 	t_dat_enn_base	*data;
 
 	ent = ft_ent_create(2, pos, (t_v2f){0, 0}, 10.0f);
-	if (ent == NULL)
-		return (NULL);
 	data = malloc(sizeof(t_dat_enn_base));
 	if (data == NULL)
-		return (free(ent), NULL);
+		return ((t_entity){0});
 	data->time = ft_rand(0.0f, 4.0f);
 	data->health = 100.0f;
 	data->max_health = 100.0f;
 	data->fire_cool = 0.0f;
 	data->state = 3;
-	ent->data = data;
-	ent->display = &_ft_ennemy_display;
-	ent->update = &_ft_ennemy_update;
-	ent->destroy = &_ft_ennemy_destroy;
-	ent->rot = rot;
+	ent.data = data;
+	ent.display = &_ft_ennemy_display;
+	ent.update = &_ft_ennemy_update;
+	ent.destroy = &_ft_ennemy_destroy;
+	ent.rot = rot;
 	return (ent);
 }

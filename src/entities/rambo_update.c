@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 15:27:25 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/02/28 13:25:11 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/06/28 11:51:39 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,24 @@ static void	ft_rambo_update_2(t_entity *self, t_dat_rambo *dat,
 			- self->pos[1]) + M_PI_2;
 	if (dat->fire_cool[0] >= 0.03125f)
 	{
-		ft_ent_add(game, ft_bullet_create(1, self->pos + ft_v2fr(self->rot,
+		t_entity bullet = ft_bullet_create(1, self->pos + ft_v2fr(self->rot,
 					19) + ft_v2fr(self->rot + M_PI_2, 5), self->rot
-				+ ft_rand(-0.5f, 0.5f) * 0.20, self->uuid));
+				+ ft_rand(-0.5f, 0.5f) * 0.20, self->uuid);
+		ft_ent_add(game, &bullet);
 		game->shake -= ft_v2fr(self->rot, 3);
 		dat->fire_cool[0] -= 0.03125f;
+	}
+	if (game->eng->mouse[3] && dat->fire_cool[1] <= 0.0f)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			t_entity bullet = ft_bullet_create(1, self->pos + ft_v2fr(self->rot,
+						19) + ft_v2fr(self->rot + M_PI_2, 5), self->rot
+					+ ft_rand(-1.05f, 1.05f) * 0.20, self->uuid);
+			ft_ent_add(game, &bullet);
+		}
+		game->shake -= ft_v2fr(self->rot, 9);
+		dat->fire_cool[1] = 0.35f;
 	}
 	self->pos += self->dir * dt;
 	game->score += ft_v2fmag(self->dir) * dt;
@@ -63,6 +76,7 @@ void	ft_rambo_update(t_entity *self, t_data *game, float dt)
 
 	dat = self->data;
 	dat->timer += dt;
+	dat->fire_cool[1] -= dt;
 	if (game->is_finished)
 		return ;
 	if (game->eng->mouse[1])
