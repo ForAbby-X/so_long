@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/06/28 16:12:26 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:38:06 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,97 @@ static int	_ft_temp(t_data *game, t_map *map)
 	return (flag);
 }
 
+static int	ft_put_sprite_r3(t_data *game, t_v2i pos, t_rect i)
+{
+	t_v2i	dim;
+	t_color	col;
+	t_color	col2;
+
+	dim[1] = 0;
+	while (dim[1] < 32)
+	{
+		dim[0] = 0;
+		while (dim[0] < 32)
+		{
+			col = ft_get_color(game->map->background, pos + dim);
+			col2 = ft_get_color(game->spr[65], i.pos + dim);
+			ft_draw(game->eng, pos + dim, ft_color_inter(col, col2, (col2.d >> 24) / 255.f));
+			dim[0]++;
+		}
+		dim[1]++;
+	}
+	return (1);
+}
+
+static inline int	__get_tile_index(t_map *map, t_v2i const pos)
+{
+	int	index;
+
+	index = 0;
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, -1}) == '1');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, 1}) == '1');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){-1, 0}) == '1');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){1, 0}) == '1');
+	return (index);
+}
+
 void	ft_map_load(t_data *game, t_map *map)
 {
 	int		flag;
 
 	game->map = map;
-	ft_eng_sel_spr(game->eng, map->background);
-	ft_clear(game->eng, ft_color_d(0xFF000000));
-	ft_eng_sel_spr(game->eng, NULL);
 	game->pindex = 999999999;
 	flag = _ft_temp(game, map);
 	game->state_time = 0.0f;
 	if (game->pindex == 999999999 || flag == 0)
 		return (ft_putstr_fd("Error: Failed to spawn the player/missing essenti"
 				"al entities.\n", 2), game->state = 0, ft_map_unload(game));
+
+	ft_eng_sel_spr(game->eng, map->wall_layer);
+	ft_clear(game->eng, ft_color_d(0xFF000000));
+	ft_eng_sel_spr(game->eng, map->background);
+	t_v2i pix_tile_pos;
+	pix_tile_pos[1] = 0;
+	while (pix_tile_pos[1] < map->background->size[1])
+	{
+		pix_tile_pos[0] = 0;
+		while (pix_tile_pos[0] < map->background->size[0])
+		{
+			t_v2i tile_pos = pix_tile_pos / 32;
+			ft_put_sprite(game->eng, game->spr[2 + 31
+				* (ft_get_map(game->map, tile_pos) == 'E')], pix_tile_pos);
+			if (ft_get_map(game->map, tile_pos) == '0' || ft_get_map(game->map, tile_pos) == 'C')
+			{
+				if (ft_get_map(game->map, tile_pos + (t_v2i){0, -1}) == '1')
+					ft_put_sprite_r3(game,
+						pix_tile_pos,
+						(t_rect){(t_v2i){32, 64}, {16, 16}});
+				if (ft_get_map(game->map, tile_pos + (t_v2i){0, 1}) == '1')
+					ft_put_sprite_r3(game,
+						pix_tile_pos,
+						(t_rect){{32, 0}, {16, 16}});
+				if (ft_get_map(game->map, tile_pos + (t_v2i){1, 0}) == '1')
+					ft_put_sprite_r3(game,
+						pix_tile_pos,
+						(t_rect){{0, 32}, {16, 16}});
+				if (ft_get_map(game->map, tile_pos + (t_v2i){-1, 0}) == '1')
+					ft_put_sprite_r3(game,
+						pix_tile_pos,
+						(t_rect){{64, 32}, {16, 16}});
+			}
+			else
+			{
+				ft_eng_sel_spr(game->eng, map->wall_layer);
+				ft_put_sprite_part(game->eng, game->spr[3], pix_tile_pos,
+					(t_rect){{__get_tile_index(game->map, tile_pos) * 32, 0}, {32, 32}});
+				ft_eng_sel_spr(game->eng, map->background);
+			}
+			pix_tile_pos[0] += 32;
+		}
+		pix_tile_pos[1] += 32;
+	}
+	ft_eng_sel_spr(game->eng, NULL);
+
 
 	game->eplay = vector_get(&map->entities, game->pindex);
 	game->tplay = game->eplay->data;

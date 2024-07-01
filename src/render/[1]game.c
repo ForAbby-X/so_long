@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/06/28 15:00:18 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:38:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	ft_game_render(t_data *game, float dt)
 	ft_game_all_par(game, dt);
 	if (game->is_finished)
 		return (ft_game_render_ui_end(game), 1);
-	if (game->eplay->type == 0)
-		ft_shader(game, game->spr[60], (1.0f - game->tplay->health / 2000.0f));
-	if (game->eplay->type == 1)
-		ft_shader(game, game->spr[58], (1.0f - game->rplay->health / 1000.0f));
+	// if (game->eplay->type == 0)
+	// 	ft_shader(game, game->spr[60], (1.0f - game->tplay->health / 2000.0f));
+	// if (game->eplay->type == 1)
+	// 	ft_shader(game, game->spr[58], (1.0f - game->rplay->health / 1000.0f));
 	ft_game_render_ui_1(game);
 	mouse = ((t_v2i){game->eplay->pos[0], game->eplay->pos[1]}
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
@@ -51,45 +51,13 @@ int	ft_game_render(t_data *game, float dt)
 	return (1);
 }
 
-static inline int	__get_tile_index(t_map *map, t_v2i const pos)
-{
-	int	index;
-
-	index = 0;
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, -1}) == '1');
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, 1}) == '1');
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){-1, 0}) == '1');
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){1, 0}) == '1');
-	return (index);
-}
-
 int	ft_game_render_map(t_data *data)
 {
-	t_v2i	pos;
-	t_v2i	rpos;
-	t_v2i	wpos;
-
-	pos[1] = -2;
-	while (++pos[1] <= data->cam.dim[1] / 32 + 1)
-	{
-		rpos[1] = (pos[1]
-				- (data->cam.pos[1] / 32.f - data->cam.pos[1] / 32)) * 32;
-		pos[0] = -2;
-		while (++pos[0] <= data->cam.dim[0] / 32 + 1)
-		{
-			rpos[0] = (pos[0]
-					- (data->cam.pos[0] / 32.f - data->cam.pos[0] / 32)) * 32;
-			wpos = pos + data->cam.pos / 32;
-			ft_put_sprite(data->eng, data->spr[2 + 31
-				* (ft_get_map(data->map, wpos) == 'E')], rpos);
-			if (ft_get_map(data->map, wpos) == '1')
-				ft_put_sprite_part(data->eng, data->spr[3], rpos, (t_rect){{__get_tile_index(data->map, wpos) * 32, 0}, {32, 32}});
-				// ft_put_sprite(data->eng, data->spr[3], rpos);
-			else
-				ft_put_sprite_part(data->eng, data->map->background, rpos,
-					(t_rect){wpos * 32, (t_v2i){32, 32}});
-		}
-	}
+	ft_clear(data->eng, (t_color){0x000000});
+	ft_put_sprite_part(data->eng, data->map->background, (t_v2i){0, 0},
+		(t_rect){data->cam.pos, data->cam.dim});
+	ft_put_sprite_part(data->eng, data->map->wall_layer, (t_v2i){0, 0},
+		(t_rect){data->cam.pos, data->cam.dim});
 	return (1);
 }
 

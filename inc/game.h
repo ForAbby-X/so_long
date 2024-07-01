@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/06/28 18:07:52 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:32:16 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 65
+# define SPRITES_NBR 66
 
 # include "engine.h"
 # include "vector.h"
@@ -48,6 +48,7 @@ struct	s_map
 	t_length	active_nbr;
 	t_vector	particles;
 	t_sprite	*background;
+	t_sprite	*wall_layer;
 	char		*name;
 	float		bullet_time;
 };

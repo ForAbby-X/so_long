@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 22:21:41 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/06/28 12:02:24 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/01 13:33:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_map	ft_map_create(t_data *game, char *data, t_v2i size, char *name)
 	map.size = size;
 	map.name = name;
 	map.background = ft_sprite(game->eng, map.size[0] * 32,
+			map.size[1] * 32);
+	map.wall_layer = ft_sprite(game->eng, map.size[0] * 32,
 			map.size[1] * 32);
 	if (map.background == NULL)
 		return (free(map.name), free(map.data), (t_map){0});
@@ -59,6 +61,7 @@ void	ft_map_destroy(t_data *game, t_map *map)
 	}
 	vector_destroy(&map->entities);
 	vector_destroy(&map->particles);
+	ft_destroy_sprite(game->eng, map->wall_layer);
 	ft_destroy_sprite(game->eng, map->background);
 	free(map->name);
 	free(map->data);
