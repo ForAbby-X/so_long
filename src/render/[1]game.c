@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:23 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/01 13:38:41 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:08:19 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	ft_game_render(t_data *game, float dt)
 	ft_game_all_par(game, dt);
 	if (game->is_finished)
 		return (ft_game_render_ui_end(game), 1);
-	// if (game->eplay->type == 0)
-	// 	ft_shader(game, game->spr[60], (1.0f - game->tplay->health / 2000.0f));
-	// if (game->eplay->type == 1)
-	// 	ft_shader(game, game->spr[58], (1.0f - game->rplay->health / 1000.0f));
+	if (game->eplay->type == 0)
+		ft_shader(game, game->spr[60], (1.0f - game->tplay->health / 2000.0f));
+	if (game->eplay->type == 1)
+		ft_shader(game, game->spr[58], (1.0f - game->rplay->health / 1000.0f));
 	ft_game_render_ui_1(game);
 	mouse = ((t_v2i){game->eplay->pos[0], game->eplay->pos[1]}
 			+ (((t_v2i){game->eng->mouse_x, game->eng->mouse_y}
@@ -113,6 +113,23 @@ void	ft_game_render_ent(t_data *data)
 	{
 		t_entity *temp = vector_get(&data->map->entities, i++);
 		temp->display(temp, data);
+		if (data->eng->keys[XK_e])
+		{
+			ft_circle(data->eng, (t_v2i){temp->pos[0],
+				temp->pos[1]} - data->cam.pos, temp->radius, (t_color){0xFF0000});
+			ft_put_text(data->eng, (t_v2i){temp->pos[0],
+				temp->pos[1]} - data->cam.pos, "id", 1);
+			ft_put_nbr(data->eng, (t_v2i){temp->pos[0] + 17,
+				temp->pos[1]} - data->cam.pos, temp->uuid, 1);
+			ft_put_text(data->eng, (t_v2i){temp->pos[0],
+				temp->pos[1] + 8} - data->cam.pos, "ty", 1);
+			ft_put_nbr(data->eng, (t_v2i){temp->pos[0] + 17,
+				temp->pos[1] + 8} - data->cam.pos, temp->type, 1);
+			ft_put_text(data->eng, (t_v2i){temp->pos[0],
+				temp->pos[1] + 16} - data->cam.pos, "pr", 1);
+			ft_put_nbr(data->eng, (t_v2i){temp->pos[0] + 17,
+				temp->pos[1] + 16} - data->cam.pos, temp->pressure, 1);
+		}
 	}
 }
 

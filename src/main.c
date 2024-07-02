@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/01 13:30:53 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:37:12 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ static	void	ft_game(t_engine *eng, t_data *game, double dt)
 
 int	ft_loop(t_engine *eng, t_data *data, double dt)
 {
+
+	if (data->eng->keys[XK_e])
+		dt = 0.0;
 	data->time += dt;
 	data->state_time += dt;
 	if (data->state == 0)
@@ -49,9 +52,6 @@ int	ft_loop(t_engine *eng, t_data *data, double dt)
 		ft_eng_size_y(data->eng) - 9 * 2}, "intra:alde-fre", 2);
 	ft_put_nbr(data->eng, (t_v2i){ft_eng_size_x(data->eng) - 14 * 14 - 2,
 		4}, 1.0 / dt, 2);
-	
-	
-
 	return (1);
 }
 

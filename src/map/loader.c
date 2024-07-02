@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/01 13:38:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:09:00 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,12 @@ void	ft_map_load(t_data *game, t_map *map)
 			t_v2i tile_pos = pix_tile_pos / 32;
 			ft_put_sprite(game->eng, game->spr[2 + 31
 				* (ft_get_map(game->map, tile_pos) == 'E')], pix_tile_pos);
-			if (ft_get_map(game->map, tile_pos) == '0' || ft_get_map(game->map, tile_pos) == 'C')
+			if (ft_get_map(game->map, tile_pos) != '1')
 			{
 				if (ft_get_map(game->map, tile_pos + (t_v2i){0, -1}) == '1')
 					ft_put_sprite_r3(game,
 						pix_tile_pos,
-						(t_rect){(t_v2i){32, 64}, {16, 16}});
+						(t_rect){{32, 64}, {16, 16}});
 				if (ft_get_map(game->map, tile_pos + (t_v2i){0, 1}) == '1')
 					ft_put_sprite_r3(game,
 						pix_tile_pos,

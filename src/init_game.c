@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/06/28 11:26:32 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:16:49 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ int	ft_init_game(t_engine *eng, t_data	*data)
 			0);
 	if (!ft_init_map(data))
 		return (0);
+
+	
+	
 	data->cam = (t_camera){{0, 0}, {eng->win_x, eng->win_y}};
 	return (1);
 }
