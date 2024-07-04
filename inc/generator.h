@@ -4,32 +4,41 @@
 # include "vector.h"
 # include "vec2.h"
 
+
 // # TYPE DEFINITIONS
-typedef struct	s_gen_tile t_gen_tile;
-typedef struct	s_generator t_generator;
+typedef struct	s_gen_tile	t_gen_tile;
+typedef struct	s_generator	t_generator;
 
 // # PROTOTYPES
-int		gen_tile_init(t_gen_tile *const gen, char *data, t_v2i size);
-void	gen_tile_destroy(t_gen_tile *const gen);
+int		gen_tile_init(t_gen_tile *const tile, int value);
+void	gen_tile_destroy(t_gen_tile *const tile);
 
-int		generator_init(t_generator *const gen);
+
+int		generator_init(t_generator *const gen, t_v2i const size);
 void	generator_destroy(t_generator *const gen);
+
+void	generator_set_tile(t_generator *const gen, t_v2i pos, t_gen_tile *const tile);
+int		generator_get_tile(t_generator *const gen, t_v2i pos);
+
+void	generator_gen_recurs(t_generator *const gen, int value);
 
 
 // # GLOBAL VARIABLES
-t_vector	g_tile_panel;
+// t_vector	g_tile_panel;
 
 
 // # STRUCTURES
 struct s_gen_tile
 {
-	char		*data;
-	t_v2i		size;
+	char	value;
 };
 
 struct s_generator
 {
-	t_vector	content;
+	t_vector	tiles;
+	t_v2i		size;
+
+	// t_gen_tile	tile;
 };
 
 #endif

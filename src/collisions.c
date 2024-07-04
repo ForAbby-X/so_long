@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/06/28 11:42:59 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/04 12:04:19 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float d)
 	float	over;
 
 	c[1] = (ent->pos + ent->dir * d) / 32;
-	cell[1] = (int)fmaxf(ent->pos[1] / 32 - 1, 0) - 1;
+	cell[1] = (int)fmaxf(ent->pos[1] / 32 - 1, 0) - 2;
 	while (++cell[1] <= fminf(ent->pos[1] / 32 + 1, game->map->size[1]))
 	{
-		cell[0] = (int)fmaxf(ent->pos[0] / 32 - 1, 0) - 1;
+		cell[0] = (int)fmaxf(ent->pos[0] / 32 - 1, 0) - 2;
 		while (++cell[0] <= fminf(ent->pos[0] / 32 + 1, game->map->size[0]))
 		{
 			if (ft_get_map(game->map, cell) == '1')
@@ -101,7 +101,8 @@ void	ft_entity_collisions(t_data *game, float dt)
 			}
 			j++;
 		}
-		ft_resolve_collision_square(game, ent_1, dt);
+		// ft_resolve_collision_square(game, ent_1, dt);
+		(void)ft_resolve_collision_square;
 		i++;
 	}
 }

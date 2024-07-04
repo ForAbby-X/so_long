@@ -48,7 +48,10 @@ SRC		= main.c \
 		  entities/shell.c \
 		  entities/coin.c \
 		  entities/exit.c \
-		  entities/objects.c
+		  entities/objects.c \
+		   \
+		  generator/manager.c \
+		  generator/recursive.c \
 
 INC		= game.h
 

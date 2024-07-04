@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 15:11:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/02 15:37:12 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/04 15:52:52 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	main(void)
 	t_data		data;
 	int			flag;
 
+	srand(time(NULL));
 	eng = ft_eng_create(800, 600, "So Long (plus que classique)");
 	flag = 0;
 	if (eng)
