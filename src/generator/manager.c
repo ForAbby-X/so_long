@@ -33,6 +33,9 @@ void	generator_set_tile(t_generator *const gen, t_v2i pos, t_gen_tile *const til
 {
 	t_gen_tile	*ptr;
 
+	if (pos[0] < 0 || pos[0] >= gen->size[0] || pos[1] < 0 || pos[1] >= gen->size[1])
+		return ;
+
 	ptr = vector_get(&gen->tiles, pos[0] + pos[1] * gen->size[0]);
 	if (!ptr)
 		return ;

@@ -20,7 +20,8 @@ void	generator_destroy(t_generator *const gen);
 void	generator_set_tile(t_generator *const gen, t_v2i pos, t_gen_tile *const tile);
 int		generator_get_tile(t_generator *const gen, t_v2i pos);
 
-void	generator_gen_recurs(t_generator *const gen, int value);
+void	generator_gen_recurs(t_generator *const gen, int seed);
+void	generator_gen_rooms(t_generator *const gen, int seed);
 
 
 // # GLOBAL VARIABLES

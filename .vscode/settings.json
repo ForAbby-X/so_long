@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"vector.h": "c"
+		"vector.h": "c",
+		"generator.h": "c"
 	}
 }

@@ -52,6 +52,8 @@ SRC		= main.c \
 		   \
 		  generator/manager.c \
 		  generator/recursive.c \
+		  generator/rooms.c \
+
 
 INC		= game.h
 
