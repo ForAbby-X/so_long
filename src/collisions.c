@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/22 20:02:28 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:47:51 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void	ft_entity_collisions(t_data *game, float dt)
 			}
 			j++;
 		}
-		// ft_resolve_collision_square(game, ent_1, dt);
-		(void)ft_resolve_collision_square;
+		ft_resolve_collision_square(game, ent_1, dt);
+		// (void)ft_resolve_collision_square;
 		i++;
 	}
 }
