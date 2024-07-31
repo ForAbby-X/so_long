@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/22 11:19:16 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/02 15:09:00 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:29:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,10 @@ static inline int	__get_tile_index(t_map *map, t_v2i const pos)
 	int	index;
 
 	index = 0;
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, -1}) == '1');
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, 1}) == '1');
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){-1, 0}) == '1');
-	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){1, 0}) == '1');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, -1}) == '#');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){0, 1}) == '#');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){-1, 0}) == '#');
+	index = (index << 1) | (ft_get_map(map, pos + (t_v2i){1, 0}) == '#');
 	return (index);
 }
 
@@ -147,32 +147,40 @@ void	ft_map_load(t_data *game, t_map *map)
 		while (pix_tile_pos[0] < map->background->size[0])
 		{
 			t_v2i tile_pos = pix_tile_pos / 32;
-			ft_put_sprite(game->eng, game->spr[2 + 31
-				* (ft_get_map(game->map, tile_pos) == 'E')], pix_tile_pos);
-			if (ft_get_map(game->map, tile_pos) != '1')
+			int index = __get_tile_index(game->map, tile_pos);
+			int tile  = ft_get_map(game->map, tile_pos);
+
+			if (ft_strchr("PC", tile))
+				tile = '0';
+
+			if (tile == 'E')
+				ft_put_sprite(game->eng, game->spr[33], pix_tile_pos);
+			else if (tile != '#')
 			{
-				if (ft_get_map(game->map, tile_pos + (t_v2i){0, -1}) == '1')
+				printf("tile: %c, %d\n", tile, tile - '0');
+				ft_put_sprite(game->eng, game->spr[66 + (tile - '0')], pix_tile_pos);
+			}
+
+			if (tile != '#')
+			{
+				if (index & 0b1000)
 					ft_put_sprite_r3(game,
-						pix_tile_pos,
-						(t_rect){{32, 64}, {16, 16}});
-				if (ft_get_map(game->map, tile_pos + (t_v2i){0, 1}) == '1')
+						pix_tile_pos, (t_rect){{32, 64}, {16, 16}});
+				if (index & 0b0100)
 					ft_put_sprite_r3(game,
-						pix_tile_pos,
-						(t_rect){{32, 0}, {16, 16}});
-				if (ft_get_map(game->map, tile_pos + (t_v2i){1, 0}) == '1')
+						pix_tile_pos, (t_rect){{32, 0}, {16, 16}});
+				if (index & 0b0001)
 					ft_put_sprite_r3(game,
-						pix_tile_pos,
-						(t_rect){{0, 32}, {16, 16}});
-				if (ft_get_map(game->map, tile_pos + (t_v2i){-1, 0}) == '1')
+						pix_tile_pos, (t_rect){{0, 32}, {16, 16}});
+				if (index & 0b0010)
 					ft_put_sprite_r3(game,
-						pix_tile_pos,
-						(t_rect){{64, 32}, {16, 16}});
+						pix_tile_pos, (t_rect){{64, 32}, {16, 16}});
 			}
 			else
 			{
 				ft_eng_sel_spr(game->eng, map->wall_layer);
 				ft_put_sprite_part(game->eng, game->spr[3], pix_tile_pos,
-					(t_rect){{__get_tile_index(game->map, tile_pos) * 32, 0}, {32, 32}});
+					(t_rect){{index * 32, 0}, {32, 32}});
 				ft_eng_sel_spr(game->eng, map->background);
 			}
 			pix_tile_pos[0] += 32;

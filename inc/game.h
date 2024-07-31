@@ -6,14 +6,14 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 09:35:53 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/01 13:32:16 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:29:21 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GAME_H
 # define GAME_H
 
-# define SPRITES_NBR 66
+# define SPRITES_NBR 68
 
 # include "engine.h"
 # include "vector.h"

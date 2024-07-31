@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 19:44:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/25 18:47:51 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:24:41 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	ft_resolve_collision_square(t_data *game, t_entity *ent, float d)
 		cell[0] = (int)fmaxf(ent->pos[0] / 32 - 1, 0) - 2;
 		while (++cell[0] <= fminf(ent->pos[0] / 32 + 1, game->map->size[0]))
 		{
-			if (ft_get_map(game->map, cell) == '1')
+			if (ft_get_map(game->map, cell) == '#')
 			{
 				_ft_clamp(cell, c);
 				c[2] = c[0] - c[1];

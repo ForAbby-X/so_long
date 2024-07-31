@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 14:08:48 by alde-fre          #+#    #+#             */
-/*   Updated: 2024/07/23 17:12:44 by alde-fre         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:23:29 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static int	ft_init_map(t_data *game)
 	generator_init(&gen, (t_v2i){128, 128});
 	generator_gen_rooms(&gen, time(NULL));
 	
-	map_gen = ft_map_create(game, gen.tiles.data, gen.size, ft_strdup("Division Space Maze"));
+	map_gen = ft_map_create(game, gen.tiles.data, gen.size, ft_strdup("Randomly generated map"));
 	vector_addfront(&game->maps, &map_gen);
 
 	// generator_destroy(&gen);

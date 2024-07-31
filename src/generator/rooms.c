@@ -12,7 +12,7 @@ struct s_room
 	t_vector neigbhors;
 };
 
-void inline room_init(t_room *const room, t_v2f pos, t_v2f dim)
+void room_init(t_room *const room, t_v2f pos, t_v2f dim)
 {
 	room->pos = pos;
 	room->dim = dim;
@@ -152,13 +152,13 @@ int edge_cmp(void *ac, void *bc)
 	t_edge *a = ac;
 	t_edge *b = bc;
 
-	return (a->weight - b->weight);
+	return (a->weight > b->weight);
 }
 
-// generate neareste k-nearest neighbor graphs for rooms
+// generate minimum weight spanning tree
 void _gen_calculate_nearest_neighbors(t_vector *const rooms)
 {
-	for (t_length i = 0; i < rooms->size; i++)
+	for (t_length i = 0; i < rooms->size - 1; i++)
 	{
 		t_room *room = vector_get(rooms, i);
 
@@ -168,63 +168,67 @@ void _gen_calculate_nearest_neighbors(t_vector *const rooms)
 
 		for (t_length j = 0; j < rooms->size; j++)
 		{
-			if (i == j)
-				continue;
 			t_room *other_room = vector_get(rooms, j);
 
-			// check if duplicate
-			int duplicate = 0;
-			for (t_length k = 0; k < edges.size; k++)
-			{
-				t_edge *edge = vector_get(&edges, k);
-				if (edge->from == other_room && edge->to == room)
-				{
-					duplicate = 1;
-					break;
-				}
-				if (edge->from == room && edge->to == other_room)
-				{
-					duplicate = 1;
-					break;
-				}
-			}
-			if (duplicate)
+			if (other_room->neigbhors.size > 0 || i == j)
 				continue;
 
-			t_v2f d = other_room->pos + other_room->dim / 2.f - room->pos + room->dim / 2.f;
-			float dist = d[0] * d[0] + d[1] * d[1];
-			vector_addback(&edges, &(t_edge){room, other_room, dist});
+			t_edge edge;
+			edge.from = room;
+			edge.to = other_room;
+			edge.weight = ft_v2fmag(other_room->pos - room->pos);
+			vector_addback(&edges, &edge);
 		}
 
-		qsort(edges.data, edges.size, sizeof(t_edge), (__compar_fn_t)&edge_cmp);
+		qsort(edges.data, edges.size, edges.type_size, (__compar_fn_t)&edge_cmp);
 
-		for (t_length k = 0; k < (t_length)ft_min(edges.size, 3); k++)
-		{
-			t_edge *dist = vector_get(&edges, k);
+		t_edge *edge = vector_get(&edges, 0);
 
-			vector_addback(&room->neigbhors, &dist->to);
-		}
-
-		// printf("Room %d has %u neighbors\n", i, room->neigbhors.size);
+		vector_addback(&room->neigbhors, &edge->to);
 
 		vector_destroy(&edges);
 	}
 }
 
+void plotLineWidth(t_generator *const gen, int x0, int y0, int x1, int y1, float wd)
+{
+	int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+	int dy = abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+	int err = dx - dy, e2, x2, y2; /* error value e_xy */
+	float ed = dx + dy == 0 ? 1 : sqrt((float)dx * dx + (float)dy * dy);
+
+	for (wd = (wd + 1) / 2;;)
+	{ /* pixel loop */
+		generator_set_tile(gen, (t_v2i){x0, y0}, &(t_gen_tile){'0'});
+		e2 = err;
+		x2 = x0;
+		if (2 * e2 >= -dx)
+		{ /* x step */
+			for (e2 += dy, y2 = y0; e2 < ed * wd && (y1 != y2 || dx > dy); e2 += dx)
+				generator_set_tile(gen, (t_v2i){x0, y2 += sy}, &(t_gen_tile){'0'});
+			if (x0 == x1)
+				break;
+			e2 = err;
+			err -= dy;
+			x0 += sx;
+		}
+		if (2 * e2 <= dy)
+		{ /* y step */
+			for (e2 = dx - e2; e2 < ed * wd && (x1 != x2 || dx < dy); e2 += dy)
+				generator_set_tile(gen, (t_v2i){x2 += sx, y0}, &(t_gen_tile){'0'});
+			if (y0 == y1)
+				break;
+			err += dx;
+			y0 += sy;
+		}
+	}
+}
+
+
+
 // put rooms on the map and connect them with corridors between neighbors
  void _gen_put_rooms(t_generator *const gen, t_vector *const rooms)
 {
-	printf("Putting rooms...\n");
-	for (t_length i = 0; i < rooms->size; i++)
-	{
-		t_room *room = vector_get(rooms, i);
-
-		// put room on the map
-		for (t_length x = room->pos[0]; x < room->pos[0] + room->dim[0]; x++)
-			for (t_length y = room->pos[1]; y < room->pos[1] + room->dim[1]; y++)
-				generator_set_tile(gen, (t_v2i){x, y}, &(t_gen_tile){'0'});
-	}
-
 	printf("Putting corridors...\n");
 	for (t_length i = 0; i < rooms->size; i++)
 	{
@@ -253,13 +257,22 @@ void _gen_calculate_nearest_neighbors(t_vector *const rooms)
 				while (max > 0.f)
 				{
 					pos += dir;
-					for (int i = -1; i <= 1; i++)
-						for (int j = -1; j <= 1; j++)
-							generator_set_tile(gen, (t_v2i){(int)pos[0] + i, (int)pos[1] + j}, &(t_gen_tile){'0'});
+					plotLineWidth(gen, pos[0], pos[1], pos[0] + dir[0], pos[1] + dir[1], 4.f);
 					--max;
 				}
 			}
 		}
+	}
+
+	printf("Putting rooms...\n");
+	for (t_length i = 0; i < rooms->size; i++)
+	{
+		t_room *room = vector_get(rooms, i);
+
+		// put room on the map
+		for (t_length x = room->pos[0]; x < room->pos[0] + room->dim[0]; x++)
+			for (t_length y = room->pos[1]; y < room->pos[1] + room->dim[1]; y++)
+				generator_set_tile(gen, (t_v2i){x, y}, &(t_gen_tile){'1'});
 	}
 }
 
@@ -284,12 +297,15 @@ void _gen_calculate_nearest_neighbors(t_vector *const rooms)
 	_gen_put_rooms(gen, &rooms);
 
 	t_room *spawn = vector_get(&rooms, 0);
-
-	t_v2i pos = (t_v2i){spawn->pos[0] + spawn->dim[0] / 2, spawn->pos[1] + spawn->dim[1] / 2};
+	t_v2i pos = (t_v2i){
+		spawn->pos[0]  + (rand() % (int)(spawn->dim[0] - 2.f) + 1),
+		spawn->pos[1]  + (rand() % (int)(spawn->dim[1] - 2.f) + 1)};
 	generator_set_tile(gen, pos, &(t_gen_tile){'P'});
 
 	t_room *end = vector_get(&rooms, rooms.size - 1);
-	pos = (t_v2i){end->pos[0] + end->dim[0] / 2, end->pos[1] + end->dim[1] / 2};
+	pos = (t_v2i){
+		end->pos[0] + (rand() % (int)(end->dim[0] - 2.f) + 1),
+		end->pos[1] + (rand() % (int)(end->dim[1] - 2.f) + 1)};
 	generator_set_tile(gen, pos, &(t_gen_tile){'E'});
 
 	vector_for_each(&rooms, &room_destroy);
@@ -301,7 +317,7 @@ void generator_gen_rooms(t_generator *const gen, int seed)
 	srand(seed);
 
 	// set map to zero
-	ft_memset(gen->tiles.data, '1', gen->tiles.size * gen->tiles.type_size);
+	ft_memset(gen->tiles.data, '#', gen->tiles.size * gen->tiles.type_size);
 
 	_gen_rand_rooms_and_separate(gen);
 }

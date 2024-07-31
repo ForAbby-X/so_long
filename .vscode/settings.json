@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"vector.h": "c",
-		"generator.h": "c"
+		"generator.h": "c",
+		"limits": "c"
 	}
 }
